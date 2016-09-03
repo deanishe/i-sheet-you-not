@@ -41,7 +41,7 @@ to install in Alfred 3.
 Usage
 =====
 
-.. note::
+.. tip::
 
     Check out the green demo objects in the workflow for examples of how
     to use and configure I Sheet You Not.
