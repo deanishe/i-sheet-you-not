@@ -15,7 +15,7 @@ picked up automatically by the workflow.
 ## Download and installation ##
 
 Download the workflow from [GitHub releases][gh-releases] and double-click
-the downloaded `I-Sheet-You-Not.X.X.X.alfredworkflow` file to install in
+the downloaded `I-Sheet-You-Not-X.X.X.alfredworkflow` file to install in
 Alfred.
 
 ## Usage ##
