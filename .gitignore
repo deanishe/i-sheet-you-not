@@ -63,6 +63,7 @@ Session.vim
 dist/
 *.dist-info/
 build/
+_build/
 eggs/
 parts
 var/
