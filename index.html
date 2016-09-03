@@ -1,0 +1,305 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>I Sheet You Not &mdash; I Sheet You Not 0.1.2 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="I Sheet You Not 0.1.2 documentation" href="#" />
+    <link rel="next" title="Licence" href="licence.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="licence.html" title="Licence"
+             accesskey="N">next</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">I Sheet You Not 0.1.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="i-sheet-you-not">
+<span id="index"></span><h1>I Sheet You Not<a class="headerlink" href="#i-sheet-you-not" title="Permalink to this headline">¶</a></h1>
+<p>Create auto-updating Alfred 3 workflows from Excel worksheets.</p>
+<img alt="I Sheet You Not demo" src="_images/demo.gif" />
+<div class="section" id="overview">
+<span id="id1"></span><h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>I Sheet You Not is a workflow generator/template for <a class="reference external" href="https://www.alfredapp.com/">Alfred 3</a>. It reads
+data from an Excel workbook and displays it in Alfred. You can specify
+which rows and columns the data are read from, and changes to the data
+are picked up automatically by the workflow.</p>
+</div>
+<div class="section" id="download-and-installation">
+<span id="download"></span><h2>Download and installation<a class="headerlink" href="#download-and-installation" title="Permalink to this headline">¶</a></h2>
+<p>Download the latest version of the workflow from <a class="reference external" href="https://github.com/deanishe/i-sheet-you-not/releases">GitHub releases</a>.
+Double-click the downloaded <code class="docutils literal"><span class="pre">I-Sheet-You-Not-X.X.X.alfredworkflow</span></code> file
+to install in Alfred 3.</p>
+</div>
+<div class="section" id="usage">
+<span id="id2"></span><h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Check out the green demo objects in the workflow for examples of how
+to use and configure I Sheet You Not.</p>
+</div>
+<p>Use the keyword <code class="docutils literal"><span class="pre">isyn</span></code> to search for an Excel sheet and generate a new
+workflow based on it.</p>
+<p>You will be asked to specify a name for your new workflow, which will
+then be created and added to Alfred.</p>
+<p>You should then <a class="reference internal" href="#configuration"><span>configure the worksheet, first row and data columns in
+the workflow configuration sheet</span></a> (if the defaults are
+unsuitable).</p>
+<p>Alter one of the green demo objects in the workflow to suit your purpose (e.g.
+change the Keyword, Placeholder Title and Subtext) or add your own, then
+delete the other, unneeded objects.</p>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">Don&#8217;t forget to delete the topmost red <code class="docutils literal"><span class="pre">isyn</span></code> Keywords and Actions
+from your new workflow to prevent duplicates in Alfred.</p>
+</div>
+</div>
+<div class="section" id="configuration">
+<span id="id3"></span><h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
+<p>By default, the workflow pulls data from the first
+row of the first worksheet in the workbook. The item title is pulled from
+column A, the subtitle from column B and the value from column C.</p>
+<p>To change these, use the <code class="docutils literal"><span class="pre">SHEET</span></code>, <code class="docutils literal"><span class="pre">START_ROW</span></code>, <code class="docutils literal"><span class="pre">TITLE_COL</span></code>,
+<code class="docutils literal"><span class="pre">SUBTITLE_COL</span></code> and <code class="docutils literal"><span class="pre">VALUE_COL</span></code> options in the workflow configuration
+sheet:</p>
+<img alt="Workflow configuration sheet" src="_images/config_sheet.png" />
+<p>If <code class="docutils literal"><span class="pre">SHEET</span></code> is unset, it defaults to the first worksheet.</p>
+<p>If <code class="docutils literal"><span class="pre">START_ROW</span></code> is unset, it defaults to the first row.</p>
+<p>If <code class="docutils literal"><span class="pre">TITLE_COL</span></code> is unset, it defaults to the first column (i.e. column A).</p>
+<p>If <code class="docutils literal"><span class="pre">SUBTITLE_COL</span></code> is unset, it defaults to the column after <code class="docutils literal"><span class="pre">TITLE_COL</span></code>.</p>
+<p>If <code class="docutils literal"><span class="pre">VALUE_COL</span></code> is unset, it defaults to the second column after <code class="docutils literal"><span class="pre">TITLE_COL</span></code>.</p>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p>All rows and columns must be specified as numbers, not letters, so
+set <code class="docutils literal"><span class="pre">TITLE_COL</span></code> to <code class="docutils literal"><span class="pre">1</span></code> for column A, <code class="docutils literal"><span class="pre">2</span></code> for column B etc.</p>
+<p class="last">Only the title is required. If there are no data for subtitle or
+value in the spreadsheet, set <code class="docutils literal"><span class="pre">SUBTITLE_COL</span></code> and/or <code class="docutils literal"><span class="pre">VALUE_COL</span></code> to
+<code class="docutils literal"><span class="pre">0</span></code>.</p>
+</div>
+<p>Configuration options may also be specified as options to the <code class="docutils literal"><span class="pre">isyn</span></code>
+command within the Script Filter:</p>
+<blockquote>
+<div><p>usage: isyn [-h] [-p FILE] [-n N] [-r N] [-t N] [-s N] [-v N] [&#8211;version]</p>
+<blockquote>
+<div><table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">-h</span>, <span class="option">--help</span></kbd></td>
+<td>show this help message and exit</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-p <var>FILE</var></span>, <span class="option">--docpath <var>FILE</var></span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Excel file to read data from. Envvar: DOC_PATH</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-n <var>N</var></span>, <span class="option">--sheet <var>N</var></span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Number or name of worksheet to read data from. Default
+is the first sheet in the workbook.Envvar: SHEET</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-r <var>N</var></span>, <span class="option">--row <var>N</var></span></kbd></td>
+<td>Number of first row to read data from. Default is 1,
+i.e the first row. Use &#8211;row 2 to ignore a title row,
+for example.Envvar: START_ROW</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-t <var>N</var></span>, <span class="option">--title <var>N</var></span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Number of column to read titles from. Default is the
+first column.Envvar: TITLE_COL</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-s <var>N</var></span>, <span class="option">--subtitle <var>N</var></span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Number of column to read subtitles from. Default is
+the column after the title column. Set to 0 if there
+is no subtitle column. Envvar: SUBTITLE_COL</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-v <var>N</var></span>, <span class="option">--value <var>N</var></span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Number of column to read values from. Default is the
+second column after the title column. Set to 0 if
+there is no value column. Envvar: VALUE_COL</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">--version</span></kbd></td>
+<td>Show workflow version number and exit.</td></tr>
+</tbody>
+</table>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="feedback-questions-bugs-feature-requests">
+<span id="feedback"></span><h2>Feedback, questions, bugs, feature requests<a class="headerlink" href="#feedback-questions-bugs-feature-requests" title="Permalink to this headline">¶</a></h2>
+<p>If you have feedback or questions regarding I Sheet You Not, please post
+them in the <a class="reference external" href="https://www.alfredforum.com/">Alfred forum thread</a>.</p>
+<p>If you have a bug report or feature request, please create a new
+<a class="reference external" href="https://github.com/deanishe/i-sheet-you-not/issues">GitHub issue</a>.</p>
+</div>
+<div class="section" id="licensing-and-thanks">
+<span id="id4"></span><h2>Licensing and thanks<a class="headerlink" href="#licensing-and-thanks" title="Permalink to this headline">¶</a></h2>
+<p>I Sheet You Not is released under the MIT License. It is based on the
+<a class="reference external" href="http://www.python-excel.org">xlrd library for Python</a>, released under a <a class="reference external" href="https://github.com/python-excel/xlrd/blob/master/docs/licenses.rst">BSD-style licence</a>.</p>
+<p>The workflow icon was created by carlosjj from <a class="reference external" href="http://www.iconarchive.com/show/google-jfk-icons-by-carlosjj/spreadsheets-icon.html">IconArchive.com</a>.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="licence.html">Licence</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="licence.html#mit-license-mit">MIT License (MIT)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="licence.html#xlrd-licences">xlrd licences</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="changelog">
+<span id="changelog-index"></span><h2>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id2">0.1.2</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="auto-generated-api-docs">
+<span id="api-index"></span><h2>Auto-generated API docs<a class="headerlink" href="#auto-generated-api-docs" title="Permalink to this headline">¶</a></h2>
+<p>This documentation was auto-generated by sphinx from the source code.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API reference</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<span id="indices"></span><h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span>Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span>Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span>Search Page</span></a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="#">
+    <img class="logo" src="_static/icon_256.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">I Sheet You Not</h1>
+    
+  </a>
+</p>
+
+
+
+<p class="blurb">Turn Excel sheets into Alfred 3 workflows.</p>
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=deanishe&repo=i-sheet-you-not&type=watch&count=true&size=large"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">I Sheet You Not</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#download-and-installation">Download and installation</a></li>
+<li><a class="reference internal" href="#usage">Usage</a></li>
+<li><a class="reference internal" href="#configuration">Configuration</a></li>
+<li><a class="reference internal" href="#feedback-questions-bugs-feature-requests">Feedback, questions, bugs, feature requests</a></li>
+<li><a class="reference internal" href="#licensing-and-thanks">Licensing and thanks</a></li>
+<li><a class="reference internal" href="#changelog">Changelog</a></li>
+<li><a class="reference internal" href="#auto-generated-api-docs">Auto-generated API docs</a></li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+</li>
+</ul>
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="licence.html">Licence</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API reference</a></li>
+</ul>
+
+
+<h3>Donate</h3>
+<p>
+Consider supporting the authors on <a href="https://www.gratipay.com/">Gratipay</a>:
+<script data-gratipay-username="deanishe"
+        data-gratipay-widget="button"
+        src="//gttp.co/v1.js"></script>
+</p>
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Dean Jackson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/index.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

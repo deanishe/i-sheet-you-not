@@ -1,0 +1,388 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>isheetyounot.core &mdash; I Sheet You Not 0.1.2 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="I Sheet You Not 0.1.2 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">I Sheet You Not 0.1.2 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for isheetyounot.core</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># encoding: utf-8</span>
+<span class="c1">#</span>
+<span class="c1"># Copyright (c) 2016 Dean Jackson &lt;deanishe@deanishe.net&gt;</span>
+<span class="c1">#</span>
+<span class="c1"># MIT Licence. See http://opensource.org/licenses/MIT</span>
+<span class="c1">#</span>
+<span class="c1"># Created on 2016-05-21</span>
+<span class="c1">#</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">I Sheet You Not. Search Excel data in Alfred 3.</span>
+
+<span class="sd">Pass this script the path to an Excel file via the -p option or the</span>
+<span class="sd">DOC_PATH environment variable.</span>
+
+<span class="sd">By default, the script reads the rows of the first worksheet in the</span>
+<span class="sd">workbook and generates Alfred JSON results.</span>
+
+<span class="sd">It reads the first three columns, treating the first as the result title,</span>
+<span class="sd">the second as its subtitle and the third as its value (arg).</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">unicode_literals</span><span class="p">,</span> <span class="n">absolute_import</span>
+
+<span class="kn">import</span> <span class="nn">hashlib</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="kn">from</span> <span class="nn">.aw3</span> <span class="kn">import</span> <span class="n">av</span><span class="p">,</span> <span class="n">human_time</span><span class="p">,</span> <span class="n">log</span><span class="p">,</span> <span class="n">make_item</span>
+
+<span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;0.1.2&#39;</span>
+
+<span class="c1"># Fallback/default values</span>
+<span class="n">BUNDLE_ID</span> <span class="o">=</span> <span class="s1">&#39;net.deanishe.alfred-i-sheet-you-not&#39;</span>
+<span class="n">CACHE_DIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~/Library/Caches&#39;</span><span class="p">),</span> <span class="n">BUNDLE_ID</span><span class="p">)</span>
+
+<span class="c1"># Link to GitHub issues. Output by rescue() on error.</span>
+<span class="n">HELP_URL</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/deanishe/i-sheet-you-not/issues&#39;</span>
+
+
+<div class="viewcode-block" id="ConfigError"><a class="viewcode-back" href="../../api.html#isheetyounot.core.ConfigError">[docs]</a><span class="k">class</span> <span class="nc">ConfigError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Raised if a configuration value is not given or invalid.</span>
+
+<span class="sd">    Typically, this will be a bad sheet number or name.</span>
+
+<span class="sd">    If the program can&#39;t read the Excel data for other reasons,</span>
+<span class="sd">    there&#39;ll be an exception from the underlying `xlrd` library.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">pass</span></div>
+
+
+<span class="c1"># dP                dP</span>
+<span class="c1"># 88                88</span>
+<span class="c1"># 88d888b. .d8888b. 88 88d888b. .d8888b. 88d888b. .d8888b.</span>
+<span class="c1"># 88&#39;  `88 88ooood8 88 88&#39;  `88 88ooood8 88&#39;  `88 Y8ooooo.</span>
+<span class="c1"># 88    88 88.  ... 88 88.  .88 88.  ... 88             88</span>
+<span class="c1"># dP    dP `88888P&#39; dP 88Y888P&#39; `88888P&#39; dP       `88888P&#39;</span>
+<span class="c1">#                      88</span>
+<span class="c1">#                      dP</span>
+
+
+<span class="c1"># def log(s, *args):</span>
+<span class="c1">#     &quot;&quot;&quot;Print message `s` to STDERR. Run `s % args` with any `args`.</span>
+
+<span class="c1">#     Args:</span>
+<span class="c1">#         s (unicode): Message to print/format string.</span>
+<span class="c1">#         *args (object): If given, used in format string `s % args`.</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     print(s % args, file=sys.stderr)</span>
+
+
+<div class="viewcode-block" id="tilde"><a class="viewcode-back" href="../../api.html#isheetyounot.core.tilde">[docs]</a><span class="k">def</span> <span class="nf">tilde</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Replace user&#39;s home directory in `path` with ~.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        path (unicode): A filepath.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        unicode: Shortened filepath.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">path</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;HOME&#39;</span><span class="p">),</span> <span class="s1">&#39;~&#39;</span><span class="p">)</span></div>
+
+
+<span class="c1">#                            dP       oo</span>
+<span class="c1">#                            88</span>
+<span class="c1"># .d8888b. .d8888b. .d8888b. 88d888b. dP 88d888b. .d8888b.</span>
+<span class="c1"># 88&#39;  `&quot;&quot; 88&#39;  `88 88&#39;  `&quot;&quot; 88&#39;  `88 88 88&#39;  `88 88&#39;  `88</span>
+<span class="c1"># 88.  ... 88.  .88 88.  ... 88    88 88 88    88 88.  .88</span>
+<span class="c1"># `88888P&#39; `88888P8 `88888P&#39; dP    dP dP dP    dP `8888P88</span>
+<span class="c1">#                                                      .88</span>
+<span class="c1">#                                                  d8888P</span>
+
+<div class="viewcode-block" id="cache_key"><a class="viewcode-back" href="../../api.html#isheetyounot.core.cache_key">[docs]</a><span class="k">def</span> <span class="nf">cache_key</span><span class="p">(</span><span class="n">o</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Generate unique, deterministic key based on program options.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        o (argparse.Namespace): Program&#39;s configuration object.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: MD5 hex digest of options.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Cache key of full path and *all* variables to ensure uniqueness</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">docpath</span><span class="p">)</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+        <span class="s1">&#39;{}={}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span>
+        <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+    <span class="p">])</span>
+
+    <span class="n">tpl</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;{p}-{o.sheet}-{o.start_row}-{o.title_col}-&#39;</span>
+           <span class="s1">&#39;{o.subtitle_col}-{o.value_col}-{v}&#39;</span><span class="p">)</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">tpl</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">o</span><span class="o">=</span><span class="n">o</span><span class="p">,</span> <span class="n">v</span><span class="o">=</span><span class="n">v</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span></div>
+
+
+<span class="k">def</span> <span class="nf">_cache_path</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Path for cached JSON based on key and workflow&#39;s cache directory.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        key (str): Unique key from `cache_key()`.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        unicode: Filepath in cache directory with &quot;.json&quot; extension.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">av</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;workflow_cache&#39;</span><span class="p">,</span> <span class="n">CACHE_DIR</span><span class="p">)</span>
+    <span class="c1"># log(&#39;cache_dir=%r&#39;, root)</span>
+    <span class="n">par</span> <span class="o">=</span> <span class="p">[</span><span class="n">key</span><span class="p">[:</span><span class="mi">3</span><span class="p">],</span> <span class="n">key</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">6</span><span class="p">],</span> <span class="n">key</span><span class="p">[</span><span class="mi">6</span><span class="p">:</span><span class="mi">9</span><span class="p">]]</span>
+    <span class="n">dp</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="o">*</span><span class="n">par</span><span class="p">)</span>
+
+    <span class="c1"># log(&#39;cache_dir=%r&#39;, tilde(dp))</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">dp</span><span class="p">,</span> <span class="mo">0700</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+    <span class="n">p</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dp</span><span class="p">,</span> <span class="s1">&#39;{}.json&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
+
+    <span class="n">log</span><span class="p">(</span><span class="s1">&#39;cache_path=</span><span class="si">%r</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">tilde</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">p</span>
+
+
+<div class="viewcode-block" id="cached_data"><a class="viewcode-back" href="../../api.html#isheetyounot.core.cached_data">[docs]</a><span class="k">def</span> <span class="nf">cached_data</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">max_age</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returned data cached for `key` or `None`.</span>
+
+<span class="sd">    Returns `None` if no data are cached for `key` or the age</span>
+<span class="sd">    of the cached data exceeds `max_age` (if `max_age` is non-zero).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        key (str): Cache key from `cache_key()`.</span>
+<span class="sd">        max_age (int, optional): Maximum permissible age of cached data</span>
+<span class="sd">            in seconds.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: The contents of the cache file, or `None`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">_cache_path</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">None</span>
+
+    <span class="k">if</span> <span class="n">max_age</span><span class="p">:</span>
+        <span class="n">age</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getmtime</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+        <span class="n">log</span><span class="p">(</span><span class="s1">&#39;cache_age=</span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">human_time</span><span class="p">(</span><span class="n">age</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">age</span> <span class="o">&gt;</span> <span class="n">max_age</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">None</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">fp</span><span class="o">.</span><span class="n">read</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="cache_data"><a class="viewcode-back" href="../../api.html#isheetyounot.core.cache_data">[docs]</a><span class="k">def</span> <span class="nf">cache_data</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Store `data` in cache under name `key`.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        key (str): Cache key from `cache_key()`.</span>
+<span class="sd">        data (str): Data to write to file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">_cache_path</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+        <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+
+
+<span class="c1">#                                     dP</span>
+<span class="c1">#                                     88</span>
+<span class="c1"># .d8888b. dP.  .dP .d8888b. .d8888b. 88</span>
+<span class="c1"># 88ooood8  `8bd8&#39;  88&#39;  `&quot;&quot; 88ooood8 88</span>
+<span class="c1"># 88.  ...  .d88b.  88.  ... 88.  ... 88</span>
+<span class="c1"># `88888P&#39; dP&#39;  `dP `88888P&#39; `88888P&#39; dP</span>
+
+<div class="viewcode-block" id="read_data"><a class="viewcode-back" href="../../api.html#isheetyounot.core.read_data">[docs]</a><span class="k">def</span> <span class="nf">read_data</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">sheet</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="n">start_row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">variables</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Read the specified cells from an Excel file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        path (unicode): Path of XLSX file to read data from.</span>
+<span class="sd">        sheet (unicode): Number or name of sheet to read data from.</span>
+<span class="sd">        cols (list): The three columns to read title, subtitle and</span>
+<span class="sd">            value from respectively.</span>
+<span class="sd">        start_row (int, optional): The row on which to start reading data.</span>
+<span class="sd">        variables (dict, optional): name-&gt;col mapping of columns to read</span>
+<span class="sd">            into result variables with the corresponding names.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list: Sequence of Alfred 3 result dictionaries.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ConfigError: Raised if an argument is invalid, e.g. non-existent</span>
+<span class="sd">            sheet name.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">xlrd</span> <span class="kn">import</span> <span class="n">open_workbook</span>
+
+    <span class="n">variables</span> <span class="o">=</span> <span class="n">variables</span> <span class="ow">or</span> <span class="p">{}</span>
+
+    <span class="n">wb</span> <span class="o">=</span> <span class="n">open_workbook</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">sheet</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">wb</span><span class="o">.</span><span class="n">sheets</span><span class="p">()[</span><span class="nb">int</span><span class="p">(</span><span class="n">sheet</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># Name</span>
+        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">wb</span><span class="o">.</span><span class="n">sheets</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">sheet</span><span class="p">:</span>
+                <span class="k">break</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ConfigError</span><span class="p">(</span><span class="s2">&quot;Couldn&#39;t find sheet: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sheet</span><span class="p">))</span>
+
+    <span class="n">log</span><span class="p">(</span><span class="s1">&#39;Opened worksheet &quot;</span><span class="si">%s</span><span class="s1">&quot; of </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">tilde</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
+
+    <span class="n">start_row</span> <span class="o">-=</span> <span class="mi">1</span>
+    <span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">]</span>
+
+    <span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">invalid</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="n">i</span> <span class="o">=</span> <span class="n">start_row</span>
+
+    <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">s</span><span class="o">.</span><span class="n">nrows</span><span class="p">:</span>
+        <span class="nb">vars</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">sub</span> <span class="o">=</span> <span class="n">arg</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">tit</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">cell</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">cols</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">value</span>
+        <span class="k">if</span> <span class="n">cols</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">sub</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">cell</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">cols</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">value</span>
+        <span class="k">if</span> <span class="n">cols</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">arg</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">cell</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">cols</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">value</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">variables</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">cell</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+            <span class="k">if</span> <span class="n">v</span><span class="p">:</span>
+                <span class="nb">vars</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+
+        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="c1"># log(&#39;tit=%r, sub=%r, arg=%r&#39;, tit, sub, arg)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">tit</span><span class="p">:</span>  <span class="c1"># Invalid</span>
+            <span class="n">invalid</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">continue</span>
+
+        <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">make_item</span><span class="p">(</span><span class="n">tit</span><span class="p">,</span> <span class="n">sub</span><span class="p">,</span> <span class="n">arg</span><span class="p">,</span> <span class="o">**</span><span class="nb">vars</span><span class="p">))</span>
+
+    <span class="n">log</span><span class="p">(</span><span class="s1">&#39;Read </span><span class="si">%d</span><span class="s1"> rows from worksheet &quot;</span><span class="si">%s</span><span class="s1">&quot;&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">),</span> <span class="n">s</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">items</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../../index.html">
+    <img class="logo" src="../../_static/icon_256.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">I Sheet You Not</h1>
+    
+  </a>
+</p>
+
+
+
+<p class="blurb">Turn Excel sheets into Alfred 3 workflows.</p>
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=deanishe&repo=i-sheet-you-not&type=watch&count=true&size=large"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../licence.html">Licence</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API reference</a></li>
+</ul>
+
+
+<h3>Donate</h3>
+<p>
+Consider supporting the authors on <a href="https://www.gratipay.com/">Gratipay</a>:
+<script data-gratipay-username="deanishe"
+        data-gratipay-widget="button"
+        src="//gttp.co/v1.js"></script>
+</p>
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Dean Jackson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
