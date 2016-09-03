@@ -30,7 +30,7 @@ import time
 
 from .aw3 import av, human_time, log, make_item
 
-version = '0.1.0'
+version = '0.1.1'
 
 # Fallback/default values
 BUNDLE_ID = 'net.deanishe.alfred-i-sheet-you-not'
@@ -241,9 +241,12 @@ def read_data(path, sheet, cols, start_row=1, variables=None):
 
     while i < s.nrows:
         vars = {}
+        sub = arg = ''
         tit = s.cell(i, cols[0]).value
-        sub = s.cell(i, cols[1]).value
-        arg = s.cell(i, cols[2]).value
+        if cols[1] > -1:
+            sub = s.cell(i, cols[1]).value
+        if cols[2] > -1:
+            arg = s.cell(i, cols[2]).value
         for k, j in variables.items():
             v = s.cell(i, j-1).value
             if v:

@@ -86,14 +86,16 @@ def parse_args():
                    metavar='N', type=str,
                    default=os.getenv('SUBTITLE_COL'),
                    help="Number of column to read subtitles from. "
-                   "Default is the column after the title column."
+                   "Default is the column after the title column. "
+                   "Set to 0 if there is no subtitle column. "
                    "Envvar: SUBTITLE_COL")
     p.add_argument('-v', '--value',
                    dest='value_col',
                    metavar='N', type=str,
                    default=os.getenv('VALUE_COL'),
                    help="Number of column to read values from. "
-                   "Default is the second column after the title column."
+                   "Default is the second column after the title column. "
+                    "Set to 0 if there is no value column. "
                    "Envvar: VALUE_COL")
     p.add_argument('--version', action='version', version=core.version,
                    help="Show workflow version number and exit.")
@@ -165,11 +167,18 @@ def main():
 
     start_row = int(o.start_row)
     t = int(o.title_col)
-    cols = [
-        t,
-        int(o.subtitle_col or '0') or t+1,
-        int(o.value_col or '0') or t+2,
-    ]
+
+    if not o.subtitle_col:
+        s = t+1
+    else:
+        s = int(o.subtitle_col)
+
+    if not o.value_col:
+        v = t+2
+    else:
+        v = int(o.value_col)
+
+    cols = [t, s, v]
 
     log('sheet=%r, start_row=%d, cols=%r, vars=%r', o.sheet, start_row,
         cols, o.variables)
