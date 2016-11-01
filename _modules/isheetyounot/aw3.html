@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>isheetyounot.aw3 &mdash; I Sheet You Not 0.1.2 documentation</title>
+    <title>isheetyounot.aw3 &mdash; I Sheet You Not 0.2 documentation</title>
     
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.1.2',
+        VERSION:     '0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <link rel="shortcut icon" href="../../_static/favicon.ico"/>
-    <link rel="top" title="I Sheet You Not 0.1.2 documentation" href="../../index.html" />
+    <link rel="top" title="I Sheet You Not 0.2 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" />
 
    
@@ -49,7 +49,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">I Sheet You Not 0.1.2 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">I Sheet You Not 0.2 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -94,9 +94,9 @@
 <span class="sd">        s (unicode): Message to print/format string.</span>
 <span class="sd">        *args (object): If given, used in format string `s % args`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">s</span> <span class="o">%</span> <span class="n">args</span><span class="p">,</span> <span class="nb">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span></div>
+    <span class="k">print</span><span class="p">(</span><span class="n">s</span> <span class="o">%</span> <span class="n">args</span><span class="p">,</span> <span class="nb">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
 
-
+</div>
 <div class="viewcode-block" id="human_time"><a class="viewcode-back" href="../../api.html#isheetyounot.aw3.human_time">[docs]</a><span class="k">def</span> <span class="nf">human_time</span><span class="p">(</span><span class="n">seconds</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Human-readable duration, e.g. 5m2s or 1h2m.</span>
 
@@ -120,9 +120,9 @@
         <span class="k">return</span> <span class="s1">&#39;{:0.0f}h{:0.0f}m&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
 
     <span class="n">d</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="nb">divmod</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="mi">24</span><span class="p">)</span>
-    <span class="k">return</span> <span class="s1">&#39;{:0.0f}d{:0.0f}h{:0.0f}m&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="s1">&#39;{:0.0f}d{:0.0f}h{:0.0f}m&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
 
-
+</div>
 <div class="viewcode-block" id="AttrDict"><a class="viewcode-back" href="../../api.html#isheetyounot.aw3.AttrDict">[docs]</a><span class="k">class</span> <span class="nc">AttrDict</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Dictionary whose keys are also accessible as attributes.&quot;&quot;&quot;</span>
 
@@ -151,8 +151,8 @@
             <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
                 <span class="s2">&quot;AttrDict object has no attribute &#39;{}&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span></div>
-
+        <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+</div>
 <div class="viewcode-block" id="AttrDict.__setattr__"><a class="viewcode-back" href="../../api.html#isheetyounot.aw3.AttrDict.__setattr__">[docs]</a>    <span class="k">def</span> <span class="nf">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add `value` to the dictionary under `key`.</span>
 
@@ -161,18 +161,18 @@
 <span class="sd">            value (obj): Value to store for `key`.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span></div></div>
+        <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
 
-
+</div></div>
 <div class="viewcode-block" id="alfred_vars"><a class="viewcode-back" href="../../api.html#isheetyounot.aw3.alfred_vars">[docs]</a><span class="k">def</span> <span class="nf">alfred_vars</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Dictionary of Alfred&#39;s environment variables w/out &#39;alfred_&#39; prefix.&quot;&quot;&quot;</span>
     <span class="n">d</span> <span class="o">=</span> <span class="n">AttrDict</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">k</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;alfred_&#39;</span><span class="p">):</span>
             <span class="n">d</span><span class="p">[</span><span class="n">k</span><span class="p">[</span><span class="mi">7</span><span class="p">:]]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">d</span></div>
+    <span class="k">return</span> <span class="n">d</span>
 
-
+</div>
 <span class="n">av</span> <span class="o">=</span> <span class="n">alfred_vars</span><span class="p">()</span>
 
 
@@ -196,13 +196,13 @@
 
 <div class="viewcode-block" id="Feedback.__str__"><a class="viewcode-back" href="../../api.html#isheetyounot.aw3.Feedback.__str__">[docs]</a>    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Alfred 3 JSON format.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s1">&#39;items&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">},</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span></div>
-
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s1">&#39;items&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">},</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</div>
 <div class="viewcode-block" id="Feedback.send"><a class="viewcode-back" href="../../api.html#isheetyounot.aw3.Feedback.send">[docs]</a>    <span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Send self as results to Alfred 3.&quot;&quot;&quot;</span>
-        <span class="k">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span></div></div>
+        <span class="k">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
 
-
+</div></div>
 <div class="viewcode-block" id="make_item"><a class="viewcode-back" href="../../api.html#isheetyounot.aw3.make_item">[docs]</a><span class="k">def</span> <span class="nf">make_item</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">subtitle</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">arg</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">icon</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="nb">vars</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Create new Alfred 3 result.</span>
 
@@ -242,9 +242,9 @@
         <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;alfredworkflow&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;arg&#39;</span><span class="p">:</span> <span class="n">it</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;arg&#39;</span><span class="p">),</span> <span class="s1">&#39;variables&#39;</span><span class="p">:</span> <span class="nb">vars</span><span class="p">}}</span>
         <span class="n">it</span><span class="p">[</span><span class="s1">&#39;arg&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">it</span></div>
+    <span class="k">return</span> <span class="n">it</span>
 
-
+</div>
 <div class="viewcode-block" id="rescue"><a class="viewcode-back" href="../../api.html#isheetyounot.aw3.rescue">[docs]</a><span class="k">def</span> <span class="nf">rescue</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">help_url</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Wrap callable `fn`, and catch and log any exceptions it raises.</span>
 
@@ -274,9 +274,9 @@
                               <span class="n">icon</span><span class="o">=</span><span class="n">ICON_ERROR</span><span class="p">)]</span>
         <span class="k">print</span><span class="p">(</span><span class="n">fb</span><span class="p">)</span>
 
-    <span class="n">log</span><span class="p">(</span><span class="s1">&#39;--------------- </span><span class="si">%0.3f</span><span class="s1">s elapsed ---------------&#39;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">st</span><span class="p">)</span></div>
+    <span class="n">log</span><span class="p">(</span><span class="s1">&#39;--------------- </span><span class="si">%0.3f</span><span class="s1">s elapsed ---------------&#39;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">st</span><span class="p">)</span>
 
-
+</div>
 <div class="viewcode-block" id="random_bundle_id"><a class="viewcode-back" href="../../api.html#isheetyounot.aw3.random_bundle_id">[docs]</a><span class="k">def</span> <span class="nf">random_bundle_id</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Generate random bundle ID based on UUID4.</span>
 
@@ -294,9 +294,9 @@
 
     <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">uuid4</span><span class="p">()</span><span class="o">.</span><span class="n">hex</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">out</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
 
-
+</div>
 <div class="viewcode-block" id="change_bundle_id"><a class="viewcode-back" href="../../api.html#isheetyounot.aw3.change_bundle_id">[docs]</a><span class="k">def</span> <span class="nf">change_bundle_id</span><span class="p">(</span><span class="n">newid</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Change the bundle ID of the current workflow.</span>
 
@@ -376,7 +376,7 @@
       &copy;2016, Dean Jackson.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.5</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
       
     </div>

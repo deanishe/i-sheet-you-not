@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>isheetyounot.core &mdash; I Sheet You Not 0.1.2 documentation</title>
+    <title>isheetyounot.core &mdash; I Sheet You Not 0.2 documentation</title>
     
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.1.2',
+        VERSION:     '0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <link rel="shortcut icon" href="../../_static/favicon.ico"/>
-    <link rel="top" title="I Sheet You Not 0.1.2 documentation" href="../../index.html" />
+    <link rel="top" title="I Sheet You Not 0.2 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" />
 
    
@@ -49,7 +49,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">I Sheet You Not 0.1.2 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">I Sheet You Not 0.2 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -70,8 +70,7 @@
 <span class="c1"># Created on 2016-05-21</span>
 <span class="c1">#</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">I Sheet You Not. Search Excel data in Alfred 3.</span>
+<span class="sd">&quot;&quot;&quot;I Sheet You Not. Search Excel data in Alfred 3.</span>
 
 <span class="sd">Pass this script the path to an Excel file via the -p option or the</span>
 <span class="sd">DOC_PATH environment variable.</span>
@@ -92,7 +91,7 @@
 
 <span class="kn">from</span> <span class="nn">.aw3</span> <span class="kn">import</span> <span class="n">av</span><span class="p">,</span> <span class="n">human_time</span><span class="p">,</span> <span class="n">log</span><span class="p">,</span> <span class="n">make_item</span>
 
-<span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;0.1.2&#39;</span>
+<span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;0.2&#39;</span>
 
 <span class="c1"># Fallback/default values</span>
 <span class="n">BUNDLE_ID</span> <span class="o">=</span> <span class="s1">&#39;net.deanishe.alfred-i-sheet-you-not&#39;</span>
@@ -112,7 +111,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">pass</span></div>
+    <span class="k">pass</span>
 
 
 <span class="c1"># dP                dP</span>
@@ -134,7 +133,7 @@
 <span class="c1">#     &quot;&quot;&quot;</span>
 <span class="c1">#     print(s % args, file=sys.stderr)</span>
 
-
+</div>
 <div class="viewcode-block" id="tilde"><a class="viewcode-back" href="../../api.html#isheetyounot.core.tilde">[docs]</a><span class="k">def</span> <span class="nf">tilde</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Replace user&#39;s home directory in `path` with ~.</span>
 
@@ -144,7 +143,7 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        unicode: Shortened filepath.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">path</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;HOME&#39;</span><span class="p">),</span> <span class="s1">&#39;~&#39;</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">path</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;HOME&#39;</span><span class="p">),</span> <span class="s1">&#39;~&#39;</span><span class="p">)</span>
 
 
 <span class="c1">#                            dP       oo</span>
@@ -155,7 +154,7 @@
 <span class="c1"># `88888P&#39; `88888P8 `88888P&#39; dP    dP dP dP    dP `8888P88</span>
 <span class="c1">#                                                      .88</span>
 <span class="c1">#                                                  d8888P</span>
-
+</div>
 <div class="viewcode-block" id="cache_key"><a class="viewcode-back" href="../../api.html#isheetyounot.core.cache_key">[docs]</a><span class="k">def</span> <span class="nf">cache_key</span><span class="p">(</span><span class="n">o</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Generate unique, deterministic key based on program options.</span>
 
@@ -176,9 +175,9 @@
            <span class="s1">&#39;{o.subtitle_col}-{o.value_col}-{v}&#39;</span><span class="p">)</span>
 
     <span class="n">n</span> <span class="o">=</span> <span class="n">tpl</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">o</span><span class="o">=</span><span class="n">o</span><span class="p">,</span> <span class="n">v</span><span class="o">=</span><span class="n">v</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span></div>
+    <span class="k">return</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
 
-
+</div>
 <span class="k">def</span> <span class="nf">_cache_path</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Path for cached JSON based on key and workflow&#39;s cache directory.</span>
 
@@ -234,9 +233,9 @@
             <span class="k">return</span> <span class="bp">None</span>
 
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">fp</span><span class="o">.</span><span class="n">read</span><span class="p">()</span></div>
+        <span class="k">return</span> <span class="n">fp</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 
-
+</div>
 <div class="viewcode-block" id="cache_data"><a class="viewcode-back" href="../../api.html#isheetyounot.core.cache_data">[docs]</a><span class="k">def</span> <span class="nf">cache_data</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Store `data` in cache under name `key`.</span>
 
@@ -247,7 +246,7 @@
     <span class="n">p</span> <span class="o">=</span> <span class="n">_cache_path</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
-        <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+        <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 
 
 <span class="c1">#                                     dP</span>
@@ -256,7 +255,7 @@
 <span class="c1"># 88ooood8  `8bd8&#39;  88&#39;  `&quot;&quot; 88ooood8 88</span>
 <span class="c1"># 88.  ...  .d88b.  88.  ... 88.  ... 88</span>
 <span class="c1"># `88888P&#39; dP&#39;  `dP `88888P&#39; `88888P&#39; dP</span>
-
+</div>
 <div class="viewcode-block" id="read_data"><a class="viewcode-back" href="../../api.html#isheetyounot.core.read_data">[docs]</a><span class="k">def</span> <span class="nf">read_data</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">sheet</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="n">start_row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">variables</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Read the specified cells from an Excel file.</span>
 
@@ -391,7 +390,7 @@
       &copy;2016, Dean Jackson.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.5</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
       
     </div>
