@@ -68,9 +68,19 @@ delete the other, unneeded objects.
 Configuration
 =============
 
-By default, the workflow pulls data from the first
-row of the first worksheet in the workbook. The item title is pulled from
-column A, the subtitle from column B and the value from column C.
+.. note::
+
+    What I Sheet You Not calls the ``VALUE`` is what is typically referred to
+    as ``arg`` or ``{query}`` in Alfred workflow terminology. (``arg`` being
+    its name in Alfred's JSON and XML format, and ``{query}`` being the text
+    macro that Alfred replaces with the value of ``arg``). It is the value
+    passed to subsequent workflow elements when you "action" (i.e. hit ↩ on)
+    a result shown in Alfred.
+
+
+By default, the workflow pulls data from the first row of the first worksheet
+in the workbook. The item title is pulled from column A, the subtitle from
+column B and the value from column C.
 
 To change these, use the ``SHEET``, ``START_ROW``, ``TITLE_COL``,
 ``SUBTITLE_COL`` and ``VALUE_COL`` options in the workflow configuration
@@ -121,6 +131,36 @@ command within the Script Filter:
                             second column after the title column. Set to 0 if
                             there is no value column. Envvar: VALUE_COL
       --version             Show workflow version number and exit.
+
+
+.. _setting-variables:
+
+Extracting data to workflow variables
+-------------------------------------
+
+In addition to the title, subtitle and value, you can also extract
+additional (or the same) columns to `workflow variables`_, which can be used
+by downstream workflow elements. The ``countries`` demo included with the
+workflow shows this technique.
+
+To create the workflow variable ``date`` from column 8 (i.e. H), you would
+set the workflow/environment variable ``VAR_date=8``.
+
+For example, the following code would extract data from the first worksheet
+in the Excel file, using columns A, B and C (1, 2, 3) as title, subtitle
+and value respectively (the default behaviour), and in addition set the
+workflow variables ``url`` to the data from column D (4) and ``user`` to
+column E (5):
+
+.. code-block:: bash
+   :linenos:
+
+   # Set workflow variable url from column 4 (D)
+   export VAR_url=4
+   # Set workflow variable user from column 5 (E)
+   export VAR_user=5
+
+   ./isyn
 
 
 .. _feedback:
@@ -193,3 +233,4 @@ Indices and tables
 .. _GitHub releases: https://github.com/deanishe/i-sheet-you-not/releases
 .. _Alfred forum thread: http://www.alfredforum.com/topic/9469-i-sheet-you-not-plug-excel-into-alfred/
 .. _Packal: http://www.packal.org/workflow/i-sheet-you-not
+.. _workflow variables: https://www.alfredapp.com/help/workflows/advanced/variables/

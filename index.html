@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>I Sheet You Not &mdash; I Sheet You Not 0.2.1 documentation</title>
+    <title>I Sheet You Not &mdash; I Sheet You Not 0.2.2 documentation</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.2.1',
+        VERSION:     '0.2.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="shortcut icon" href="_static/favicon.ico"/>
-    <link rel="top" title="I Sheet You Not 0.2.1 documentation" href="#" />
+    <link rel="top" title="I Sheet You Not 0.2.2 documentation" href="#" />
     <link rel="next" title="Licence" href="licence.html" />
 
    
@@ -52,7 +52,7 @@
         <li class="right" >
           <a href="licence.html" title="Licence"
              accesskey="N">next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">I Sheet You Not 0.2.1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="#">I Sheet You Not 0.2.2 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -99,9 +99,18 @@ delete the other, unneeded objects.</p>
 </div>
 <div class="section" id="configuration">
 <span id="id3"></span><h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
-<p>By default, the workflow pulls data from the first
-row of the first worksheet in the workbook. The item title is pulled from
-column A, the subtitle from column B and the value from column C.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">What I Sheet You Not calls the <code class="docutils literal"><span class="pre">VALUE</span></code> is what is typically referred to
+as <code class="docutils literal"><span class="pre">arg</span></code> or <code class="docutils literal"><span class="pre">{query}</span></code> in Alfred workflow terminology. (<code class="docutils literal"><span class="pre">arg</span></code> being
+its name in Alfred&#8217;s JSON and XML format, and <code class="docutils literal"><span class="pre">{query}</span></code> being the text
+macro that Alfred replaces with the value of <code class="docutils literal"><span class="pre">arg</span></code>). It is the value
+passed to subsequent workflow elements when you &#8220;action&#8221; (i.e. hit ↩ on)
+a result shown in Alfred.</p>
+</div>
+<p>By default, the workflow pulls data from the first row of the first worksheet
+in the workbook. The item title is pulled from column A, the subtitle from
+column B and the value from column C.</p>
 <p>To change these, use the <code class="docutils literal"><span class="pre">SHEET</span></code>, <code class="docutils literal"><span class="pre">START_ROW</span></code>, <code class="docutils literal"><span class="pre">TITLE_COL</span></code>,
 <code class="docutils literal"><span class="pre">SUBTITLE_COL</span></code> and <code class="docutils literal"><span class="pre">VALUE_COL</span></code> options in the workflow configuration
 sheet:</p>
@@ -169,6 +178,33 @@ there is no value column. Envvar: VALUE_COL</td></tr>
 </table>
 </div></blockquote>
 </div></blockquote>
+<div class="section" id="extracting-data-to-workflow-variables">
+<span id="setting-variables"></span><h3>Extracting data to workflow variables<a class="headerlink" href="#extracting-data-to-workflow-variables" title="Permalink to this headline">¶</a></h3>
+<p>In addition to the title, subtitle and value, you can also extract
+additional (or the same) columns to <a class="reference external" href="https://www.alfredapp.com/help/workflows/advanced/variables/">workflow variables</a>, which can be used
+by downstream workflow elements. The <code class="docutils literal"><span class="pre">countries</span></code> demo included with the
+workflow shows this technique.</p>
+<p>To create the workflow variable <code class="docutils literal"><span class="pre">date</span></code> from column 8 (i.e. H), you would
+set the workflow/environment variable <code class="docutils literal"><span class="pre">VAR_date=8</span></code>.</p>
+<p>For example, the following code would extract data from the first worksheet
+in the Excel file, using columns A, B and C (1, 2, 3) as title, subtitle
+and value respectively (the default behaviour), and in addition set the
+workflow variables <code class="docutils literal"><span class="pre">url</span></code> to the data from column D (4) and <code class="docutils literal"><span class="pre">user</span></code> to
+column E (5):</p>
+<div class="highlight-bash"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># Set workflow variable url from column 4 (D)</span>
+<span class="nb">export</span> <span class="nv">VAR_url</span><span class="o">=</span>4
+<span class="c1"># Set workflow variable user from column 5 (E)</span>
+<span class="nb">export</span> <span class="nv">VAR_user</span><span class="o">=</span>5
+
+./isyn
+</pre></div>
+</td></tr></table></div>
+</div>
 </div>
 <div class="section" id="feedback-questions-bugs-feature-requests">
 <span id="feedback"></span><h2>Feedback, questions, bugs, feature requests<a class="headerlink" href="#feedback-questions-bugs-feature-requests" title="Permalink to this headline">¶</a></h2>
@@ -197,9 +233,10 @@ them in the <a class="reference external" href="http://www.alfredforum.com/topic
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id2">0.2.1</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id3">0.2.0</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id4">0.1.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id2">0.2.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id3">0.2.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id4">0.2.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id5">0.1.2</a></li>
 </ul>
 </li>
 </ul>
@@ -260,7 +297,10 @@ them in the <a class="reference external" href="http://www.alfredforum.com/topic
 <li><a class="reference internal" href="#overview">Overview</a></li>
 <li><a class="reference internal" href="#download-and-installation">Download and installation</a></li>
 <li><a class="reference internal" href="#usage">Usage</a></li>
-<li><a class="reference internal" href="#configuration">Configuration</a></li>
+<li><a class="reference internal" href="#configuration">Configuration</a><ul>
+<li><a class="reference internal" href="#extracting-data-to-workflow-variables">Extracting data to workflow variables</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#feedback-questions-bugs-feature-requests">Feedback, questions, bugs, feature requests</a></li>
 <li><a class="reference internal" href="#licensing-and-thanks">Licensing and thanks</a></li>
 <li><a class="reference internal" href="#changelog">Changelog</a></li>

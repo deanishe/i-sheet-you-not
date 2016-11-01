@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>isheetyounot.aw3 &mdash; I Sheet You Not 0.2.1 documentation</title>
+    <title>isheetyounot.aw3 &mdash; I Sheet You Not 0.2.2 documentation</title>
     
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.2.1',
+        VERSION:     '0.2.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <link rel="shortcut icon" href="../../_static/favicon.ico"/>
-    <link rel="top" title="I Sheet You Not 0.2.1 documentation" href="../../index.html" />
+    <link rel="top" title="I Sheet You Not 0.2.2 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" />
 
    
@@ -49,7 +49,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">I Sheet You Not 0.2.1 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">I Sheet You Not 0.2.2 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -70,8 +70,7 @@
 <span class="c1"># Created on 2016-05-21</span>
 <span class="c1">#</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot;Lightweight Alfred 3 workflow library.&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">unicode_literals</span><span class="p">,</span> <span class="n">absolute_import</span>
 
@@ -93,6 +92,7 @@
 <span class="sd">    Args:</span>
 <span class="sd">        s (unicode): Message to print/format string.</span>
 <span class="sd">        *args (object): If given, used in format string `s % args`.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">print</span><span class="p">(</span><span class="n">s</span> <span class="o">%</span> <span class="n">args</span><span class="p">,</span> <span class="nb">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
 
@@ -105,8 +105,12 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        unicode: Human-readable duration.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">s</span> <span class="o">=</span> <span class="n">seconds</span>
+
+    <span class="k">if</span> <span class="n">s</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;{:0.2f}s&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">s</span> <span class="o">&lt;</span> <span class="mi">60</span><span class="p">:</span>
         <span class="k">return</span> <span class="s1">&#39;{:0.0f}s&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
@@ -123,6 +127,48 @@
     <span class="k">return</span> <span class="s1">&#39;{:0.0f}d{:0.0f}h{:0.0f}m&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
 
 </div>
+<span class="k">def</span> <span class="nf">_find_upwards</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Find file named `fname` in the current directory or above.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        fname (unicode): Filename</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        unicode: Absolute path to file or `None`.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dirpath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">))</span>
+    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
+            <span class="n">log</span><span class="p">(</span><span class="s1">&#39;Found `</span><span class="si">%s</span><span class="s1">` at `</span><span class="si">%s</span><span class="s1">`&#39;</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">p</span>
+        <span class="k">if</span> <span class="n">dirpath</span> <span class="o">==</span> <span class="s1">&#39;/&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">None</span>
+        <span class="n">dirpath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">dirpath</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="run_command"><a class="viewcode-back" href="../../api.html#isheetyounot.aw3.run_command">[docs]</a><span class="k">def</span> <span class="nf">run_command</span><span class="p">(</span><span class="n">cmd</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Run command and return output.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        cmd (sequence): Sequence or arguments to pass to `Popen`</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        tuple: `(stdout, stderr)`</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        CalledProcessError: Raised if command exits with non-zero status</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">subprocess</span> <span class="kn">import</span> <span class="n">Popen</span><span class="p">,</span> <span class="n">CalledProcessError</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">Popen</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+    <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">returncode</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">CalledProcessError</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">returncode</span><span class="p">,</span> <span class="n">cmd</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span><span class="p">)</span>
+
+</div>
 <div class="viewcode-block" id="AttrDict"><a class="viewcode-back" href="../../api.html#isheetyounot.aw3.AttrDict">[docs]</a><span class="k">class</span> <span class="nc">AttrDict</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Dictionary whose keys are also accessible as attributes.&quot;&quot;&quot;</span>
 
@@ -132,6 +178,7 @@
 <span class="sd">        Args:</span>
 <span class="sd">            *args (objects): Arguments to `dict.__init__()`</span>
 <span class="sd">            **kwargs (objects): Keyword arguments to `dict.__init__()`</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">AttrDict</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -146,6 +193,7 @@
 
 <span class="sd">        Raises:</span>
 <span class="sd">            AttributeError: Raised if `key` isn&#39;t in dictionary.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
@@ -189,6 +237,7 @@
 
 <span class="sd">        Args:</span>
 <span class="sd">            items (list, optional): Initial items.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># self.vars = {}</span>
         <span class="c1"># self.config = {}</span>
@@ -203,7 +252,7 @@
         <span class="k">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
 
 </div></div>
-<div class="viewcode-block" id="make_item"><a class="viewcode-back" href="../../api.html#isheetyounot.aw3.make_item">[docs]</a><span class="k">def</span> <span class="nf">make_item</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">subtitle</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">arg</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">icon</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="nb">vars</span><span class="p">):</span>
+<div class="viewcode-block" id="make_item"><a class="viewcode-back" href="../../api.html#isheetyounot.aw3.make_item">[docs]</a><span class="k">def</span> <span class="nf">make_item</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">subtitle</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">arg</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">icon</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">wfvars</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Create new Alfred 3 result.</span>
 
 <span class="sd">    Args:</span>
@@ -211,23 +260,25 @@
 <span class="sd">        subtitle (unicode, optional): Subtitle of the result.</span>
 <span class="sd">        arg (unicode, optional): Arg (value) of the result.</span>
 <span class="sd">        icon (unicode, optional): Path to icon for result.</span>
-<span class="sd">        **vars (dict): Unicode values to set as Alfred workflow variables</span>
+<span class="sd">        **wfvars (dict): Unicode values to set as Alfred workflow variables</span>
 <span class="sd">            with this result.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        dict: Alfred result.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">it</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="n">title</span><span class="p">,</span>
         <span class="s1">&#39;subtitle&#39;</span><span class="p">:</span> <span class="n">subtitle</span><span class="p">,</span>
-        <span class="s1">&#39;autocomplete&#39;</span><span class="p">:</span> <span class="n">title</span><span class="p">,</span>
+        <span class="c1"># &#39;autocomplete&#39;: title,</span>
         <span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="p">{</span>
             <span class="s1">&#39;copy&#39;</span><span class="p">:</span> <span class="n">title</span><span class="p">,</span>
             <span class="s1">&#39;largetype&#39;</span><span class="p">:</span> <span class="n">title</span><span class="p">,</span>
-        <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;valid&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
     <span class="p">}</span>
 
-    <span class="k">if</span> <span class="n">arg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">arg</span><span class="p">:</span>
         <span class="n">it</span><span class="p">[</span><span class="s1">&#39;arg&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">arg</span>
         <span class="n">it</span><span class="p">[</span><span class="s1">&#39;valid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
         <span class="n">it</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
@@ -238,8 +289,9 @@
     <span class="k">if</span> <span class="n">icon</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
         <span class="n">it</span><span class="p">[</span><span class="s1">&#39;icon&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;path&#39;</span><span class="p">:</span> <span class="n">icon</span><span class="p">}</span>
 
-    <span class="k">if</span> <span class="nb">vars</span><span class="p">:</span>
-        <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;alfredworkflow&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;arg&#39;</span><span class="p">:</span> <span class="n">it</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;arg&#39;</span><span class="p">),</span> <span class="s1">&#39;variables&#39;</span><span class="p">:</span> <span class="nb">vars</span><span class="p">}}</span>
+    <span class="k">if</span> <span class="n">wfvars</span><span class="p">:</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;alfredworkflow&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;arg&#39;</span><span class="p">:</span> <span class="n">it</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;arg&#39;</span><span class="p">),</span>
+                                      <span class="s1">&#39;variables&#39;</span><span class="p">:</span> <span class="n">wfvars</span><span class="p">}}</span>
         <span class="n">it</span><span class="p">[</span><span class="s1">&#39;arg&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">it</span>
@@ -254,6 +306,7 @@
 <span class="sd">    Args:</span>
 <span class="sd">        fn (callable): Function/method to call in try ... except block.</span>
 <span class="sd">        help_url (unicode, optional): URL to show when an exception is caught.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">st</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 
@@ -306,12 +359,11 @@
 <span class="sd">        newid (unicode): New bundle ID.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">from</span> <span class="nn">subprocess</span> <span class="kn">import</span> <span class="n">check_call</span>
-    <span class="n">ip</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">),</span> <span class="s1">&#39;info.plist&#39;</span><span class="p">))</span>
+    <span class="n">ip</span> <span class="o">=</span> <span class="n">_find_upwards</span><span class="p">(</span><span class="s1">&#39;info.plist&#39;</span><span class="p">)</span>
     <span class="n">pbcmd</span> <span class="o">=</span> <span class="s1">&#39;Set :bundleid {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">newid</span><span class="p">)</span>
     <span class="n">cmd</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;/usr/libexec/PlistBuddy&#39;</span><span class="p">,</span> <span class="s1">&#39;-c&#39;</span><span class="p">,</span> <span class="n">pbcmd</span><span class="p">,</span> <span class="n">ip</span><span class="p">]</span>
     <span class="n">log</span><span class="p">(</span><span class="s1">&#39;cmd=</span><span class="si">%r</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">cmd</span><span class="p">)</span>
-    <span class="n">check_call</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span></div>
+    <span class="n">run_command</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span></div>
 </pre></div>
 
           </div>

@@ -5,6 +5,11 @@
 Changelog
 =========
 
+0.2.2
+=====
+
+- Bugfix: Fix bundle ID replacement
+
 0.2.1
 =====
 
