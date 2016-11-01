@@ -8,8 +8,7 @@
 # Created on 2016-05-21
 #
 
-"""
-I Sheet You Not. Search Excel data in Alfred 3.
+"""I Sheet You Not. Search Excel data in Alfred 3.
 
 Pass this script the path to an Excel file via the -p option or the
 DOC_PATH environment variable.
@@ -30,7 +29,7 @@ import time
 
 from .aw3 import av, human_time, log, make_item
 
-version = '0.1.2'
+version = '0.2'
 
 # Fallback/default values
 BUNDLE_ID = 'net.deanishe.alfred-i-sheet-you-not'

@@ -8,8 +8,7 @@
 # Created on 2016-05-21
 #
 
-"""
-I Sheet You Not. Search Excel data in Alfred 3.
+"""I Sheet You Not. Search Excel data in Alfred 3.
 
 Pass this script the path to an Excel file via the -p option or the
 DOC_PATH environment variable.
@@ -95,7 +94,7 @@ def parse_args():
                    default=os.getenv('VALUE_COL'),
                    help="Number of column to read values from. "
                    "Default is the second column after the title column. "
-                    "Set to 0 if there is no value column. "
+                   "Set to 0 if there is no value column. "
                    "Envvar: VALUE_COL")
     p.add_argument('--version', action='version', version=core.version,
                    help="Show workflow version number and exit.")

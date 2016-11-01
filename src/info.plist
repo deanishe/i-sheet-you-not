@@ -21,6 +21,8 @@
 				<false/>
 			</dict>
 		</array>
+		<key>041CD015-F665-46EB-A78C-C5D455AC813A</key>
+		<array/>
 		<key>29259774-1638-463E-AC06-9F8AAEA6B941</key>
 		<array>
 			<dict>
@@ -152,7 +154,7 @@
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>02047F98-AA9D-466C-BFE5-8ECA33C9AF48</string>
+				<string>6FC91D20-6F28-40E4-838E-4353FC68714E</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -198,6 +200,64 @@
 	<string>I Sheet You Not (Dev)</string>
 	<key>objects</key>
 	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<true/>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>isyndemo names</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>1</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Searching your file…</string>
+				<key>script</key>
+				<string># Just run program
+./isyn
+</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Basic example using the default settings</string>
+				<key>title</key>
+				<string>[DEMO] I Sheet You Not: Random Names</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>B07CB6F1-53EE-4C79-8840-B295710C86A8</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>largetypetext</key>
+				<string>{query}</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.largetype</string>
+			<key>uid</key>
+			<string>559771CB-6C93-48AE-B309-C2377C2A6F7E</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
@@ -278,97 +338,6 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>concurrently</key>
-				<false/>
-				<key>escaping</key>
-				<integer>102</integer>
-				<key>script</key>
-				<string>destdir="${alfred_workflow_cache}"
-title="$1"
-
-
-log() {
-	echo "$@" &gt;&amp;2
-}
-
-
-log "Building workflow \"${title}\" in ${destdir} ..."
-./buildme -ofr -n "${title}" -d "${destdir}"</string>
-				<key>scriptargtype</key>
-				<integer>1</integer>
-				<key>scriptfile</key>
-				<string></string>
-				<key>type</key>
-				<integer>0</integer>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.action.script</string>
-			<key>uid</key>
-			<string>02047F98-AA9D-466C-BFE5-8ECA33C9AF48</string>
-			<key>version</key>
-			<integer>2</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>argumenttype</key>
-				<integer>0</integer>
-				<key>keyword</key>
-				<string>isyn</string>
-				<key>subtext</key>
-				<string>Enter a title for your workflow and hit ↩</string>
-				<key>text</key>
-				<string>I Sheet You Not: Create a new workflow</string>
-				<key>withspace</key>
-				<true/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.input.keyword</string>
-			<key>uid</key>
-			<string>D68999C3-7184-428B-9DFA-386F6517EDAC</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>concurrently</key>
-				<false/>
-				<key>escaping</key>
-				<integer>102</integer>
-				<key>script</key>
-				<string>destdir="${alfred_workflow_cache}"
-docpath="${xlspath}"
-title="$1"
-
-
-log() {
-	echo "$@" &gt;&amp;2
-}
-
-# Change DOC_PATH
-test -z "${xlspath}" || export DOC_PATH="${xlspath}"
-
-
-log "Building workflow \"${title}\" in ${destdir} ..."
-./buildme -ofr -n "${title}" -d "${destdir}"</string>
-				<key>scriptargtype</key>
-				<integer>1</integer>
-				<key>scriptfile</key>
-				<string></string>
-				<key>type</key>
-				<integer>0</integer>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.action.script</string>
-			<key>uid</key>
-			<string>6FC91D20-6F28-40E4-838E-4353FC68714E</string>
-			<key>version</key>
-			<integer>2</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
 				<key>argumenttype</key>
 				<integer>0</integer>
 				<key>subtext</key>
@@ -400,6 +369,63 @@ log "Building workflow \"${title}\" in ${destdir} ..."
 			<string>alfred.workflow.utility.argument</string>
 			<key>uid</key>
 			<string>99EB2F55-72A7-4649-85FA-DAF514ADB356</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>destdir="${alfred_workflow_cache}"
+title="$1"
+
+
+log() {
+	echo "$@" &gt;&amp;2
+}
+
+# Change DOC_PATH
+test -z "${xlspath}" || export DOC_PATH="${xlspath}"
+
+
+log "Building workflow \"${title}\" in ${destdir} ..."
+./buildme -cfor -n "${title}" -d "${destdir}"</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>6FC91D20-6F28-40E4-838E-4353FC68714E</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>keyword</key>
+				<string>isyn</string>
+				<key>subtext</key>
+				<string>Enter a title for your workflow and hit ↩</string>
+				<key>text</key>
+				<string>I Sheet You Not: Create a new workflow</string>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>D68999C3-7184-428B-9DFA-386F6517EDAC</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
@@ -467,83 +493,6 @@ export SHEET=Websites
 			<string>alfred.workflow.input.scriptfilter</string>
 			<key>uid</key>
 			<string>C943DCE4-D71D-4A08-AFA1-9FCD97C7B545</string>
-			<key>version</key>
-			<integer>2</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>alfredfiltersresults</key>
-				<true/>
-				<key>argumenttype</key>
-				<integer>1</integer>
-				<key>escaping</key>
-				<integer>102</integer>
-				<key>keyword</key>
-				<string>isyndemo names</string>
-				<key>queuedelaycustom</key>
-				<integer>3</integer>
-				<key>queuedelayimmediatelyinitially</key>
-				<true/>
-				<key>queuedelaymode</key>
-				<integer>1</integer>
-				<key>queuemode</key>
-				<integer>1</integer>
-				<key>runningsubtext</key>
-				<string>Searching your file…</string>
-				<key>script</key>
-				<string># Just run program
-./isyn
-</string>
-				<key>scriptargtype</key>
-				<integer>1</integer>
-				<key>scriptfile</key>
-				<string></string>
-				<key>subtext</key>
-				<string>Basic example using the default settings</string>
-				<key>title</key>
-				<string>[DEMO] I Sheet You Not: Random Names</string>
-				<key>type</key>
-				<integer>0</integer>
-				<key>withspace</key>
-				<true/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.input.scriptfilter</string>
-			<key>uid</key>
-			<string>B07CB6F1-53EE-4C79-8840-B295710C86A8</string>
-			<key>version</key>
-			<integer>2</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>browser</key>
-				<string></string>
-				<key>spaces</key>
-				<string></string>
-				<key>url</key>
-				<string>{query}</string>
-				<key>utf8</key>
-				<true/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.action.openurl</string>
-			<key>uid</key>
-			<string>91F3758B-09E9-42DD-AE6C-0D593A625B64</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>largetypetext</key>
-				<string>{query}</string>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.output.largetype</string>
-			<key>uid</key>
-			<string>559771CB-6C93-48AE-B309-C2377C2A6F7E</string>
 			<key>version</key>
 			<integer>2</integer>
 		</dict>
@@ -646,6 +595,25 @@ export VAR_profile_url=9
 			<string>EBA6947F-3DEB-46E2-BA49-1B346C041C9D</string>
 			<key>version</key>
 			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>browser</key>
+				<string></string>
+				<key>spaces</key>
+				<string></string>
+				<key>url</key>
+				<string>{query}</string>
+				<key>utf8</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>91F3758B-09E9-42DD-AE6C-0D593A625B64</string>
+			<key>version</key>
+			<integer>1</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -815,7 +783,18 @@ export VAR_country=1
 	<string>I Sheet You Not
 ===============
 
-This workflow is a template. For each Excel search, you should make a copy of this workflow, and configure it for that file.</string>
+This workflow is a template/workflow generator.
+
+Red elements are the generator elements. Use the `isyn` command to create new copies of the workflow tied to a specific Excel file.
+
+You should not have more than one copy of the workflow containing Red elements, or you will see duplicate entries in Alfred (although everything should still work correctly)
+
+If you duplicate the workflow "by hand", be sure to delete the red elements from all but one copy.
+
+
+Green elements are demos, showing how I Sheet You Not works.
+
+When you create a new workflow, you can adapt one of the demos to your requirements and delete the rest, or just delete the lot of them and start from scratch.</string>
 	<key>uidata</key>
 	<dict>
 		<key>01FDAE7B-7189-488D-BF30-F05BDD1A8E1E</key>
@@ -825,36 +804,27 @@ This workflow is a template. For each Excel search, you should make a copy of th
 			<key>note</key>
 			<string>Create a new workflow from an Excel file.</string>
 			<key>xpos</key>
-			<integer>340</integer>
+			<integer>410</integer>
 			<key>ypos</key>
-			<integer>190</integer>
-		</dict>
-		<key>02047F98-AA9D-466C-BFE5-8ECA33C9AF48</key>
-		<dict>
-			<key>colorindex</key>
-			<integer>1</integer>
-			<key>xpos</key>
-			<integer>180</integer>
-			<key>ypos</key>
-			<integer>30</integer>
+			<integer>200</integer>
 		</dict>
 		<key>041CD015-F665-46EB-A78C-C5D455AC813A</key>
 		<dict>
 			<key>colorindex</key>
 			<integer>5</integer>
 			<key>xpos</key>
-			<integer>340</integer>
+			<integer>350</integer>
 			<key>ypos</key>
-			<integer>690</integer>
+			<integer>360</integer>
 		</dict>
 		<key>29259774-1638-463E-AC06-9F8AAEA6B941</key>
 		<dict>
 			<key>colorindex</key>
 			<integer>1</integer>
 			<key>xpos</key>
-			<integer>610</integer>
+			<integer>820</integer>
 			<key>ypos</key>
-			<integer>120</integer>
+			<integer>40</integer>
 		</dict>
 		<key>2BAB25FE-CD9C-4E59-83BA-41C722A15056</key>
 		<dict>
@@ -865,9 +835,9 @@ This workflow is a template. For each Excel search, you should make a copy of th
 
 These are passed as variables to following workflow actions. "VAR_thing" becomes the Alfred variable "thing".</string>
 			<key>xpos</key>
-			<integer>30</integer>
+			<integer>40</integer>
 			<key>ypos</key>
-			<integer>960</integer>
+			<integer>650</integer>
 		</dict>
 		<key>3DABB6CA-310B-4696-B4B7-B72692AEA326</key>
 		<dict>
@@ -876,18 +846,18 @@ These are passed as variables to following workflow actions. "VAR_thing" becomes
 			<key>note</key>
 			<string>Search for an Excel file to create a workflow for.</string>
 			<key>xpos</key>
-			<integer>340</integer>
+			<integer>410</integer>
 			<key>ypos</key>
-			<integer>30</integer>
+			<integer>40</integer>
 		</dict>
 		<key>559771CB-6C93-48AE-B309-C2377C2A6F7E</key>
 		<dict>
 			<key>colorindex</key>
 			<integer>5</integer>
 			<key>xpos</key>
-			<integer>190</integer>
+			<integer>200</integer>
 			<key>ypos</key>
-			<integer>380</integer>
+			<integer>30</integer>
 		</dict>
 		<key>6366A2B2-267B-41E7-A463-465164C5DC5D</key>
 		<dict>
@@ -896,18 +866,20 @@ These are passed as variables to following workflow actions. "VAR_thing" becomes
 			<key>note</key>
 			<string>Format region variable</string>
 			<key>xpos</key>
-			<integer>230</integer>
+			<integer>240</integer>
 			<key>ypos</key>
-			<integer>990</integer>
+			<integer>680</integer>
 		</dict>
 		<key>6FC91D20-6F28-40E4-838E-4353FC68714E</key>
 		<dict>
 			<key>colorindex</key>
 			<integer>1</integer>
+			<key>note</key>
+			<string>Build new copy of the workflow without red elements</string>
 			<key>xpos</key>
-			<integer>770</integer>
+			<integer>1050</integer>
 			<key>ypos</key>
-			<integer>120</integer>
+			<integer>100</integer>
 		</dict>
 		<key>7B6C95D4-84A8-418C-8C70-0828F5C9150E</key>
 		<dict>
@@ -916,9 +888,9 @@ These are passed as variables to following workflow actions. "VAR_thing" becomes
 			<key>note</key>
 			<string>Semi-pretty print various statistics about the selected country.</string>
 			<key>xpos</key>
-			<integer>550</integer>
+			<integer>560</integer>
 			<key>ypos</key>
-			<integer>960</integer>
+			<integer>650</integer>
 		</dict>
 		<key>7EE115A7-3299-438E-BC8D-90FB03759830</key>
 		<dict>
@@ -927,9 +899,9 @@ These are passed as variables to following workflow actions. "VAR_thing" becomes
 			<key>note</key>
 			<string>Pass "country" to Google Maps</string>
 			<key>xpos</key>
-			<integer>230</integer>
+			<integer>240</integer>
 			<key>ypos</key>
-			<integer>1130</integer>
+			<integer>820</integer>
 		</dict>
 		<key>8D21DE55-F8E2-4D93-92B5-D4CB30B0BDA3</key>
 		<dict>
@@ -938,36 +910,38 @@ These are passed as variables to following workflow actions. "VAR_thing" becomes
 			<key>note</key>
 			<string>Camel Case</string>
 			<key>xpos</key>
-			<integer>340</integer>
+			<integer>350</integer>
 			<key>ypos</key>
-			<integer>990</integer>
+			<integer>680</integer>
 		</dict>
 		<key>91F3758B-09E9-42DD-AE6C-0D593A625B64</key>
 		<dict>
 			<key>colorindex</key>
 			<integer>5</integer>
 			<key>xpos</key>
-			<integer>500</integer>
+			<integer>670</integer>
 			<key>ypos</key>
-			<integer>380</integer>
+			<integer>360</integer>
 		</dict>
 		<key>99EB2F55-72A7-4649-85FA-DAF514ADB356</key>
 		<dict>
 			<key>colorindex</key>
 			<integer>1</integer>
+			<key>note</key>
+			<string>Set Excel file path from {query}</string>
 			<key>xpos</key>
-			<integer>540</integer>
+			<integer>690</integer>
 			<key>ypos</key>
-			<integer>150</integer>
+			<integer>70</integer>
 		</dict>
 		<key>9C55187A-DB7F-46B0-9A7C-A1E83138B3B8</key>
 		<dict>
 			<key>colorindex</key>
 			<integer>5</integer>
 			<key>xpos</key>
-			<integer>320</integer>
+			<integer>330</integer>
 			<key>ypos</key>
-			<integer>1100</integer>
+			<integer>790</integer>
 		</dict>
 		<key>B07CB6F1-53EE-4C79-8840-B295710C86A8</key>
 		<dict>
@@ -978,9 +952,9 @@ These are passed as variables to following workflow actions. "VAR_thing" becomes
 
 The path to the file is set in the workflow's Configuration Sheet, and unless told otherwise, the workflow reads the first three columns of the first worksheet.</string>
 			<key>xpos</key>
-			<integer>30</integer>
+			<integer>40</integer>
 			<key>ypos</key>
-			<integer>380</integer>
+			<integer>30</integer>
 		</dict>
 		<key>C943DCE4-D71D-4A08-AFA1-9FCD97C7B545</key>
 		<dict>
@@ -991,9 +965,9 @@ The path to the file is set in the workflow's Configuration Sheet, and unless to
 
 It also specifies the sheet and columns to load data from.</string>
 			<key>xpos</key>
-			<integer>340</integer>
+			<integer>510</integer>
 			<key>ypos</key>
-			<integer>380</integer>
+			<integer>360</integer>
 		</dict>
 		<key>D68999C3-7184-428B-9DFA-386F6517EDAC</key>
 		<dict>
@@ -1002,9 +976,9 @@ It also specifies the sheet and columns to load data from.</string>
 			<key>note</key>
 			<string>This action creates a new copy of this workflow with the name you specify and adds it to Alfred.</string>
 			<key>xpos</key>
-			<integer>30</integer>
+			<integer>820</integer>
 			<key>ypos</key>
-			<integer>30</integer>
+			<integer>170</integer>
 		</dict>
 		<key>E12017AE-394B-42E2-A233-F565495FB7B7</key>
 		<dict>
@@ -1015,9 +989,9 @@ It also specifies the sheet and columns to load data from.</string>
 
 It also loads quite a lot of data (~7500 cells).</string>
 			<key>xpos</key>
-			<integer>190</integer>
+			<integer>200</integer>
 			<key>ypos</key>
-			<integer>690</integer>
+			<integer>360</integer>
 		</dict>
 		<key>EBA6947F-3DEB-46E2-BA49-1B346C041C9D</key>
 		<dict>
@@ -1028,9 +1002,9 @@ It also loads quite a lot of data (~7500 cells).</string>
 
 It specifies no value, so you can't action results.</string>
 			<key>xpos</key>
-			<integer>30</integer>
+			<integer>40</integer>
 			<key>ypos</key>
-			<integer>690</integer>
+			<integer>360</integer>
 		</dict>
 		<key>FCBFFEDA-FD26-4BD1-9C0B-0CA0AEBCB4CD</key>
 		<dict>
@@ -1039,9 +1013,9 @@ It specifies no value, so you can't action results.</string>
 			<key>note</key>
 			<string>Set region to edited value</string>
 			<key>xpos</key>
-			<integer>450</integer>
+			<integer>460</integer>
 			<key>ypos</key>
-			<integer>990</integer>
+			<integer>680</integer>
 		</dict>
 	</dict>
 	<key>variables</key>
@@ -1066,8 +1040,8 @@ It specifies no value, so you can't action results.</string>
 		<string>DEV</string>
 	</array>
 	<key>version</key>
-	<string>0.1.2</string>
+	<string>0.2</string>
 	<key>webaddress</key>
-	<string>http://www.deanishe.net</string>
+	<string>https://github.com/deanishe/i-sheet-you-not</string>
 </dict>
 </plist>

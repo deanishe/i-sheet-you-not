@@ -17,6 +17,17 @@ bundleid="net.deanishe.alfred-i-sheet-you-not"
 # Variables to delete from info.plist
 unexported=(DEV)
 
+# Clean the workflow (remove red generator elements)
+clean=0
+
+# Generator elements. Remove these from copied workflows
+genelems=(3DABB6CA-310B-4696-B4B7-B72692AEA326)  # isyn File Filter
+genelems+=(D68999C3-7184-428B-9DFA-386F6517EDAC) # isyn Script Filter
+genelems+=(01FDAE7B-7189-488D-BF30-F05BDD1A8E1E) # Excel File Action
+genelems+=(6FC91D20-6F28-40E4-838E-4353FC68714E) # Generator Run Script
+genelems+=(99EB2F55-72A7-4649-85FA-DAF514ADB356) # Args & Vars utility
+genelems+=(29259774-1638-463E-AC06-9F8AAEA6B941) # Workflow title Keyword
+
 # Path to this script's directory (i.e. the workflow root)
 here="$( cd "$( dirname "$0" )"; pwd )"
 
@@ -59,7 +70,7 @@ log() {
 # Help message
 usage() {
   cat <<EOS
-buildme [-b <ID>] [-d <DIR>] [-f] [-n <NAME>] [-o] [-r]
+buildme [-b <ID>] [-c] [-d <DIR>] [-f] [-n <NAME>] [-o] [-r]
 
 Build the .alfredworkflow file for this workflow.
 
@@ -69,6 +80,7 @@ Usage:
 
 Options:
     -b <ID>     Specify a bundle ID instead of the default.
+    -c          Clean the workflow (i.e. remove red generator elements)
     -d <DIR>    Directory to save .alfredworkflow file in.
     -n <NAME>   The name of the workflow, e.g. "Bob's Cool Workflow"
     -r          Generate a random bundle ID.
@@ -108,6 +120,74 @@ plbCmd() {
   }
 }
 
+# keyset <key> | Check if a key exists in info.plist
+keyset() {
+  local n="$1"
+  /usr/libexec/PlistBuddy -c "Print :${n}" info.plist &> /dev/null
+  return $?
+}
+
+# varset <varname> | Check if a variable exits in info.plist
+varset() {
+  local n="$1"
+  keyset "variables:${n}"
+  return $?
+}
+
+# setkey <key> <value> | Set a value in info.plist
+setkey() {
+  local n="$1"
+  local v="$2"
+  plbCmd "Set :${n} \"${v}\""
+}
+
+# getkey <key> | Get value from info.plist
+getkey() {
+  local n="$1"
+  plbCmd "Print :${n}" info.plist
+}
+
+# delkey <key> | Remove a value from info.plist
+delkey() {
+  local n="$1"
+  keyset "$n" && plbCmd "Delete :${n}" &> /dev/null
+}
+
+# setvar <varname> <value> | Set a variable in info.plist
+setvar() {
+  local n="$1"
+  local v="$2"
+  setkey "variables:${n}" "$v"
+}
+
+# delvar <varname> | Remove a variable from info.plist
+delvar() {
+  local n="$1"
+  delkey "variables:${n}"
+}
+
+# objexists <index> | Check if specified object exists in info.plist
+# objexists() {
+#   local i=$1
+#   keyset "objects:${i}"
+#   return $?
+# }
+
+# objindex <uid> | Return the index of workflow object with specified UID.
+objindex() {
+  local n="$1"
+  local cont=true
+  local i=0
+  while $cont; do
+    keyset "objects:${i}" || cont=false
+    local uid=$( getkey ":objects:${i}:uid" )
+    [[ "$uid" == "$n" ]] && {
+      echo "$i"
+      cont=false
+    }
+    i=$((i + 1))
+  done
+}
 
 # dP                oo dP       dP
 # 88                   88       88
@@ -154,15 +234,28 @@ build() {
 
   log "Cleaning info.plist ..."
 
-  plbCmd "Set :bundleid ${bundleid}"
+  setkey bundleid "$bundleid"
+  # plbCmd "Set :bundleid ${bundleid}"
   log "Set bundle ID: ${bundleid}"
-  plbCmd "Set :name ${name}"
+  setkey name "$name"
+  # plbCmd "Set :name ${name}"
   log "Set workflow name: ${name}"
-  plbCmd "Set :variables:DOC_PATH \"${DOC_PATH}\""
+  setvar "DOC_PATH" "$DOC_PATH"
+  # plbCmd "Set :variables:DOC_PATH \"${DOC_PATH}\""
   log "Set DOC_PATH: ${DOC_PATH}"
   for v in $unexported; do
-    plbCmd "Delete :variables:${v}"
+    delvar "$v"
   done
+  [[ $clean -eq 1 ]] && {
+    for v in $genelems; do
+      log "Removing object $v ..."
+      local i=$(objindex $v)
+      [[ -n "$i" ]] && {
+        log "index : $i"
+        delkey "objects:${i}"
+      }
+    done
+  }
   # plbCmd 'Print :variables'
   # plbCmd 'Print :bundleid'
 
@@ -206,10 +299,13 @@ build() {
 # 88.  ... 88 88
 # `88888P' dP dP
 
-while getopts ":b:d:fhn:or" opt; do
+while getopts ":b:cd:fhn:or" opt; do
   case $opt in
     b)
       bundleid="$OPTARG"
+      ;;
+    c)
+      clean=1
       ;;
     d)
       dest="$OPTARG"
