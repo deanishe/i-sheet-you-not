@@ -175,6 +175,16 @@
 				<key>vitoclose</key>
 				<false/>
 			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>37312C2F-3883-4E1D-B0ED-10B49249D931</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
 		</array>
 		<key>FCBFFEDA-FD26-4BD1-9C0B-0CA0AEBCB4CD</key>
 		<array>
@@ -637,6 +647,24 @@ export VAR_profile_url=9
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>argument</key>
+				<string>query={query}
+vars={allvars}</string>
+				<key>cleardebuggertext</key>
+				<false/>
+				<key>processoutputs</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.debug</string>
+			<key>uid</key>
+			<string>37312C2F-3883-4E1D-B0ED-10B49249D931</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>largetypetext</key>
 				<string>{var:country} is in {var:region}
 
@@ -813,9 +841,9 @@ When you create a new workflow, you can adapt one of the demos to your requireme
 			<key>colorindex</key>
 			<integer>5</integer>
 			<key>xpos</key>
-			<integer>350</integer>
+			<integer>720</integer>
 			<key>ypos</key>
-			<integer>360</integer>
+			<integer>370</integer>
 		</dict>
 		<key>29259774-1638-463E-AC06-9F8AAEA6B941</key>
 		<dict>
@@ -838,6 +866,17 @@ These are passed as variables to following workflow actions. "VAR_thing" becomes
 			<integer>40</integer>
 			<key>ypos</key>
 			<integer>650</integer>
+		</dict>
+		<key>37312C2F-3883-4E1D-B0ED-10B49249D931</key>
+		<dict>
+			<key>colorindex</key>
+			<integer>5</integer>
+			<key>note</key>
+			<string>Show variables set by ISYN from data extracted from Excel sheet</string>
+			<key>xpos</key>
+			<integer>750</integer>
+			<key>ypos</key>
+			<integer>510</integer>
 		</dict>
 		<key>3DABB6CA-310B-4696-B4B7-B72692AEA326</key>
 		<dict>
@@ -919,9 +958,9 @@ These are passed as variables to following workflow actions. "VAR_thing" becomes
 			<key>colorindex</key>
 			<integer>5</integer>
 			<key>xpos</key>
-			<integer>670</integer>
+			<integer>370</integer>
 			<key>ypos</key>
-			<integer>360</integer>
+			<integer>370</integer>
 		</dict>
 		<key>99EB2F55-72A7-4649-85FA-DAF514ADB356</key>
 		<dict>
@@ -965,9 +1004,9 @@ The path to the file is set in the workflow's Configuration Sheet, and unless to
 
 It also specifies the sheet and columns to load data from.</string>
 			<key>xpos</key>
-			<integer>510</integer>
+			<integer>210</integer>
 			<key>ypos</key>
-			<integer>360</integer>
+			<integer>370</integer>
 		</dict>
 		<key>D68999C3-7184-428B-9DFA-386F6517EDAC</key>
 		<dict>
@@ -989,9 +1028,9 @@ It also specifies the sheet and columns to load data from.</string>
 
 It also loads quite a lot of data (~7500 cells).</string>
 			<key>xpos</key>
-			<integer>200</integer>
+			<integer>520</integer>
 			<key>ypos</key>
-			<integer>360</integer>
+			<integer>370</integer>
 		</dict>
 		<key>EBA6947F-3DEB-46E2-BA49-1B346C041C9D</key>
 		<dict>
@@ -1004,7 +1043,7 @@ It specifies no value, so you can't action results.</string>
 			<key>xpos</key>
 			<integer>40</integer>
 			<key>ypos</key>
-			<integer>360</integer>
+			<integer>370</integer>
 		</dict>
 		<key>FCBFFEDA-FD26-4BD1-9C0B-0CA0AEBCB4CD</key>
 		<dict>
