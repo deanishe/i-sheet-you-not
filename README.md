@@ -12,18 +12,21 @@ which rows and columns the data are read from, and changes to the data are
 picked up automatically by the workflow.
 
 
-## Download and installation ##
+Download and installation
+-------------------------
 
 Download the workflow from [GitHub releases][gh-releases] and double-click
 the downloaded `I-Sheet-You-Not-X.X.X.alfredworkflow` file to install in
 Alfred.
 
-## Usage ##
+Usage
+-----
 
 See [the documentation][doc] for instructions.
 
 
-## Licencing, thanks ##
+Licencing, thanks
+-----------------
 
 This workflow is released under the [MIT licence][mit].
 
