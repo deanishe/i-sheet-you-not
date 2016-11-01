@@ -5,6 +5,11 @@
 Changelog
 =========
 
+0.2.1
+=====
+
+- Change workflow URL to point to these docs
+
 0.2.0
 =====
 
