@@ -8,8 +8,7 @@
 # Created on 2016-05-21
 #
 
-"""
-"""
+"""Lightweight Alfred 3 workflow library."""
 
 from __future__ import print_function, unicode_literals, absolute_import
 
@@ -31,6 +30,7 @@ def log(s, *args):
     Args:
         s (unicode): Message to print/format string.
         *args (object): If given, used in format string `s % args`.
+
     """
     print(s % args, file=sys.stderr)
 
@@ -43,8 +43,12 @@ def human_time(seconds):
 
     Returns:
         unicode: Human-readable duration.
+
     """
     s = seconds
+
+    if s < 5:
+        return '{:0.2f}s'.format(s)
 
     if s < 60:
         return '{:0.0f}s'.format(s)
@@ -65,10 +69,11 @@ def _find_upwards(fname):
     """Find file named `fname` in the current directory or above.
 
     Args:
-        fname (str): Filename
+        fname (unicode): Filename
 
     Returns:
-        str: Absolute path to file or `None`.
+        unicode: Absolute path to file or `None`.
+
     """
     dirpath = os.path.abspath(os.path.dirname(__file__))
     while True:
@@ -92,6 +97,7 @@ def run_command(cmd):
 
     Raises:
         CalledProcessError: Raised if command exits with non-zero status
+
     """
     from subprocess import Popen, CalledProcessError
     p = Popen(cmd)
@@ -110,6 +116,7 @@ class AttrDict(dict):
         Args:
             *args (objects): Arguments to `dict.__init__()`
             **kwargs (objects): Keyword arguments to `dict.__init__()`
+
         """
         super(AttrDict, self).__init__(*args, **kwargs)
 
@@ -124,6 +131,7 @@ class AttrDict(dict):
 
         Raises:
             AttributeError: Raised if `key` isn't in dictionary.
+
         """
         if key not in self:
             raise AttributeError(
@@ -167,6 +175,7 @@ class Feedback(object):
 
         Args:
             items (list, optional): Initial items.
+
         """
         # self.vars = {}
         # self.config = {}
@@ -181,7 +190,7 @@ class Feedback(object):
         print(str(self))
 
 
-def make_item(title, subtitle='', arg=None, icon=None, **vars):
+def make_item(title, subtitle='', arg=None, icon=None, **wfvars):
     """Create new Alfred 3 result.
 
     Args:
@@ -189,23 +198,25 @@ def make_item(title, subtitle='', arg=None, icon=None, **vars):
         subtitle (unicode, optional): Subtitle of the result.
         arg (unicode, optional): Arg (value) of the result.
         icon (unicode, optional): Path to icon for result.
-        **vars (dict): Unicode values to set as Alfred workflow variables
+        **wfvars (dict): Unicode values to set as Alfred workflow variables
             with this result.
 
     Returns:
         dict: Alfred result.
+
     """
     it = {
         'title': title,
         'subtitle': subtitle,
-        'autocomplete': title,
+        # 'autocomplete': title,
         'text': {
             'copy': title,
             'largetype': title,
-        }
+        },
+        'valid': False,
     }
 
-    if arg is not None:
+    if arg:
         it['arg'] = arg
         it['valid'] = True
         it['text'] = {
@@ -216,8 +227,9 @@ def make_item(title, subtitle='', arg=None, icon=None, **vars):
     if icon is not None:
         it['icon'] = {'path': icon}
 
-    if vars:
-        payload = {'alfredworkflow': {'arg': it.get('arg'), 'variables': vars}}
+    if wfvars:
+        payload = {'alfredworkflow': {'arg': it.get('arg'),
+                                      'variables': wfvars}}
         it['arg'] = json.dumps(payload)
 
     return it
@@ -232,6 +244,7 @@ def rescue(fn, help_url=None):
     Args:
         fn (callable): Function/method to call in try ... except block.
         help_url (unicode, optional): URL to show when an exception is caught.
+
     """
     st = time.time()
 
