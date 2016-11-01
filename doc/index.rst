@@ -52,6 +52,8 @@ workflow based on it.
 You will be asked to specify a name for your new workflow, which will
 then be created and added to Alfred.
 
+The red generator elements are removed from auto-generated workflows.
+
 You should then :ref:`configure the worksheet, first row and data columns in
 the workflow configuration sheet <configuration>` (if the defaults are
 unsuitable).
@@ -59,11 +61,6 @@ unsuitable).
 Alter one of the green demo objects in the workflow to suit your purpose (e.g.
 change the Keyword, Placeholder Title and Subtext) or add your own, then
 delete the other, unneeded objects.
-
-.. important::
-
-    Don't forget to delete the topmost red ``isyn`` Keywords and Actions
-    from your new workflow to prevent duplicates in Alfred.
 
 
 .. _configuration:
