@@ -27,14 +27,15 @@ import argparse
 import time
 import os
 
-from . import core
 from .core import (
     BUNDLE_ID,
+    HELP_URL,
     ConfigError,
     cache_data,
     cache_key,
     cached_data,
     read_data,
+    version,
 )
 from .aw3 import (
     Feedback,
@@ -63,7 +64,7 @@ def parse_args():
                    metavar='N', type=str,
                    default=os.getenv('SHEET') or '1',
                    help="Number or name of worksheet to read data from. "
-                   "Default is the first sheet in the workbook."
+                   "Default is the first sheet in the workbook. "
                    "Envvar: SHEET")
     p.add_argument('-r', '--row',
                    dest='start_row',
@@ -71,14 +72,14 @@ def parse_args():
                    default=os.getenv('START_ROW') or '1',
                    help="Number of first row to read data from. "
                    "Default is 1, i.e the first row. "
-                   "Use --row 2 to ignore a title row, for example."
+                   "Use --row 2 to ignore a title row, for example. "
                    "Envvar: START_ROW")
     p.add_argument('-t', '--title',
                    dest='title_col',
                    metavar='N', type=str,
                    default=os.getenv('TITLE_COL') or '1',
                    help="Number of column to read titles from. "
-                   "Default is the first column."
+                   "Default is the first column. "
                    "Envvar: TITLE_COL")
     p.add_argument('-s', '--subtitle',
                    dest='subtitle_col',
@@ -96,7 +97,7 @@ def parse_args():
                    "Default is the second column after the title column. "
                    "Set to 0 if there is no value column. "
                    "Envvar: VALUE_COL")
-    p.add_argument('--version', action='version', version=core.version,
+    p.add_argument('--version', action='version', version=version,
                    help="Show workflow version number and exit.")
 
     args = p.parse_args()
@@ -168,12 +169,12 @@ def main():
     t = int(o.title_col)
 
     if not o.subtitle_col:
-        s = t+1
+        s = t + 1
     else:
         s = int(o.subtitle_col)
 
     if not o.value_col:
-        v = t+2
+        v = t + 2
     else:
         v = int(o.value_col)
 
@@ -185,13 +186,16 @@ def main():
     # ---------------------------------------------------------
     # Generate and cache output
 
+    s = time.time()
     items = read_data(o.docpath, o.sheet, cols, start_row, o.variables)
     js = str(Feedback(items))
     cache_data(key, js)
     print(js)
+    d = time.time() - s
+    log('Updated cache in %s', human_time(d))
 
     return 0
 
 if __name__ == '__main__':
     from .aw3 import rescue
-    rescue(main)
+    rescue(main, HELP_URL)
