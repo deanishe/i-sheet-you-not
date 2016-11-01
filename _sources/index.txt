@@ -31,9 +31,9 @@ are picked up automatically by the workflow.
 Download and installation
 =========================
 
-Download the latest version of the workflow from `GitHub releases`_.
-Double-click the downloaded ``I-Sheet-You-Not-X.X.X.alfredworkflow`` file
-to install in Alfred 3.
+Download the latest version of the workflow from `GitHub releases`_ or
+`Packal`_. Double-click the downloaded ``I-Sheet-You-Not-X.X.X.alfredworkflow``
+file to install in Alfred 3.
 
 
 .. _usage:
@@ -191,4 +191,5 @@ Indices and tables
 .. _IconArchive.com: http://www.iconarchive.com/show/google-jfk-icons-by-carlosjj/spreadsheets-icon.html
 .. _GitHub issue: https://github.com/deanishe/i-sheet-you-not/issues
 .. _GitHub releases: https://github.com/deanishe/i-sheet-you-not/releases
-.. _Alfred forum thread: https://www.alfredforum.com/
+.. _Alfred forum thread: http://www.alfredforum.com/topic/9469-i-sheet-you-not-plug-excel-into-alfred/
+.. _Packal: http://www.packal.org/workflow/i-sheet-you-not
