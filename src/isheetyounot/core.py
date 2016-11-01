@@ -29,7 +29,7 @@ import time
 
 from .aw3 import av, human_time, log, make_item
 
-version = '0.2'
+version = '0.2.1'
 
 # Fallback/default values
 BUNDLE_ID = 'net.deanishe.alfred-i-sheet-you-not'
