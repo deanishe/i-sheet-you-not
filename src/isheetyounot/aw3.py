@@ -61,6 +61,46 @@ def human_time(seconds):
     return '{:0.0f}d{:0.0f}h{:0.0f}m'.format(d, h, m)
 
 
+def _find_upwards(fname):
+    """Find file named `fname` in the current directory or above.
+
+    Args:
+        fname (str): Filename
+
+    Returns:
+        str: Absolute path to file or `None`.
+    """
+    dirpath = os.path.abspath(os.path.dirname(__file__))
+    while True:
+        p = os.path.join(dirpath, fname)
+        if os.path.exists(p):
+            log('Found `%s` at `%s`', fname, p)
+            return p
+        if dirpath == '/':
+            return None
+        dirpath = os.path.dirname(dirpath)
+
+
+def run_command(cmd):
+    """Run command and return output.
+
+    Args:
+        cmd (sequence): Sequence or arguments to pass to `Popen`
+
+    Returns:
+        tuple: `(stdout, stderr)`
+
+    Raises:
+        CalledProcessError: Raised if command exits with non-zero status
+    """
+    from subprocess import Popen, CalledProcessError
+    p = Popen(cmd)
+    stdout, stderr = p.communicate()
+    if p.returncode != 0:
+        raise CalledProcessError(p.returncode, cmd)
+    return (stdout, stderr)
+
+
 class AttrDict(dict):
     """Dictionary whose keys are also accessible as attributes."""
 
@@ -244,9 +284,8 @@ def change_bundle_id(newid):
         newid (unicode): New bundle ID.
 
     """
-    from subprocess import check_call
-    ip = os.path.abspath(os.path.join(os.path.dirname(__file__), 'info.plist'))
+    ip = _find_upwards('info.plist')
     pbcmd = 'Set :bundleid {}'.format(newid)
     cmd = ['/usr/libexec/PlistBuddy', '-c', pbcmd, ip]
     log('cmd=%r', cmd)
-    check_call(cmd)
+    run_command(cmd)

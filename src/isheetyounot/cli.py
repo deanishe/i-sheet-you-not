@@ -144,7 +144,7 @@ def main():
     log('------------------------------')
 
     if av.get('workflow_bundleid', '') == BUNDLE_ID and not os.getenv('DEV'):
-        newid = random_bundle_id()
+        newid = random_bundle_id(BUNDLE_ID + '.')
         log('Changing bundle ID to %r ...', newid)
         change_bundle_id(newid)
         av['workflow_bundleid'] = newid
