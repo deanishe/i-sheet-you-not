@@ -99,6 +99,7 @@ If ``SUBTITLE_COL`` is unset, it defaults to the column after ``TITLE_COL``.
 
 If ``VALUE_COL`` is unset, it defaults to the second column after ``TITLE_COL``.
 
+
 .. important::
 
     All rows and columns must be specified as numbers, not letters, so
@@ -106,7 +107,9 @@ If ``VALUE_COL`` is unset, it defaults to the second column after ``TITLE_COL``.
 
     Only the title is required. If there are no data for subtitle or
     value in the spreadsheet, set ``SUBTITLE_COL`` and/or ``VALUE_COL`` to
-    ``0``.
+    ``0``. **If you do not set these to ``0`` and there are no data, the
+    workflow will crash!**
+
 
 Configuration options may also be specified as options to the ``isyn``
 command within the Script Filter:
