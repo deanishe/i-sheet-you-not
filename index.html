@@ -130,54 +130,6 @@ value in the spreadsheet, <strong>you must</strong> set <code class="docutils li
 </div>
 <p>Configuration options may also be specified as options to the <code class="docutils literal"><span class="pre">isyn</span></code>
 command within the Script Filter:</p>
-<blockquote>
-<div><p>usage: isyn [-h] [-p FILE] [-n N] [-r N] [-t N] [-s N] [-v N] [&#8211;version]</p>
-<blockquote>
-<div><table class="docutils option-list" frame="void" rules="none">
-<col class="option" />
-<col class="description" />
-<tbody valign="top">
-<tr><td class="option-group">
-<kbd><span class="option">-h</span>, <span class="option">--help</span></kbd></td>
-<td>show this help message and exit</td></tr>
-<tr><td class="option-group" colspan="2">
-<kbd><span class="option">-p <var>FILE</var></span>, <span class="option">--docpath <var>FILE</var></span></kbd></td>
-</tr>
-<tr><td>&nbsp;</td><td>Excel file to read data from. Envvar: DOC_PATH</td></tr>
-<tr><td class="option-group" colspan="2">
-<kbd><span class="option">-n <var>N</var></span>, <span class="option">--sheet <var>N</var></span></kbd></td>
-</tr>
-<tr><td>&nbsp;</td><td>Number or name of worksheet to read data from. Default
-is the first sheet in the workbook.Envvar: SHEET</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">-r <var>N</var></span>, <span class="option">--row <var>N</var></span></kbd></td>
-<td>Number of first row to read data from. Default is 1,
-i.e the first row. Use &#8211;row 2 to ignore a title row,
-for example.Envvar: START_ROW</td></tr>
-<tr><td class="option-group" colspan="2">
-<kbd><span class="option">-t <var>N</var></span>, <span class="option">--title <var>N</var></span></kbd></td>
-</tr>
-<tr><td>&nbsp;</td><td>Number of column to read titles from. Default is the
-first column.Envvar: TITLE_COL</td></tr>
-<tr><td class="option-group" colspan="2">
-<kbd><span class="option">-s <var>N</var></span>, <span class="option">--subtitle <var>N</var></span></kbd></td>
-</tr>
-<tr><td>&nbsp;</td><td>Number of column to read subtitles from. Default is
-the column after the title column. Set to 0 if there
-is no subtitle column. Envvar: SUBTITLE_COL</td></tr>
-<tr><td class="option-group" colspan="2">
-<kbd><span class="option">-v <var>N</var></span>, <span class="option">--value <var>N</var></span></kbd></td>
-</tr>
-<tr><td>&nbsp;</td><td>Number of column to read values from. Default is the
-second column after the title column. Set to 0 if
-there is no value column. Envvar: VALUE_COL</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">--version</span></kbd></td>
-<td>Show workflow version number and exit.</td></tr>
-</tbody>
-</table>
-</div></blockquote>
-</div></blockquote>
 <div class="section" id="extracting-data-to-workflow-variables">
 <span id="setting-variables"></span><h3>Extracting data to workflow variables<a class="headerlink" href="#extracting-data-to-workflow-variables" title="Permalink to this headline">¶</a></h3>
 <p>In addition to the title, subtitle and value, you can also extract

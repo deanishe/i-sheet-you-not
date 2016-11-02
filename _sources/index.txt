@@ -114,25 +114,29 @@ Configuration options may also be specified as options to the ``isyn``
 command within the Script Filter:
 
 
-    usage: isyn [-h] [-p FILE] [-n N] [-r N] [-t N] [-s N] [-v N] [--version]
+.. _code-block::
 
-      -h, --help            show this help message and exit
-      -p FILE, --docpath FILE
-                            Excel file to read data from. Envvar: DOC_PATH
-      -n N, --sheet N       Number or name of worksheet to read data from. Default
-                            is the first sheet in the workbook.Envvar: SHEET
-      -r N, --row N         Number of first row to read data from. Default is 1,
-                            i.e the first row. Use --row 2 to ignore a title row,
-                            for example.Envvar: START_ROW
-      -t N, --title N       Number of column to read titles from. Default is the
-                            first column.Envvar: TITLE_COL
-      -s N, --subtitle N    Number of column to read subtitles from. Default is
-                            the column after the title column. Set to 0 if there
-                            is no subtitle column. Envvar: SUBTITLE_COL
-      -v N, --value N       Number of column to read values from. Default is the
-                            second column after the title column. Set to 0 if
-                            there is no value column. Envvar: VALUE_COL
-      --version             Show workflow version number and exit.
+  usage: isyn [-h] [-p FILE] [-n N] [-r N] [-t N] [-s N] [-v N] [--version]
+
+  optional arguments:
+    -h, --help            show this help message and exit
+    -p FILE, --docpath FILE
+                          Excel file to read data from. Envvar: DOC_PATH
+    -n N, --sheet N       Number or name of worksheet to read data from. Default
+                          is the first sheet in the workbook. Envvar: SHEET
+    -r N, --row N         Number of first row to read data from. Default is 1,
+                          i.e the first row. Use --row 2 to ignore a title row,
+                          for example. Envvar: START_ROW
+    -t N, --title N       Number of column to read titles from. Default is the
+                          first column. Envvar: TITLE_COL
+    -s N, --subtitle N    Number of column to read subtitles from. Default is
+                          the column after the title column. Set to 0 if there
+                          is no subtitle column. Envvar: SUBTITLE_COL
+    -v N, --value N       Number of column to read values from. Default is the
+                          second column after the title column. Set to 0 if
+                          there is no value column. Envvar: VALUE_COL
+    --version             Show workflow version number and exit.
+
 
 
 .. _setting-variables:
