@@ -20,7 +20,7 @@ Create auto-updating Alfred 3 workflows from Excel worksheets.
 Overview
 ========
 
-I Sheet You Not is a workflow generator/template for `Alfred 3`_. It reads
+*I Sheet You Not* is a workflow generator/template for `Alfred 3`_. It reads
 data from an Excel workbook and displays it in Alfred. You can specify
 which rows and columns the data are read from, and changes to the data
 are picked up automatically by the workflow.
@@ -44,7 +44,7 @@ Usage
 .. tip::
 
     Check out the green demo objects in the workflow for examples of how
-    to use and configure I Sheet You Not.
+    to use and configure *I Sheet You Not*.
 
 Use the keyword ``isyn`` to search for an Excel sheet and generate a new
 workflow based on it.
@@ -70,7 +70,7 @@ Configuration
 
 .. note::
 
-    What I Sheet You Not calls the ``VALUE`` is what is typically referred to
+    What *I Sheet You Not* calls the ``VALUE`` is what is typically referred to
     as ``arg`` or ``{query}`` in Alfred workflow terminology. (``arg`` being
     its name in Alfred's JSON and XML format, and ``{query}`` being the text
     macro that Alfred replaces with the value of ``arg``). It is the value
@@ -170,7 +170,7 @@ column E (5):
 Feedback, questions, bugs, feature requests
 ===========================================
 
-If you have feedback or questions regarding I Sheet You Not, please post
+If you have feedback or questions regarding *I Sheet You Not*, please post
 them in the `Alfred forum thread`_.
 
 If you have a bug report or feature request, please create a new
@@ -182,7 +182,7 @@ If you have a bug report or feature request, please create a new
 Licensing and thanks
 ====================
 
-I Sheet You Not is released under the MIT License. It is based on the
+*I Sheet You Not* is released under the MIT License. It is based on the
 `xlrd library for Python`_, released under a `BSD-style licence`_.
 
 The workflow icon was created by carlosjj from `IconArchive.com`_.
