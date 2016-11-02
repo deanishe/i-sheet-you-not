@@ -106,11 +106,8 @@ If ``VALUE_COL`` is unset, it defaults to the second column after ``TITLE_COL``.
     set ``TITLE_COL`` to ``1`` for column A, ``2`` for column B etc.
 
     Only the title is required. If there are no data for subtitle or
-    value in the spreadsheet, set ``SUBTITLE_COL`` and/or ``VALUE_COL`` to
-    ``0``.
-
-    **If you do not set these to 0 and there are no data, the
-    workflow will crash!**
+    value in the spreadsheet, **you must** set ``SUBTITLE_COL`` and/or
+    ``VALUE_COL`` to ``0`` **or the workflow will crash!**
 
 
 Configuration options may also be specified as options to the ``isyn``
