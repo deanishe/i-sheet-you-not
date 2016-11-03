@@ -99,10 +99,11 @@ def run_command(cmd):
         CalledProcessError: Raised if command exits with non-zero status
 
     """
-    from subprocess import Popen, CalledProcessError
-    p = Popen(cmd)
+    from subprocess import Popen, CalledProcessError, PIPE
+    p = Popen(cmd, stdout=PIPE, stderr=PIPE)
     stdout, stderr = p.communicate()
     if p.returncode != 0:
+        log('stdout=%r\stderr=%r', stdout, stderr)
         raise CalledProcessError(p.returncode, cmd)
     return (stdout, stderr)
 
