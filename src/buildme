@@ -1,350 +1,342 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env python
+# encoding: utf-8
+#
+# Copyright (c) 2016 Dean Jackson <deanishe@deanishe.net>
+#
+# MIT Licence. See http://opensource.org/licenses/MIT
+#
+# Created on 2016-11-02
+#
+
+"""
+Build the .alfredworkflow file for this workflow.
+"""
+
+from __future__ import print_function, absolute_import
+
+import argparse
+from contextlib import contextmanager
+import os
+from plistlib import readPlist, writePlist
+from shutil import rmtree
+from subprocess import Popen, check_call, PIPE, STDOUT, CalledProcessError
+import sys
+from uuid import uuid4
 
 
-#                            .8888b oo
-#                            88   "
-# .d8888b. .d8888b. 88d888b. 88aaa  dP .d8888b.
-# 88'  `"" 88'  `88 88'  `88 88     88 88'  `88
-# 88.  ... 88.  .88 88    88 88     88 88.  .88
-# `88888P' `88888P' dP    dP dP     dP `8888P88
-#                                           .88
-#                                       d8888P
+WF_NAME = 'I Sheet You Not'
+BUNDLE_ID = 'net.deanishe.alfred-i-sheet-you-not'
 
-# Default values
-name="I Sheet You Not"
-bundleid="net.deanishe.alfred-i-sheet-you-not"
-
-# Variables to delete from info.plist
-unexported=(DEV)
-
-# Clean the workflow (remove red generator elements)
-clean=0
+UNEXPORTED_VARS = ['DEV']
 
 # Generator elements. Remove these from copied workflows
-genelems=(3DABB6CA-310B-4696-B4B7-B72692AEA326)  # isyn File Filter
-genelems+=(D68999C3-7184-428B-9DFA-386F6517EDAC) # isyn Script Filter
-genelems+=(01FDAE7B-7189-488D-BF30-F05BDD1A8E1E) # Excel File Action
-genelems+=(6FC91D20-6F28-40E4-838E-4353FC68714E) # Generator Run Script
-genelems+=(99EB2F55-72A7-4649-85FA-DAF514ADB356) # Args & Vars utility
-genelems+=(29259774-1638-463E-AC06-9F8AAEA6B941) # Workflow title Keyword
+GENERATOR_ELEMS = [
+    '3DABB6CA-310B-4696-B4B7-B72692AEA326',  # isyn File Filter
+    'D68999C3-7184-428B-9DFA-386F6517EDAC',  # isyn Script Filter
+    '01FDAE7B-7189-488D-BF30-F05BDD1A8E1E',  # Excel File Action
+    '6FC91D20-6F28-40E4-838E-4353FC68714E',  # Generator Run Script
+    '99EB2F55-72A7-4649-85FA-DAF514ADB356',  # Args & Vars utility
+    '29259774-1638-463E-AC06-9F8AAEA6B941',  # Workflow title Keyword
+]
 
-# Path to this script's directory (i.e. the workflow root)
-here="$( cd "$( dirname "$0" )"; pwd )"
+# Rsync excludes for building
+BUILD_EXCLUSIONS = [
+    '.DS_Store',
+    '*.pyc',
+    'xlrd/doc',
+    'xlrd/examples',
+    '*.dist-info',
+    '~$*.xlsx',
+]
 
-# Where the .alfredworkflow file will be saved
-dest="$( pwd )"
-
-# Temporary directory to build in. Deleted afterwards.
-builddir="$( mktemp -d )"
-
-# Current workflow version
-version=$( "${here}/isyn" --version 2>&1 )
-
-# Filename of generated workflow file
-fname="I-Sheet-You-Not-${version}.alfredworkflow"
-
-# Path of generated workflow file
-wfpath="${dest}/${fname}"
-
-# Overwrite existing .alfredworkflow file
-force=0
-
-# Open the generated file in Alfred afterwards
-open_after=0
+HERE = os.path.dirname(__file__)
 
 
-# dP                dP
-# 88                88
-# 88d888b. .d8888b. 88 88d888b. .d8888b. 88d888b. .d8888b.
-# 88'  `88 88ooood8 88 88'  `88 88ooood8 88'  `88 Y8ooooo.
-# 88    88 88.  ... 88 88.  .88 88.  ... 88             88
-# dP    dP `88888P' dP 88Y888P' `88888P' dP       `88888P'
-#                      88
-#                      dP
-
-# Print args to STDERR
-log() {
-  echo "$@" >&2
-}
-
-# Help message
-usage() {
-  cat <<EOS
-buildme [-b <ID>] [-c] [-d <DIR>] [-f] [-n <NAME>] [-o] [-r]
-
-Build the .alfredworkflow file for this workflow.
-
-Usage:
-    buildme [-b <ID>] [-d <DIR>] [-f] [-n <NAME>] [-o] [-r]
-    buildme -h
-
-Options:
-    -b <ID>     Specify a bundle ID instead of the default.
-    -c          Clean the workflow (i.e. remove red generator elements)
-    -d <DIR>    Directory to save .alfredworkflow file in.
-    -n <NAME>   The name of the workflow, e.g. "Bob's Cool Workflow"
-    -r          Generate a random bundle ID.
-    -f          Overwrite any existing file.
-    -o          Open in Alfred after a successful build.
-    -h          Show this message and exit.
-EOS
-}
-
-# Generate a random bundle ID prefixed with the "proper" one
-random_bundleid() {
-  local pre='net.deanishe.alfred-i-sheet-you-not'
-  # http://stackoverflow.com/a/19556743
-  local s="$( base64 </dev/urandom | tr -dc 'a-zA-Z0-9' | head -c40 )"
-  echo "${pre}.${s}"
-}
-
-# Delete build directory and (optionally) a file passed as $1
-tidyup() {
-  local p="$1"
-  log "Deleting build directory ..."
-  rm -rf "$builddir"
-  [[ -f "$p" ]] && {
-      log "Deleting workflow file ..."
-      rm -f "$p"
-  }
-}
-
-# Run a PlistBuddy command and exit the script if it fails
-plbCmd() {
-  local c="$1"
-  /usr/libexec/PlistBuddy -c "$c" info.plist
-  [[ $? -ne 0 ]] && {
-    tidyup
-    log "Error updating info.plist"
-    exit 1
-  }
-}
-
-# keyset <key> | Check if a key exists in info.plist
-keyset() {
-  local n="$1"
-  /usr/libexec/PlistBuddy -c "Print :${n}" info.plist &> /dev/null
-  return $?
-}
-
-# varset <varname> | Check if a variable exits in info.plist
-varset() {
-  local n="$1"
-  keyset "variables:${n}"
-  return $?
-}
-
-# setkey <key> <value> | Set a value in info.plist
-setkey() {
-  local n="$1"
-  local v="$2"
-  plbCmd "Set :${n} \"${v}\""
-}
-
-# getkey <key> | Get value from info.plist
-getkey() {
-  local n="$1"
-  plbCmd "Print :${n}" info.plist
-}
-
-# delkey <key> | Remove a value from info.plist
-delkey() {
-  local n="$1"
-  keyset "$n" && plbCmd "Delete :${n}" &> /dev/null
-}
-
-# setvar <varname> <value> | Set a variable in info.plist
-setvar() {
-  local n="$1"
-  local v="$2"
-  setkey "variables:${n}" "$v"
-}
-
-# delvar <varname> | Remove a variable from info.plist
-delvar() {
-  local n="$1"
-  delkey "variables:${n}"
-}
-
-# objexists <index> | Check if specified object exists in info.plist
-# objexists() {
-#   local i=$1
-#   keyset "objects:${i}"
-#   return $?
-# }
-
-# objindex <uid> | Return the index of workflow object with specified UID.
-objindex() {
-  local n="$1"
-  local cont=true
-  local i=0
-  while $cont; do
-    keyset "objects:${i}" || cont=false
-    local uid=$( getkey ":objects:${i}:uid" )
-    [[ "$uid" == "$n" ]] && {
-      echo "$i"
-      cont=false
-    }
-    i=$((i + 1))
-  done
-}
-
-# dP                oo dP       dP
-# 88                   88       88
-# 88d888b. dP    dP dP 88 .d888b88
-# 88'  `88 88    88 88 88 88'  `88
-# 88.  .88 88.  .88 88 88 88.  .88
-# 88Y8888' `88888P' dP dP `88888P8
-
-# Build the workflow in the repo root
-build() {
-
-  pushd "$here" 2>&1 > /dev/null
-
-  # ---------------------------------------------------------
-  # Copy workflow files into the build directory
-
-  mkdir -p "$builddir"
-
-  log "Copying workflow contents to build/ ..."
-
-  rsync --recursive \
-    --verbose \
-    --delete-before \
-    --delete-excluded \
-    --perms \
-    -f '- *.pyc' \
-    -f '- xlrd/doc' \
-    -f '- xlrd/examples' \
-    -f '- *.dist-info' \
-    -f '- ~$*.xlsx' \
-    "./" "$builddir/"
-
-  [[ $? -ne 0 ]] && {
-    tidyup
-    log "Error copying contents to build directory."
-    exit 1
-  }
-
-  # ---------------------------------------------------------
-  # Remove unexported variables from info.plist and
-  # change bundle ID to the proper default.
-
-  pushd "$builddir" 2>&1 > /dev/null
-
-  log "Cleaning info.plist ..."
-
-  setkey bundleid "$bundleid"
-  # plbCmd "Set :bundleid ${bundleid}"
-  log "Set bundle ID: ${bundleid}"
-  setkey name "$name"
-  # plbCmd "Set :name ${name}"
-  log "Set workflow name: ${name}"
-  setvar "DOC_PATH" "$DOC_PATH"
-  # plbCmd "Set :variables:DOC_PATH \"${DOC_PATH}\""
-  log "Set DOC_PATH: ${DOC_PATH}"
-  for v in $unexported; do
-    delvar "$v"
-  done
-  [[ $clean -eq 1 ]] && {
-    for v in $genelems; do
-      log "Removing object $v ..."
-      local i=$(objindex $v)
-      [[ -n "$i" ]] && {
-        log "index : $i"
-        delkey "objects:${i}"
-      }
-    done
-  }
-  # plbCmd 'Print :variables'
-  # plbCmd 'Print :bundleid'
-
-  # ---------------------------------------------------------
-  # Build the .alfredworkflow file in the repo root
-
-  log "Building ${fname} ..."
-
-  mkdir -p "${dest}"
-
-  [[ -f "${wfpath}" ]] && {
-    rm -f "${wfpath}"
-    log "Deleted existing workflow file."
-  }
-
-  # tree "$builddir"
-  zip -rq8n .png:.xlsx "${wfpath}" .
-
-  [[ $? -ne 0 ]] && {
-    tidyup "${wfpath}"
-    log "Error creating workflow file."
-    exit 1
-  }
-
-  # ---------------------------------------------------------
-  # Tidy up and go back to starting directory
-
-  popd 2>&1 > /dev/null
-
-  tidyup
-  popd 2>&1 > /dev/null
-
-  log "Built '${fname}' in '${dest}'"
-}
+def tilde(p):
+    """Replace $HOME with ~."""
+    if p is None:
+        return None
+    h = os.path.expanduser('~')
+    return p.replace(h, '~')
 
 
-#          dP oo
-#          88
-# .d8888b. 88 dP
-# 88'  `"" 88 88
-# 88.  ... 88 88
-# `88888P' dP dP
-
-while getopts ":b:cd:fhn:or" opt; do
-  case $opt in
-    b)
-      bundleid="$OPTARG"
-      ;;
-    c)
-      clean=1
-      ;;
-    d)
-      dest="$OPTARG"
-      ;;
-    f)
-      force=1
-      ;;
-    h)
-      usage
-      exit 0
-      ;;
-    n)
-      name="$OPTARG"
-      ;;
-    o)
-      open_after=1
-      ;;
-    r)
-      bundleid="$( random_bundleid )"
-      ;;
-    \?)
-      log "Invalid option: -$OPTARG"
-      exit 1
-      ;;
-  esac
-done
-shift $((OPTIND-1))
+def abspath(p):
+    """Return absolute path."""
+    if p is None:
+        return None
+    return os.path.abspath(p)
 
 
-wfpath="${dest}/${fname}"
+@contextmanager
+def chdir(p):
+    """Change directory and back."""
+    cwd = os.getcwd()
+    log('cd %s', p)
+    os.chdir(p)
+    yield
+    log('cd %s', cwd)
+    os.chdir(cwd)
 
-[[ -f "${wfpath}" && "$force" -ne 1 ]] && {
-  log "File exists: ${wfpath}"
-  exit 1
-}
 
-log "building workflow '${name}' version ${version} ..."
-build
+class Builder(object):
+    """Workflow builder.
 
-[[ $open_after -eq 1 ]] && {
-  open "${wfpath}"
-}
+    Creates .alfredworkflow file
+    """
+
+    def __init__(self, bundle_id, name, target,
+                 docpath=None, clean=False, debug=False):
+        """Create new `Builder`."""
+        self.bundle_id = bundle_id
+        self.name = name
+        self.target = abspath(target)
+        self.docpath = abspath(docpath)
+        self.clean = clean
+        self.debug = debug
+        self.builddir = self._builddir()
+
+    def build(self):
+        """Build .alfredworkflow file in `builddir` and save to `target`."""
+        to_del = []
+        if not self.debug:
+            to_del.append(self.builddir)
+
+        with chdir(HERE):
+            try:
+                self._copy()
+                self._info_plist()
+                self._zip()
+            except Exception as err:
+                to_del.append(self.target)
+                raise err
+            finally:
+                tidyup(*to_del)
+
+        log('----------------------------')
+        log('Name      : %s', self.name)
+        log('Bundle ID : %s', self.bundle_id)
+        log('Document  : %s', tilde(self.docpath))
+        log('Workflow  : %s', tilde(self.target))
+        log('----------------------------')
+        # log('%s saved in %s', os.path.basename(self.target),
+        #     os.path.dirname(self.target))
+
+    def _builddir(self):
+        """Create unique builddir."""
+        fn = 'isyn.build.{:d}'.format(os.getpid())
+        p = os.path.join(os.path.dirname(self.target), fn)
+        os.makedirs(p)
+        return p
+
+    def _copy(self):
+        """Copy workflow files to build directory."""
+        builddir = self.builddir
+        log('Copying workflow contents to %s ...', builddir)
+        if not builddir.endswith('/'):
+            builddir += '/'
+        cmd = [
+            'rsync', '--recursive', '--verbose',
+            '--delete-before', '--delete-excluded',
+            '--perms',
+        ]
+        for x in BUILD_EXCLUSIONS:
+            cmd.extend(['-f', '- {}'.format(x)])
+        cmd.extend(['./', builddir])
+        # log('cmd=%r', cmd)
+        check_call(cmd)
+
+    def _info_plist(self):
+        """Update info plist."""
+        log('Updating info.plist ...')
+        with chdir(self.builddir):
+            info = readPlist('info.plist')
+            info['bundleid'] = self.bundle_id
+            log('bundleid=%r', self.bundle_id)
+            info['name'] = self.name
+            log('name=%r', self.name)
+
+            newvars = {}
+            for k, v in info['variables'].items():
+                if k not in UNEXPORTED_VARS:
+                    newvars[k] = v
+            newvars['DOC_PATH'] = self.docpath or ''
+            log('DOC_PATH=%r', newvars['DOC_PATH'])
+            info['variables'] = newvars
+
+            if self.clean:
+                log('Removing generator objects ...')
+                newobj = []
+                for obj in info['objects']:
+                    uid = obj.get('uid')
+                    if uid in GENERATOR_ELEMS:
+                        log('deleted object %s', uid)
+                    else:
+                        newobj.append(obj)
+                        # log('object=%r', uid)
+                    info['objects'] = newobj
+
+                for uid, conns in info['connections'].items():
+                    newconn = []
+                    for conn in conns:
+                        destuid = conn['destinationuid']
+                        if destuid in GENERATOR_ELEMS:
+                            log('deleted connection %s', destuid)
+                        else:
+                            newconn.append(conn)
+                    info['connections'][uid] = newconn
+
+                for uid in GENERATOR_ELEMS:
+                    if uid in info['uidata']:
+                        log('deleted UI data %s', uid)
+                        del info['uidata'][uid]
+
+                log('Stripping demo keywords ...')
+                for obj in info['objects']:
+                    kw = obj.get('config', {}).get('keyword', '')
+                    if kw.startswith('isyndemo'):
+                        obj['config']['keyword'] = ''
+                        log('stripped keyword "%s"', kw)
+
+            log('Saving updated info.plist ...')
+            writePlist(info, 'info.plist')
+
+    def _zip(self):
+        """Create .alfredworkflow file."""
+        log('Creating %s ...', os.path.basename(self.target))
+        with chdir(self.builddir):
+            cmd = ['zip', '-r8n', '.png:.xlsx', self.target, '.']
+            check_call(cmd)
+
+
+def run_command(cmd, combine=False):
+    """Run command and return output."""
+    if combine:
+        p = Popen(cmd, stdout=PIPE, stderr=STDOUT)
+    else:
+        p = Popen(cmd, stdout=PIPE, stderr=PIPE)
+
+    stdout, stderr = p.communicate()
+    status = p.returncode
+
+    if status != 0:
+        raise CalledProcessError(status, cmd)
+
+    if combine:
+        return stdout
+
+    return (stdout, stderr)
+
+
+def log(s, *args):
+    """Simple STDERR logger."""
+    if args:
+        s = s % args
+    print(s, file=sys.stderr)
+
+
+def version():
+    """Return version of workflow."""
+    return run_command([os.path.join(HERE, 'isyn'), '--version'], True).strip()
+
+
+def filename(name=None):
+    """Return filename for built workflow."""
+    name = name or WF_NAME
+    name = name.replace(' ', '-').replace(':', '-').replace('/', '-')
+    return '{}-{}.alfredworkflow'.format(name, version())
+
+
+def random_bundleid():
+    """Return randomised bundle ID."""
+    r = uuid4().hex
+    return '{}.{}'.format(BUNDLE_ID, r)
+
+
+def tidyup(*paths):
+    """Delete paths."""
+    for p in paths:
+        if not os.path.exists(p):
+            continue
+
+        log("Deleting %s...", p)
+        if os.path.isdir(p):
+            rmtree(p)
+        else:
+            os.unlink(p)
+
+
+def parse_args():
+    """Parse CLI options."""
+    p = argparse.ArgumentParser(description=__doc__)
+    p.add_argument(
+        '-b', '--bundle-id',
+        metavar='<ID>',
+        default=BUNDLE_ID,
+        help="Specify a bundle ID instead of the default.")
+    p.add_argument(
+        '-c', '--clean',
+        action='store_true',
+        default=False,
+        help="Clean the workflow (i.e. remove red generator elements)")
+    p.add_argument(
+        '-d', '--dir',
+        metavar='<DIR>',
+        default=os.getcwd(),
+        help="Directory to save .alfredworkflow file in.")
+    p.add_argument(
+        '-n', '--name',
+        metavar='<NAME>',
+        default=WF_NAME,
+        help="""The name of the workflow, e.g. "Bob's Cool Workflow".""")
+    p.add_argument(
+        '-r', '--random',
+        action='store_true',
+        default=False,
+        help="Generate a random bundle ID.")
+    p.add_argument(
+        '-f', '--force',
+        action='store_true',
+        default=False,
+        help="Overwrite any existing file.")
+    p.add_argument(
+        '-o', '--open',
+        action='store_true',
+        default=False,
+        help="Open in Alfred after a successful build.")
+    p.add_argument(
+        '--debug',
+        action='store_true',
+        default=False,
+        help="Keep builddir.")
+
+    o = p.parse_args()
+    if o.random:
+        o.bundle_id = random_bundleid()
+
+    o.docpath = os.getenv('DOC_PATH')
+    o.target = os.path.join(o.dir, filename(o.name))
+    log('args=%r', o)
+    if os.path.exists(o.target) and not o.force:
+        p.error("Destination file exists `{}`. "
+                "Use --force to overwrite.".format(o.target))
+
+    return o
+
+
+def main():
+    """Build workflow."""
+    o = parse_args()
+    b = Builder(o.bundle_id, o.name, o.target, o.docpath, o.clean, o.debug)
+    try:
+        b.build()
+    except Exception as err:
+        log('ERROR: %s', err)
+        return 1
+    if o.open:
+        log('Opening workflow in Alfred ...')
+        check_call(['open', o.target])
+    return 0
+
+
+if __name__ == '__main__':
+    sys.exit(main())
