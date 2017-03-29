@@ -130,8 +130,40 @@ set <code class="docutils literal"><span class="pre">TITLE_COL</span></code> to 
 value in the spreadsheet, <strong>you must</strong> set <code class="docutils literal"><span class="pre">SUBTITLE_COL</span></code> and/or
 <code class="docutils literal"><span class="pre">VALUE_COL</span></code> to <code class="docutils literal"><span class="pre">0</span></code> <strong>or the workflow will crash!</strong></p>
 </div>
+<div class="section" id="command-line-options">
+<h3>Command-line options<a class="headerlink" href="#command-line-options" title="Permalink to this headline">¶</a></h3>
 <p>Configuration options may also be specified as options to the <code class="docutils literal"><span class="pre">isyn</span></code>
-command within the Script Filter:</p>
+command within the Script Filter</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>usage: isyn [-h] [-p FILE] [-n N] [-r N] [-t N] [-s N] [-v N] [--version]
+
+I Sheet You Not. Search Excel data in Alfred 3. Pass this script the path to
+an Excel file via the -p option or the DOC_PATH environment variable. By
+default, the script reads the rows of the first worksheet in the workbook and
+generates Alfred JSON results. It reads the first three columns, treating the
+first as the result title, the second as its subtitle and the third as its
+value (arg).
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -p FILE, --docpath FILE
+                        Excel file to read data from. Envvar: DOC_PATH
+  -n N, --sheet N       Number or name of worksheet to read data from. Default
+                        is the first sheet in the workbook. Envvar: SHEET
+  -r N, --row N         Number of first row to read data from. Default is 1,
+                        i.e the first row. Use --row 2 to ignore a title row,
+                        for example. Envvar: START_ROW
+  -t N, --title N       Number of column to read titles from. Default is the
+                        first column. Envvar: TITLE_COL
+  -s N, --subtitle N    Number of column to read subtitles from. Default is
+                        the column after the title column. Set to 0 if there
+                        is no subtitle column. Envvar: SUBTITLE_COL
+  -v N, --value N       Number of column to read values from. Default is the
+                        second column after the title column. Set to 0 if
+                        there is no value column. Envvar: VALUE_COL
+  --version             Show workflow version number and exit.
+</pre></div>
+</div>
+</div>
 <div class="section" id="extracting-data-to-workflow-variables">
 <span id="setting-variables"></span><h3>Extracting data to workflow variables<a class="headerlink" href="#extracting-data-to-workflow-variables" title="Permalink to this headline">¶</a></h3>
 <p>In addition to the title, subtitle and value, you can also extract
@@ -145,17 +177,17 @@ in the Excel file, using columns A, B and C (1, 2, 3) as title, subtitle
 and value respectively (the default behaviour), and in addition set the
 workflow variables <code class="docutils literal"><span class="pre">url</span></code> to the data from column D (4) and <code class="docutils literal"><span class="pre">user</span></code> to
 column E (5):</p>
-<div class="highlight-bash"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+<div class="highlight-console"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
 4
 5
-6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># Set workflow variable url from column 4 (D)</span>
-<span class="nb">export</span> <span class="nv">VAR_url</span><span class="o">=</span><span class="m">4</span>
-<span class="c1"># Set workflow variable user from column 5 (E)</span>
-<span class="nb">export</span> <span class="nv">VAR_user</span><span class="o">=</span><span class="m">5</span>
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="gp">#</span> Set workflow variable url from column <span class="m">4</span> <span class="o">(</span>D<span class="o">)</span>
+<span class="go">export VAR_url=4</span>
+<span class="gp">#</span> Set workflow variable user from column <span class="m">5</span> <span class="o">(</span>E<span class="o">)</span>
+<span class="go">export VAR_user=5</span>
 
-./isyn
+<span class="go">./isyn</span>
 </pre></div>
 </td></tr></table></div>
 </div>
@@ -258,6 +290,7 @@ them in the <a class="reference external" href="http://www.alfredforum.com/topic
 <li><a class="reference internal" href="#download-and-installation">Download and installation</a></li>
 <li><a class="reference internal" href="#usage">Usage</a></li>
 <li><a class="reference internal" href="#configuration">Configuration</a><ul>
+<li><a class="reference internal" href="#command-line-options">Command-line options</a></li>
 <li><a class="reference internal" href="#extracting-data-to-workflow-variables">Extracting data to workflow variables</a></li>
 </ul>
 </li>
