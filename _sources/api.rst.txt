@@ -6,7 +6,9 @@ API reference
 =============
 
 This documentation is auto-generated from the source code.
+    :members:
 
+.. automodule:: isheetyounot
 
 .. automodule:: isheetyounot.core
     :members:

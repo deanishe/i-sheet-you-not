@@ -3,11 +3,11 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>isheetyounot.cli &mdash; I Sheet You Not 0.2.2 documentation</title>
+    <title>isheetyounot.cli &#8212; I Sheet You Not 0.2.3 documentation</title>
     
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,18 +15,19 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.2.2',
+        VERSION:     '0.2.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <link rel="shortcut icon" href="../../_static/favicon.ico"/>
-    <link rel="top" title="I Sheet You Not 0.2.2 documentation" href="../../index.html" />
-    <link rel="up" title="Module code" href="../index.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
 
    
   
@@ -49,8 +50,8 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">I Sheet You Not 0.2.2 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">I Sheet You Not 0.2.3 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -70,26 +71,24 @@
 <span class="c1"># Created on 2016-05-21</span>
 <span class="c1">#</span>
 
-<span class="sd">&quot;&quot;&quot;I Sheet You Not. Search Excel data in Alfred 3.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">cli</span>
+<span class="sd">^^^</span>
 
-<span class="sd">Pass this script the path to an Excel file via the -p option or the</span>
-<span class="sd">DOC_PATH environment variable.</span>
+<span class="sd">Command-line interface for the Alfred workflow.</span>
 
-<span class="sd">By default, the script reads the rows of the first worksheet in the</span>
-<span class="sd">workbook and generates Alfred JSON results.</span>
-
-<span class="sd">It reads the first three columns, treating the first as the result title,</span>
-<span class="sd">the second as its subtitle and the third as its value (arg).</span>
+<span class="sd">Will probably die in flames if not run from Alfred or an Alfred-like</span>
+<span class="sd">environment.</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">unicode_literals</span><span class="p">,</span> <span class="n">absolute_import</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">unicode_literals</span><span class="p">,</span> <span class="n">absolute_import</span>
 
 <span class="kn">import</span> <span class="nn">argparse</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">os</span>
 
-<span class="kn">from</span> <span class="nn">.core</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">.core</span> <span class="k">import</span> <span class="p">(</span>
     <span class="n">BUNDLE_ID</span><span class="p">,</span>
     <span class="n">HELP_URL</span><span class="p">,</span>
     <span class="n">ConfigError</span><span class="p">,</span>
@@ -99,7 +98,7 @@
     <span class="n">read_data</span><span class="p">,</span>
     <span class="n">version</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">.aw3</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">.aw3</span> <span class="k">import</span> <span class="p">(</span>
     <span class="n">Feedback</span><span class="p">,</span>
     <span class="n">av</span><span class="p">,</span>
     <span class="n">change_bundle_id</span><span class="p">,</span>
@@ -107,6 +106,19 @@
     <span class="n">log</span><span class="p">,</span>
     <span class="n">random_bundle_id</span><span class="p">,</span>
 <span class="p">)</span>
+
+<span class="n">__usage__</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;I Sheet You Not. Search Excel data in Alfred 3.</span>
+
+<span class="s2">Pass this script the path to an Excel file via the -p option or the</span>
+<span class="s2">DOC_PATH environment variable.</span>
+
+<span class="s2">By default, the script reads the rows of the first worksheet in the</span>
+<span class="s2">workbook and generates Alfred JSON results.</span>
+
+<span class="s2">It reads the first three columns, treating the first as the result title,</span>
+<span class="s2">the second as its subtitle and the third as its value (arg).</span>
+
+<span class="s2">&quot;&quot;&quot;</span>
 
 
 <div class="viewcode-block" id="parse_args"><a class="viewcode-back" href="../../api.html#isheetyounot.cli.parse_args">[docs]</a><span class="k">def</span> <span class="nf">parse_args</span><span class="p">():</span>
@@ -116,7 +128,7 @@
 <span class="sd">        argparse.Namespace: Program configuration.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">p</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="n">__doc__</span><span class="p">)</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="n">__usage__</span><span class="p">)</span>
     <span class="n">p</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-p&#39;</span><span class="p">,</span> <span class="s1">&#39;--docpath&#39;</span><span class="p">,</span>
                    <span class="n">metavar</span><span class="o">=</span><span class="s1">&#39;FILE&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
                    <span class="n">default</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;DOC_PATH&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="s1">&#39;./Demo.xlsx&#39;</span><span class="p">,</span>
@@ -179,9 +191,9 @@
     <span class="n">args</span><span class="o">.</span><span class="n">variables</span> <span class="o">=</span> <span class="nb">vars</span>
     <span class="c1"># args.alfred = alfred_vars()</span>
 
-    <span class="k">return</span> <span class="n">args</span>
+    <span class="k">return</span> <span class="n">args</span></div>
 
-</div>
+
 <div class="viewcode-block" id="main"><a class="viewcode-back" href="../../api.html#isheetyounot.cli.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Run workflow script.&quot;&quot;&quot;</span>
     <span class="n">o</span> <span class="o">=</span> <span class="n">parse_args</span><span class="p">()</span>
@@ -193,7 +205,7 @@
                           <span class="s2">&quot;configuration sheet.&quot;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">docpath</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="n">ConfigError</span><span class="p">(</span><span class="s2">&quot;File does not exist : {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">docpath</span><span class="p">))</span>
+        <span class="k">raise</span> <span class="n">ConfigError</span><span class="p">(</span><span class="s2">&quot;File does not exist : </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">docpath</span><span class="p">))</span>
 
     <span class="c1"># ---------------------------------------------------------</span>
     <span class="c1"># Ensure the bundle ID is *not* the default (so we can have</span>
@@ -221,7 +233,7 @@
     <span class="n">cached</span> <span class="o">=</span> <span class="n">cached_data</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">max_age</span><span class="o">=</span><span class="n">doc_age</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">cached</span><span class="p">:</span>
         <span class="n">log</span><span class="p">(</span><span class="s1">&#39;Using cached data.&#39;</span><span class="p">)</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">cached</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">cached</span><span class="p">)</span>
         <span class="k">return</span> <span class="mi">0</span>
 
     <span class="c1"># ---------------------------------------------------------</span>
@@ -252,14 +264,15 @@
     <span class="n">items</span> <span class="o">=</span> <span class="n">read_data</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">docpath</span><span class="p">,</span> <span class="n">o</span><span class="o">.</span><span class="n">sheet</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="n">start_row</span><span class="p">,</span> <span class="n">o</span><span class="o">.</span><span class="n">variables</span><span class="p">)</span>
     <span class="n">js</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">Feedback</span><span class="p">(</span><span class="n">items</span><span class="p">))</span>
     <span class="n">cache_data</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">js</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
     <span class="n">d</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">s</span>
     <span class="n">log</span><span class="p">(</span><span class="s1">&#39;Updated cache in </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">human_time</span><span class="p">(</span><span class="n">d</span><span class="p">))</span>
 
-    <span class="k">return</span> <span class="mi">0</span>
-</div>
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">.aw3</span> <span class="kn">import</span> <span class="n">rescue</span>
+    <span class="k">return</span> <span class="mi">0</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">.aw3</span> <span class="k">import</span> <span class="n">rescue</span>
     <span class="n">rescue</span><span class="p">(</span><span class="n">main</span><span class="p">,</span> <span class="n">HELP_URL</span><span class="p">)</span>
 </pre></div>
 
@@ -325,7 +338,7 @@
       &copy;2016, Dean Jackson.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.3</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
       
     </div>
