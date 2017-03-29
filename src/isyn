@@ -8,8 +8,7 @@
 # Created on 2016-05-21
 #
 
-"""
-"""
+"""Wrap `isheetyounot` so errors show in Alfred."""
 
 from __future__ import print_function, unicode_literals, absolute_import
 

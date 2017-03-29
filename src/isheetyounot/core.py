@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # encoding: utf-8
 #
 # Copyright (c) 2016 Dean Jackson <deanishe@deanishe.net>
@@ -8,18 +7,25 @@
 # Created on 2016-05-21
 #
 
-"""I Sheet You Not. Search Excel data in Alfred 3.
+"""
+core
+^^^^
 
-Pass this script the path to an Excel file via the -p option or the
-DOC_PATH environment variable.
-
-By default, the script reads the rows of the first worksheet in the
-workbook and generates Alfred JSON results.
-
-It reads the first three columns, treating the first as the result title,
-the second as its subtitle and the third as its value (arg).
+Loading and caching of Excel files, and helper functions.
 
 """
+
+
+# I Sheet You Not. Search Excel data in Alfred 3.
+
+# Pass this script the path to an Excel file via the -p option or the
+# DOC_PATH environment variable.
+
+# By default, the script reads the rows of the first worksheet in the
+# workbook and generates Alfred JSON results.
+
+# It reads the first three columns, treating the first as the result title,
+# the second as its subtitle and the third as its value (arg).
 
 from __future__ import print_function, unicode_literals, absolute_import
 
@@ -45,7 +51,7 @@ class ConfigError(Exception):
     Typically, this will be a bad sheet number or name.
 
     If the program can't read the Excel data for other reasons,
-    there'll be an exception from the underlying `xlrd` library.
+    there'll be an exception from the underlying ``xlrd`` library.
 
     """
 
@@ -61,19 +67,8 @@ class ConfigError(Exception):
 #                      88
 #                      dP
 
-
-# def log(s, *args):
-#     """Print message `s` to STDERR. Run `s % args` with any `args`.
-
-#     Args:
-#         s (unicode): Message to print/format string.
-#         *args (object): If given, used in format string `s % args`.
-#     """
-#     print(s % args, file=sys.stderr)
-
-
 def tilde(path):
-    """Replace user's home directory in `path` with ~.
+    """Replace user's home directory in ``path`` with ~.
 
     Args:
         path (unicode): A filepath.
@@ -145,18 +140,18 @@ def _cache_path(key):
 
 
 def cached_data(key, max_age=0):
-    """Returned data cached for `key` or `None`.
+    """Returned data cached for ``key`` or ``None``.
 
-    Returns `None` if no data are cached for `key` or the age
-    of the cached data exceeds `max_age` (if `max_age` is non-zero).
+    Returns ``None`` if no data are cached for ``key`` or the age
+    of the cached data exceeds `max_age` (if ``max_age`` is non-zero).
 
     Args:
-        key (str): Cache key from `cache_key()`.
+        key (str): Cache key from :func:`cache_key`.
         max_age (int, optional): Maximum permissible age of cached data
             in seconds.
 
     Returns:
-        str: The contents of the cache file, or `None`.
+        str: The contents of the cache file, or ``None``.
     """
     p = _cache_path(key)
 
@@ -175,10 +170,10 @@ def cached_data(key, max_age=0):
 
 
 def cache_data(key, data):
-    """Store `data` in cache under name `key`.
+    """Store ``data`` in cache under name ``key``.
 
     Args:
-        key (str): Cache key from `cache_key()`.
+        key (str): Cache key from :func:``cache_key``.
         data (str): Data to write to file.
     """
     p = _cache_path(key)

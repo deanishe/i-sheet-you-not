@@ -8,6 +8,18 @@
 #
 
 """
+I Sheet You Not
+---------------
+
+**Search Excel data in Alfred 3**
+
+This package implements an Alfred workflow that generates *other*
+Alfred workflows that pull data from Excel files.
+
+The core program can both search for and in Excel files, and works
+by making a copy of itself with different settings (and stripped
+of the workflow-generating elements in Alfred's UI).
+
 """
 
 from __future__ import print_function, unicode_literals, absolute_import

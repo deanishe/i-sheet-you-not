@@ -8,16 +8,14 @@
 # Created on 2016-05-21
 #
 
-"""I Sheet You Not. Search Excel data in Alfred 3.
+"""
+cli
+^^^
 
-Pass this script the path to an Excel file via the -p option or the
-DOC_PATH environment variable.
+Command-line interface for the Alfred workflow.
 
-By default, the script reads the rows of the first worksheet in the
-workbook and generates Alfred JSON results.
-
-It reads the first three columns, treating the first as the result title,
-the second as its subtitle and the third as its value (arg).
+Will probably die in flames if not run from Alfred or an Alfred-like
+environment.
 
 """
 
@@ -46,6 +44,19 @@ from .aw3 import (
     random_bundle_id,
 )
 
+__usage__ = """I Sheet You Not. Search Excel data in Alfred 3.
+
+Pass this script the path to an Excel file via the -p option or the
+DOC_PATH environment variable.
+
+By default, the script reads the rows of the first worksheet in the
+workbook and generates Alfred JSON results.
+
+It reads the first three columns, treating the first as the result title,
+the second as its subtitle and the third as its value (arg).
+
+"""
+
 
 def parse_args():
     """Read program options from the environment and command line.
@@ -54,7 +65,7 @@ def parse_args():
         argparse.Namespace: Program configuration.
 
     """
-    p = argparse.ArgumentParser(description=__doc__)
+    p = argparse.ArgumentParser(description=__usage__)
     p.add_argument('-p', '--docpath',
                    metavar='FILE', type=str,
                    default=os.getenv('DOC_PATH') or './Demo.xlsx',
@@ -195,6 +206,7 @@ def main():
     log('Updated cache in %s', human_time(d))
 
     return 0
+
 
 if __name__ == '__main__':
     from .aw3 import rescue

@@ -8,9 +8,7 @@
 # Created on 2016-11-02
 #
 
-"""
-Build the .alfredworkflow file for this workflow.
-"""
+"""Build the .alfredworkflow file for this workflow."""
 
 from __future__ import print_function, absolute_import
 
