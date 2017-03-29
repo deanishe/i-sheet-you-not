@@ -110,39 +110,48 @@ If ``VALUE_COL`` is unset, it defaults to the second column after ``TITLE_COL``.
     ``VALUE_COL`` to ``0`` **or the workflow will crash!**
 
 
+Command-line options
+^^^^^^^^^^^^^^^^^^^^
+
 Configuration options may also be specified as options to the ``isyn``
-command within the Script Filter:
+command within the Script Filter
 
+.. code-block:: none
 
-.. _code-block::
+    usage: isyn [-h] [-p FILE] [-n N] [-r N] [-t N] [-s N] [-v N] [--version]
 
-  usage: isyn [-h] [-p FILE] [-n N] [-r N] [-t N] [-s N] [-v N] [--version]
+    I Sheet You Not. Search Excel data in Alfred 3. Pass this script the path to
+    an Excel file via the -p option or the DOC_PATH environment variable. By
+    default, the script reads the rows of the first worksheet in the workbook and
+    generates Alfred JSON results. It reads the first three columns, treating the
+    first as the result title, the second as its subtitle and the third as its
+    value (arg).
 
-  optional arguments:
-    -h, --help            show this help message and exit
-    -p FILE, --docpath FILE
-                          Excel file to read data from. Envvar: DOC_PATH
-    -n N, --sheet N       Number or name of worksheet to read data from. Default
-                          is the first sheet in the workbook. Envvar: SHEET
-    -r N, --row N         Number of first row to read data from. Default is 1,
-                          i.e the first row. Use --row 2 to ignore a title row,
-                          for example. Envvar: START_ROW
-    -t N, --title N       Number of column to read titles from. Default is the
-                          first column. Envvar: TITLE_COL
-    -s N, --subtitle N    Number of column to read subtitles from. Default is
-                          the column after the title column. Set to 0 if there
-                          is no subtitle column. Envvar: SUBTITLE_COL
-    -v N, --value N       Number of column to read values from. Default is the
-                          second column after the title column. Set to 0 if
-                          there is no value column. Envvar: VALUE_COL
-    --version             Show workflow version number and exit.
+    optional arguments:
+      -h, --help            show this help message and exit
+      -p FILE, --docpath FILE
+                            Excel file to read data from. Envvar: DOC_PATH
+      -n N, --sheet N       Number or name of worksheet to read data from. Default
+                            is the first sheet in the workbook. Envvar: SHEET
+      -r N, --row N         Number of first row to read data from. Default is 1,
+                            i.e the first row. Use --row 2 to ignore a title row,
+                            for example. Envvar: START_ROW
+      -t N, --title N       Number of column to read titles from. Default is the
+                            first column. Envvar: TITLE_COL
+      -s N, --subtitle N    Number of column to read subtitles from. Default is
+                            the column after the title column. Set to 0 if there
+                            is no subtitle column. Envvar: SUBTITLE_COL
+      -v N, --value N       Number of column to read values from. Default is the
+                            second column after the title column. Set to 0 if
+                            there is no value column. Envvar: VALUE_COL
+      --version             Show workflow version number and exit.
 
 
 
 .. _setting-variables:
 
 Extracting data to workflow variables
--------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 In addition to the title, subtitle and value, you can also extract
 additional (or the same) columns to `workflow variables`_, which can be used
@@ -158,7 +167,7 @@ and value respectively (the default behaviour), and in addition set the
 workflow variables ``url`` to the data from column D (4) and ``user`` to
 column E (5):
 
-.. code-block:: bash
+.. code-block:: console
    :linenos:
 
    # Set workflow variable url from column 4 (D)
