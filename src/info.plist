@@ -215,6 +215,8 @@
 			<dict>
 				<key>alfredfiltersresults</key>
 				<true/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
 				<key>argumenttype</key>
 				<integer>1</integer>
 				<key>escaping</key>
@@ -273,6 +275,8 @@
 			<dict>
 				<key>anchorfields</key>
 				<true/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
 				<key>argumenttype</key>
 				<integer>0</integer>
 				<key>daterange</key>
@@ -399,7 +403,10 @@ log() {
 }
 
 # Change DOC_PATH
-test -z "${xlspath}" || export DOC_PATH="${xlspath}"
+test -z "${xlspath}" || { 
+	[[ "$xlspath" =~ ^"$HOME"(/|$) ]] &amp;&amp; xlspath="~${xlspath#$HOME}";
+	export DOC_PATH="${xlspath}";
+}
 
 
 log "Building workflow \"${title}\" in ${destdir} ..."
@@ -464,6 +471,8 @@ log "Building workflow \"${title}\" in ${destdir} ..."
 			<dict>
 				<key>alfredfiltersresults</key>
 				<true/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
 				<key>argumenttype</key>
 				<integer>1</integer>
 				<key>escaping</key>
@@ -511,6 +520,8 @@ export SHEET=Websites
 			<dict>
 				<key>alfredfiltersresults</key>
 				<true/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
 				<key>argumenttype</key>
 				<integer>1</integer>
 				<key>escaping</key>
@@ -565,6 +576,8 @@ export VAR_profile_url=9
 			<dict>
 				<key>alfredfiltersresults</key>
 				<true/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
 				<key>argumenttype</key>
 				<integer>1</integer>
 				<key>escaping</key>
@@ -683,6 +696,8 @@ and a GDP of USD {var:gdp}</string>
 			<dict>
 				<key>alfredfiltersresults</key>
 				<true/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
 				<key>argumenttype</key>
 				<integer>1</integer>
 				<key>escaping</key>
@@ -1079,7 +1094,7 @@ It specifies no value, so you can't action results.</string>
 		<string>DEV</string>
 	</array>
 	<key>version</key>
-	<string>0.2.2</string>
+	<string>0.2.3</string>
 	<key>webaddress</key>
 	<string>http://www.deanishe.net/i-sheet-you-not/</string>
 </dict>
