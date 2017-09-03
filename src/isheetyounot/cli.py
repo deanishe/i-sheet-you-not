@@ -103,18 +103,27 @@ def parse_args():
     args = p.parse_args()
     args.docpath = os.path.expanduser(args.docpath)
 
-    # Read VAR_ABC= values from the environment
-    vars = {}
+    # Read VAR_ABC= and FMT_N= values from the environment
+    evars = {}
+    formats = {}
     for k in os.environ:
-        if not k.startswith('VAR_') and k != 'VAR_':
-            continue
-        v = os.environ[k]
-        if v and v.isdigit():
-            vars[k[4:]] = int(v)
-        else:
-            log('Invalid value for `%s`: %r', k, v)
+        if k.startswith('VAR_'):
+            v = os.environ[k]
+            if v and v.isdigit():
+                evars[k[4:]] = int(v)
+            else:
+                log('invalid value for "%s": %r', k, v)
 
-    args.variables = vars
+        elif k.startswith('FMT_'):
+            key = k[4:]
+            v = os.environ[k]
+            if v and key.isdigit():
+                formats[int(key)] = v
+            else:
+                log('invalid format for "%s": %r', k, v)
+
+    args.variables = evars
+    args.formats = formats
     # args.alfred = alfred_vars()
 
     return args
@@ -180,14 +189,15 @@ def main():
 
     cols = [t, s, v]
 
-    log('sheet=%r, start_row=%d, cols=%r, vars=%r', o.sheet, start_row,
-        cols, o.variables)
+    log('sheet=%r, start_row=%d, cols=%r, vars=%r, formats=%r', o.sheet,
+        start_row, cols, o.variables, o.formats)
 
     # ---------------------------------------------------------
     # Generate and cache output
 
     s = time.time()
-    items = read_data(o.docpath, o.sheet, cols, start_row, o.variables)
+    items = read_data(o.docpath, o.sheet, cols, start_row,
+                      o.variables, o.formats)
     js = str(Feedback(items))
     cache_data(key, js)
     print(js)

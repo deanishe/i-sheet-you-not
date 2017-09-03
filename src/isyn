@@ -8,8 +8,7 @@
 # Created on 2016-05-21
 #
 
-"""
-"""
+"""CLI command for I Sheet You Not"""
 
 from __future__ import print_function, unicode_literals, absolute_import
 

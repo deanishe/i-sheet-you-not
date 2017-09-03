@@ -29,7 +29,19 @@ import time
 
 from .aw3 import av, human_time, log, make_item
 
-version = '0.2.3'
+from xlrd import (
+    XL_CELL_EMPTY as TYPE_EMPTY,
+    XL_CELL_TEXT as TYPE_TEXT,
+    XL_CELL_NUMBER as TYPE_NUMBER,
+    XL_CELL_DATE as TYPE_DATE,
+    XL_CELL_BOOLEAN as TYPE_BOOLEAN,
+    XL_CELL_ERROR as TYPE_ERROR,
+    XL_CELL_BLANK as TYPE_BLANK,
+)
+from xlrd.xldate import xldate_as_datetime
+
+# Workflow version number
+version = '0.3.0'
 
 # Fallback/default values
 BUNDLE_ID = 'net.deanishe.alfred-i-sheet-you-not'
@@ -37,6 +49,11 @@ CACHE_DIR = os.path.join(os.path.expanduser('~/Library/Caches'), BUNDLE_ID)
 
 # Link to GitHub issues. Output by rescue() on error.
 HELP_URL = 'https://github.com/deanishe/i-sheet-you-not/issues'
+
+# Excel's start date + 1 day (Jan 0 doesn't exist in Python)
+# START_DATE = date(1900, 1, 1)
+DEFAULT_DATE_FORMAT = '%Y-%m-%d'
+DATE_FORMAT = os.getenv('DATE_FORMAT') or DEFAULT_DATE_FORMAT
 
 
 class ConfigError(Exception):
@@ -60,16 +77,6 @@ class ConfigError(Exception):
 # dP    dP `88888P' dP 88Y888P' `88888P' dP       `88888P'
 #                      88
 #                      dP
-
-
-# def log(s, *args):
-#     """Print message `s` to STDERR. Run `s % args` with any `args`.
-
-#     Args:
-#         s (unicode): Message to print/format string.
-#         *args (object): If given, used in format string `s % args`.
-#     """
-#     print(s % args, file=sys.stderr)
 
 
 def tilde(path):
@@ -194,7 +201,132 @@ def cache_data(key, data):
 # 88.  ...  .d88b.  88.  ... 88.  ... 88
 # `88888P' dP'  `dP `88888P' `88888P' dP
 
-def read_data(path, sheet, cols, start_row=1, variables=None):
+
+def cell_type(cell):
+    """Return type of cell.
+
+    Args:
+        cell (xlrd.sheet.Cell): Excel cell
+
+    Returns:
+        str: Type of cell as text
+    """
+    if cell.ctype == TYPE_BLANK:
+        return 'blank'
+    if cell.ctype == TYPE_BOOLEAN:
+        return 'boolean'
+    if cell.ctype == TYPE_DATE:
+        return 'date'
+    if cell.ctype == TYPE_EMPTY:
+        return 'empty'
+    if cell.ctype == TYPE_ERROR:
+        return 'error'
+    if cell.ctype == TYPE_NUMBER:
+        return 'number'
+    if cell.ctype == TYPE_TEXT:
+        return 'text'
+
+
+class Formatter(object):
+    """Format Excel values according to column-specific format strings.
+
+    Format strings should be sprintf-style patterns or strftime-style
+    patterns. strftime-style patterns must be prefixed with ``dt:``.
+
+    Attributes:
+        datemode (int): Date mode of sheet this formatter is for
+        patterns (dict): Column -> format string mapping
+
+    """
+
+    def __init__(self, datemode, formats=None):
+        self.datemode = datemode
+        self.patterns = {}
+        for col, pat in formats.items():
+            self.set(col, pat)
+
+    def get(self, col):
+        """Get format pattern (or None) for a specific column.
+
+        Args:
+            col (int): Column index (1-indexed)
+
+        Returns:
+            str: Format pattern or None
+        """
+        return self.patterns.get(col)
+
+    def set(self, col, pat):
+        """Set format pattern for column.
+
+        Args:
+            col (int): Column index (1-indexed)
+            pat (str): Format pattern
+        """
+        if not pat:
+            return
+
+        self.patterns[col] = pat
+
+    def format(self, col, cell):
+        """Format a value with the pattern set for column.
+
+        If no format pattern is set for column, value is returned
+        unchanged.
+
+        Args:
+            col (int): Column number
+            cell (xlrd.sheet.Cell): Excel cell
+
+        Returns:
+            str: Formatted value
+
+        """
+        pat = self.get(col)
+        if not pat:
+            return self._format_default(cell)
+
+        if cell.ctype == TYPE_BOOLEAN:
+            return self._format_default(cell)
+
+        if cell.ctype == TYPE_ERROR:
+            return '<error>'
+
+        if cell.ctype == TYPE_DATE:
+            dt = xldate_as_datetime(cell.value, self.datemode)
+            formatted = dt.strftime(pat)
+
+        else:
+            formatted = pat % cell.value
+
+        log('pat=%r, %r  -->  %r', pat, cell.value, formatted)
+        return formatted
+
+    def _format_default(self, cell):
+        """Return cell value with default formatting.
+
+        Args:
+            cell (xlrd.sheet.Cell): Excel cell
+
+        Returns:
+            str: Formatted cell value
+
+        """
+        if cell.ctype == TYPE_BOOLEAN:
+            if cell.value:
+                return 'yes'
+            else:
+                return 'no'
+
+        if cell.ctype == TYPE_ERROR:
+            return '<error>'
+
+        if cell.ctype == TYPE_DATE:
+            dt = xldate_as_datetime(cell.value, self.datemode)
+            return dt.strftime(DATE_FORMAT)
+
+
+def read_data(path, sheet, cols, start_row=1, variables=None, formats=None):
     """Read the specified cells from an Excel file.
 
     Args:
@@ -205,6 +337,8 @@ def read_data(path, sheet, cols, start_row=1, variables=None):
         start_row (int, optional): The row on which to start reading data.
         variables (dict, optional): name->col mapping of columns to read
             into result variables with the corresponding names.
+        formats (dict, optional): index->format mapping of sprintf-style
+            format strings for columns.
 
     Returns:
         list: Sequence of Alfred 3 result dictionaries.
@@ -231,6 +365,7 @@ def read_data(path, sheet, cols, start_row=1, variables=None):
     log('Opened worksheet "%s" of %s', s.name, tilde(path))
 
     start_row -= 1
+    fmt = Formatter(wb.datemode, formats)
     cols = [i - 1 for i in cols]
 
     items = []
@@ -239,17 +374,25 @@ def read_data(path, sheet, cols, start_row=1, variables=None):
     i = start_row
 
     while i < s.nrows:
-        vars = {}
+        evars = {}
         sub = arg = ''
-        tit = s.cell(i, cols[0]).value
+        cell = s.cell(i, cols[0])
+        log('cell=%r', cell)
+        tit = cell.value
         if cols[1] > -1:
-            sub = s.cell(i, cols[1]).value
+            cell = s.cell(i, cols[1])
+            log('cell=%r', cell)
+            sub = fmt.format(cols[1] + 1, cell)
         if cols[2] > -1:
-            arg = s.cell(i, cols[2]).value
+            cell = s.cell(i, cols[2])
+            log('cell=%r', cell)
+            arg = fmt.format(cols[2] + 1, cell)
+
         for k, j in variables.items():
-            v = s.cell(i, j - 1).value
-            if v:
-                vars[k] = v
+            cell = s.cell(i, j - 1)
+            log('cell=%r, type=%s', cell, cell_type(cell))
+            if cell.value:
+                evars[k] = fmt.format(j, cell)
 
         i += 1
 
@@ -259,7 +402,7 @@ def read_data(path, sheet, cols, start_row=1, variables=None):
             invalid += 1
             continue
 
-        items.append(make_item(tit, sub, arg, **vars))
+        items.append(make_item(tit, sub, arg, **evars))
 
     log('Read %d rows from worksheet "%s"', len(items), s.name)
 

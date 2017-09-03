@@ -23,6 +23,29 @@
 		</array>
 		<key>041CD015-F665-46EB-A78C-C5D455AC813A</key>
 		<array/>
+		<key>0687C005-2E37-4D47-A891-D44E79694327</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>B44EC0D5-B000-41A7-8D7A-74608CD93D7C</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>A304067E-7965-46CB-A3B2-0CDB6F0F0FB3</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>29259774-1638-463E-AC06-9F8AAEA6B941</key>
 		<array>
 			<dict>
@@ -544,7 +567,7 @@ export SHEET=Websites
 # This will put the value of column 3 into the variable "year_joined"
 export VAR_joined_year=3
 export VAR_previous_club=4
-export VAR_=joined_fee=5
+export VAR_joined_fee=5
 export VAR_left_year=6
 export VAR_next_club=7
 export VAR_left_fee=8
@@ -821,6 +844,102 @@ export VAR_country=1
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>browser</key>
+				<string></string>
+				<key>spaces</key>
+				<string></string>
+				<key>url</key>
+				<string>{query}</string>
+				<key>utf8</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>B44EC0D5-B000-41A7-8D7A-74608CD93D7C</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<true/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>isyndemo quakes</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>1</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Searching your file…</string>
+				<key>script</key>
+				<string># Use VAR_XYZ envvars to extract extra "variables" from the Excel sheet.
+
+# This will put the value of column 2 into the variable "rank"
+export VAR_rank=2
+export VAR_name=3
+export VAR_date=4
+# Format date (column 4)
+# export FMT_4="%d/%m/%Y"
+export VAR_location=5
+export VAR_magnitude=6
+# Format magnitude (2 decimal places)
+export FMT_6='%0.2f'
+export VAR_url=7
+
+./isyn --sheet earthquakes --row 4 --title 3 --subtitle 4 --value 7</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Format dates</string>
+				<key>title</key>
+				<string>[DEMO] I Sheet You Not: Biggest Earthquakes</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>0687C005-2E37-4D47-A891-D44E79694327</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argument</key>
+				<string>query={query}
+vars={allvars}</string>
+				<key>cleardebuggertext</key>
+				<false/>
+				<key>processoutputs</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.debug</string>
+			<key>uid</key>
+			<string>A304067E-7965-46CB-A3B2-0CDB6F0F0FB3</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
 	</array>
 	<key>readme</key>
 	<string>I Sheet You Not
@@ -837,7 +956,9 @@ If you duplicate the workflow "by hand", be sure to delete the red elements from
 
 Green elements are demos, showing how I Sheet You Not works.
 
-When you create a new workflow, you can adapt one of the demos to your requirements and delete the rest, or just delete the lot of them and start from scratch.</string>
+When you create a new workflow, you can adapt one of the demos to your requirements and delete the rest, or just delete the lot of them and start from scratch.
+
+See http://www.deanishe.net/i-sheet-you-not/#configuration for details of what the configuration values to the right mean.</string>
 	<key>uidata</key>
 	<dict>
 		<key>01FDAE7B-7189-488D-BF30-F05BDD1A8E1E</key>
@@ -859,6 +980,19 @@ When you create a new workflow, you can adapt one of the demos to your requireme
 			<integer>720</integer>
 			<key>ypos</key>
 			<integer>370</integer>
+		</dict>
+		<key>0687C005-2E37-4D47-A891-D44E79694327</key>
+		<dict>
+			<key>colorindex</key>
+			<integer>5</integer>
+			<key>note</key>
+			<string>This example uses "FMT_N" environment variables to set formats for specific columns.
+
+Formats can be sprintf-style formats or, if prefixed with "dt:", strftime-style formats (for date columns).</string>
+			<key>xpos</key>
+			<integer>40</integer>
+			<key>ypos</key>
+			<integer>950</integer>
 		</dict>
 		<key>29259774-1638-463E-AC06-9F8AAEA6B941</key>
 		<dict>
@@ -997,6 +1131,17 @@ These are passed as variables to following workflow actions. "VAR_thing" becomes
 			<key>ypos</key>
 			<integer>790</integer>
 		</dict>
+		<key>A304067E-7965-46CB-A3B2-0CDB6F0F0FB3</key>
+		<dict>
+			<key>colorindex</key>
+			<integer>5</integer>
+			<key>note</key>
+			<string>Show variables set by ISYN from data extracted from Excel sheet</string>
+			<key>xpos</key>
+			<integer>230</integer>
+			<key>ypos</key>
+			<integer>1070</integer>
+		</dict>
 		<key>B07CB6F1-53EE-4C79-8840-B295710C86A8</key>
 		<dict>
 			<key>colorindex</key>
@@ -1009,6 +1154,15 @@ The path to the file is set in the workflow's Configuration Sheet, and unless to
 			<integer>40</integer>
 			<key>ypos</key>
 			<integer>30</integer>
+		</dict>
+		<key>B44EC0D5-B000-41A7-8D7A-74608CD93D7C</key>
+		<dict>
+			<key>colorindex</key>
+			<integer>5</integer>
+			<key>xpos</key>
+			<integer>340</integer>
+			<key>ypos</key>
+			<integer>950</integer>
 		</dict>
 		<key>C943DCE4-D71D-4A08-AFA1-9FCD97C7B545</key>
 		<dict>
@@ -1074,6 +1228,8 @@ It specifies no value, so you can't action results.</string>
 	</dict>
 	<key>variables</key>
 	<dict>
+		<key>DATE_FORMAT</key>
+		<string>%Y-%m-%d</string>
 		<key>DEV</key>
 		<string>1</string>
 		<key>DOC_PATH</key>
@@ -1094,7 +1250,7 @@ It specifies no value, so you can't action results.</string>
 		<string>DEV</string>
 	</array>
 	<key>version</key>
-	<string>0.2.3</string>
+	<string>0.3.0</string>
 	<key>webaddress</key>
 	<string>http://www.deanishe.net/i-sheet-you-not/</string>
 </dict>

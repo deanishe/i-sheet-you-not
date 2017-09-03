@@ -31,8 +31,8 @@ are picked up automatically by the workflow.
 Download and installation
 =========================
 
-Download the latest version of the workflow from `GitHub releases`_ or
-`Packal`_. Double-click the downloaded ``I-Sheet-You-Not-X.X.X.alfredworkflow``
+Download the latest version of the workflow from `GitHub releases`_.
+Double-click the downloaded ``I-Sheet-You-Not-X.X.X.alfredworkflow``
 file to install in Alfred 3.
 
 
@@ -89,15 +89,22 @@ sheet:
 .. image:: _static/config_sheet.png
     :alt: Workflow configuration sheet
 
+``SHEET`` may be the index number of the worksheet or the title.
 If ``SHEET`` is unset, it defaults to the first worksheet.
 
-If ``START_ROW`` is unset, it defaults to the first row.
+If ``START_ROW`` is unset, it defaults to the first row (i.e. ``1``).
 
-If ``TITLE_COL`` is unset, it defaults to the first column (i.e. column A).
+If ``TITLE_COL`` is unset, it defaults to the first column (i.e. ``1``, which
+is column A).
 
 If ``SUBTITLE_COL`` is unset, it defaults to the column after ``TITLE_COL``.
 
 If ``VALUE_COL`` is unset, it defaults to the second column after ``TITLE_COL``.
+
+``DATE_FORMAT`` is a `strftime`_ format string that will be used for any
+columns that are formatted as dates in the Excel spreadsheet. You can override
+this format for specific columns. See :ref:`formatting-values` below.
+
 
 .. important::
 
@@ -108,9 +115,12 @@ If ``VALUE_COL`` is unset, it defaults to the second column after ``TITLE_COL``.
     value in the spreadsheet, set ``SUBTITLE_COL`` and/or ``VALUE_COL`` to
     ``0``.
 
-Configuration options may also be specified as options to the ``isyn``
-command within the Script Filter:
 
+Command-line options
+--------------------
+
+Configuration options may also be specified as options to the ``isyn``
+command within the Script Filter::
 
     usage: isyn [-h] [-p FILE] [-n N] [-r N] [-t N] [-s N] [-v N] [--version]
 
@@ -161,6 +171,42 @@ column E (5):
    export VAR_user=5
 
    ./isyn
+
+
+.. _formatting-values:
+
+Formatting values
+-----------------
+
+I Sheet You Not attempts to format your data according to the type specified
+by its formatting in the Excel worksheet. It is able to recognise text, number
+and date types. By default, text and number types are formatted "as-is", while
+date types are formatted according to the ``DATE_FORMAT`` specified in the
+workflow configuration sheet, which is a `strftime`_ format string.
+
+(Note that Excel exports currency-formatted columns as plain numbers, so you
+must specify a format if you'd like to include the currency symbol in ISYN.)
+
+You can specify alternate formats on a per-column basis by setting environment
+variables of the form ``FMT_N``, where ``N`` is the number of the column:
+
+.. code-block:: bash
+    :linenos:
+
+    # Format column 3 (C) as YYYY-MM-DD date
+    export FMT_3='%Y-%m-%d'
+    # Add currency symbol to column 5 (E)
+    export FMT_5='$ 0.2f'
+
+For text and number types, the formats are interpreted as
+`sprintf-style <springf>`_ format strings. For dates, the formats are
+interpreted as `strftime-style <strftime>`_ format strings.
+
+.. important::
+
+    When using ``$`` in a format string, you **must** surround it in
+    single-quotes (as in the above example), otherwise ``bash``/``zsh`` will
+    interpret it as a variable, which will fail.
 
 
 .. _feedback:
@@ -232,5 +278,6 @@ Indices and tables
 .. _GitHub issue: https://github.com/deanishe/i-sheet-you-not/issues
 .. _GitHub releases: https://github.com/deanishe/i-sheet-you-not/releases
 .. _Alfred forum thread: http://www.alfredforum.com/topic/9469-i-sheet-you-not-plug-excel-into-alfred/
-.. _Packal: http://www.packal.org/workflow/i-sheet-you-not
 .. _workflow variables: https://www.alfredapp.com/help/workflows/advanced/variables/
+.. _strftime: http://strftime.org
+.. _sprintf: https://docs.python.org/2/library/stdtypes.html#string-formatting

@@ -151,7 +151,7 @@ class AttrDict(dict):
 
 
 def alfred_vars():
-    """Dictionary of Alfred's environment variables w/out 'alfred_' prefix."""
+    """Dictionary of Alfred's environment variables w/out ``alfred_`` prefix."""
     d = AttrDict()
     for k in os.environ:
         if k.startswith('alfred_'):
