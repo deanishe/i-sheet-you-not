@@ -238,6 +238,8 @@
 			<dict>
 				<key>alfredfiltersresults</key>
 				<true/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
 				<key>argumenttrimmode</key>
 				<integer>0</integer>
 				<key>argumenttype</key>
@@ -494,6 +496,8 @@ log "Building workflow \"${title}\" in ${destdir} ..."
 			<dict>
 				<key>alfredfiltersresults</key>
 				<true/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
 				<key>argumenttrimmode</key>
 				<integer>0</integer>
 				<key>argumenttype</key>
@@ -543,6 +547,8 @@ export SHEET=Websites
 			<dict>
 				<key>alfredfiltersresults</key>
 				<true/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>2</integer>
 				<key>argumenttrimmode</key>
 				<integer>0</integer>
 				<key>argumenttype</key>
@@ -571,7 +577,10 @@ export VAR_joined_fee=5
 export VAR_left_year=6
 export VAR_next_club=7
 export VAR_left_fee=8
-export VAR_profile_url=9
+export VAR_id=9
+export VAR_tenure=11
+export VAR_url=12
+export VAR_empty=13
 
 ./isyn --sheet 'Liverpool Transfers' --row 4 --title 2 --subtitle 11 --value 12</string>
 				<key>scriptargtype</key>
@@ -599,6 +608,8 @@ export VAR_profile_url=9
 			<dict>
 				<key>alfredfiltersresults</key>
 				<true/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
 				<key>argumenttrimmode</key>
 				<integer>0</integer>
 				<key>argumenttype</key>
@@ -719,6 +730,8 @@ and a GDP of USD {var:gdp}</string>
 			<dict>
 				<key>alfredfiltersresults</key>
 				<true/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
 				<key>argumenttrimmode</key>
 				<integer>0</integer>
 				<key>argumenttype</key>
@@ -868,6 +881,8 @@ export VAR_country=1
 			<dict>
 				<key>alfredfiltersresults</key>
 				<true/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
 				<key>argumenttrimmode</key>
 				<integer>0</integer>
 				<key>argumenttype</key>
@@ -1138,7 +1153,7 @@ These are passed as variables to following workflow actions. "VAR_thing" becomes
 			<key>note</key>
 			<string>Show variables set by ISYN from data extracted from Excel sheet</string>
 			<key>xpos</key>
-			<integer>230</integer>
+			<integer>240</integer>
 			<key>ypos</key>
 			<integer>1070</integer>
 		</dict>
@@ -1160,7 +1175,7 @@ The path to the file is set in the workflow's Configuration Sheet, and unless to
 			<key>colorindex</key>
 			<integer>5</integer>
 			<key>xpos</key>
-			<integer>340</integer>
+			<integer>330</integer>
 			<key>ypos</key>
 			<integer>950</integer>
 		</dict>

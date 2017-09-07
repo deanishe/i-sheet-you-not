@@ -230,18 +230,19 @@ def cell_type(cell):
 class Formatter(object):
     """Format Excel values according to column-specific format strings.
 
-    Format strings should be sprintf-style patterns or strftime-style
-    patterns. strftime-style patterns must be prefixed with ``dt:``.
+    Format strings should be sprintf- or strftime-style (for date columns)
+    patterns.
 
     Attributes:
         datemode (int): Date mode of sheet this formatter is for
-        patterns (dict): Column -> format string mapping
+        formats (dict): Column -> format string mapping
 
     """
 
     def __init__(self, datemode, formats=None):
         self.datemode = datemode
-        self.patterns = {}
+        self.formats = {}
+        formats = formats or {}
         for col, pat in formats.items():
             self.set(col, pat)
 
@@ -254,7 +255,7 @@ class Formatter(object):
         Returns:
             str: Format pattern or None
         """
-        return self.patterns.get(col)
+        return self.formats.get(col)
 
     def set(self, col, pat):
         """Set format pattern for column.
@@ -266,7 +267,7 @@ class Formatter(object):
         if not pat:
             return
 
-        self.patterns[col] = pat
+        self.formats[col] = pat
 
     def format(self, col, cell):
         """Format a value with the pattern set for column.
@@ -283,14 +284,9 @@ class Formatter(object):
 
         """
         pat = self.get(col)
-        if not pat:
+        # log('col=%r, pat=%r, cell=%r', col, pat, cell)
+        if not pat or cell.ctype in (TYPE_BOOLEAN, TYPE_ERROR, TYPE_EMPTY):
             return self._format_default(cell)
-
-        if cell.ctype == TYPE_BOOLEAN:
-            return self._format_default(cell)
-
-        if cell.ctype == TYPE_ERROR:
-            return '<error>'
 
         if cell.ctype == TYPE_DATE:
             dt = xldate_as_datetime(cell.value, self.datemode)
@@ -299,7 +295,7 @@ class Formatter(object):
         else:
             formatted = pat % cell.value
 
-        log('pat=%r, %r  -->  %r', pat, cell.value, formatted)
+        # log('pat=%r, %r  -->  %r', pat, cell.value, formatted)
         return formatted
 
     def _format_default(self, cell):
@@ -321,9 +317,14 @@ class Formatter(object):
         if cell.ctype == TYPE_ERROR:
             return '<error>'
 
+        if cell.ctype == TYPE_EMPTY:
+            return ''
+
         if cell.ctype == TYPE_DATE:
             dt = xldate_as_datetime(cell.value, self.datemode)
             return dt.strftime(DATE_FORMAT)
+
+        return cell.value
 
 
 def read_data(path, sheet, cols, start_row=1, variables=None, formats=None):
@@ -366,7 +367,7 @@ def read_data(path, sheet, cols, start_row=1, variables=None, formats=None):
 
     start_row -= 1
     fmt = Formatter(wb.datemode, formats)
-    cols = [i - 1 for i in cols]
+    # cols = [i - 1 for i in cols]
 
     items = []
     invalid = 0
@@ -376,27 +377,30 @@ def read_data(path, sheet, cols, start_row=1, variables=None, formats=None):
     while i < s.nrows:
         evars = {}
         sub = arg = ''
-        cell = s.cell(i, cols[0])
-        log('cell=%r', cell)
-        tit = cell.value
+        cell = s.cell(i, cols[0] - 1)
+        tit = fmt.format(cols[0], cell)
+        log('[title] i=%d, cell=%r, value=%r', i, cell, tit)
         if cols[1] > -1:
-            cell = s.cell(i, cols[1])
-            log('cell=%r', cell)
-            sub = fmt.format(cols[1] + 1, cell)
+            cell = s.cell(i, cols[1] - 1)
+            sub = fmt.format(cols[1], cell)
+            log('[subtitle] i=%d, cell=%r, value=%r', i, cell, sub)
         if cols[2] > -1:
-            cell = s.cell(i, cols[2])
-            log('cell=%r', cell)
-            arg = fmt.format(cols[2] + 1, cell)
+            cell = s.cell(i, cols[2] - 1)
+            arg = fmt.format(cols[2], cell)
+            log('[value] i=%d, cell=%r, value=%r', i, cell, arg)
 
         for k, j in variables.items():
+            value = None
             cell = s.cell(i, j - 1)
-            log('cell=%r, type=%s', cell, cell_type(cell))
-            if cell.value:
-                evars[k] = fmt.format(j, cell)
+            value = fmt.format(j, cell)
+            evars[k] = value
+            log('[var:%s] i=%d, cell=%r, type=%s, value=%r', k, i, cell,
+                cell_type(cell), value)
 
         i += 1
 
-        # log('tit=%r, sub=%r, arg=%r', tit, sub, arg)
+        log('formats=%r, cols=%r, tit=%r, sub=%r, arg=%r', formats,
+            cols, tit, sub, arg)
 
         if not tit:  # Invalid
             invalid += 1
