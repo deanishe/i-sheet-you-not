@@ -198,9 +198,9 @@ variables of the form ``FMT_N``, where ``N`` is the number of the column:
     # Add currency symbol to column 5 (E)
     export FMT_5='$ 0.2f'
 
-For text and number types, the formats are interpreted as
-`sprintf`_-style format strings. For dates, the formats are
-interpreted as `strftime`_-style format strings.
+For text and number types, the formats are interpreted as `sprintf`_-style
+format strings. For dates, the formats are interpreted as `strftime`_-style
+format strings.
 
 .. important::
 
