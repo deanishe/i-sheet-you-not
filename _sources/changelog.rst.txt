@@ -5,6 +5,11 @@
 Changelog
 =========
 
+0.3.0
+=====
+
+- Add ``sprintf``- and ``strftime``-style formatting
+
 0.2.2
 =====
 

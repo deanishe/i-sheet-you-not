@@ -1,21 +1,18 @@
 
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>I Sheet You Not &#8212; I Sheet You Not 0.2.3 documentation</title>
-    
+    <title>I Sheet You Not &#8212; I Sheet You Not 0.3.0 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.2.3',
+        VERSION:     '0.3.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -41,7 +38,7 @@
 <link rel="stylesheet" href="_static/custom.css">
 
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -54,7 +51,7 @@
         <li class="right" >
           <a href="licence.html" title="Licence"
              accesskey="N">next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">I Sheet You Not 0.2.3 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="#">I Sheet You Not 0.3.0 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -69,15 +66,15 @@
 <img alt="I Sheet You Not demo" src="_images/demo.gif" />
 <div class="section" id="overview">
 <span id="id1"></span><h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
-<p><em>I Sheet You Not</em> is a workflow generator/template for <a class="reference external" href="https://www.alfredapp.com/">Alfred 3</a>. It reads
+<p>I Sheet You Not is a workflow generator/template for <a class="reference external" href="https://www.alfredapp.com/">Alfred 3</a>. It reads
 data from an Excel workbook and displays it in Alfred. You can specify
 which rows and columns the data are read from, and changes to the data
 are picked up automatically by the workflow.</p>
 </div>
 <div class="section" id="download-and-installation">
 <span id="download"></span><h2>Download and installation<a class="headerlink" href="#download-and-installation" title="Permalink to this headline">¶</a></h2>
-<p>Download the latest version of the workflow from <a class="reference external" href="https://github.com/deanishe/i-sheet-you-not/releases">GitHub releases</a> or
-<a class="reference external" href="http://www.packal.org/workflow/i-sheet-you-not">Packal</a>. Double-click the downloaded <code class="docutils literal"><span class="pre">I-Sheet-You-Not-X.X.X.alfredworkflow</span></code>
+<p>Download the latest version of the workflow from <a class="reference external" href="https://github.com/deanishe/i-sheet-you-not/releases">GitHub releases</a>.
+Double-click the downloaded <code class="docutils literal"><span class="pre">I-Sheet-You-Not-X.X.X.alfredworkflow</span></code>
 file to install in Alfred 3.</p>
 </div>
 <div class="section" id="usage">
@@ -85,7 +82,7 @@ file to install in Alfred 3.</p>
 <div class="admonition tip">
 <p class="first admonition-title">Tip</p>
 <p class="last">Check out the green demo objects in the workflow for examples of how
-to use and configure <em>I Sheet You Not</em>.</p>
+to use and configure I Sheet You Not.</p>
 </div>
 <p>Use the keyword <code class="docutils literal"><span class="pre">isyn</span></code> to search for an Excel sheet and generate a new
 workflow based on it.</p>
@@ -103,11 +100,11 @@ delete the other, unneeded objects.</p>
 <span id="id3"></span><h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">What <em>I Sheet You Not</em> calls the <code class="docutils literal"><span class="pre">VALUE</span></code> is what is typically referred to
+<p class="last">What I Sheet You Not calls the <code class="docutils literal"><span class="pre">VALUE</span></code> is what is typically referred to
 as <code class="docutils literal"><span class="pre">arg</span></code> or <code class="docutils literal"><span class="pre">{query}</span></code> in Alfred workflow terminology. (<code class="docutils literal"><span class="pre">arg</span></code> being
-its name in Alfred&#8217;s JSON and XML format, and <code class="docutils literal"><span class="pre">{query}</span></code> being the text
+its name in Alfred’s JSON and XML format, and <code class="docutils literal"><span class="pre">{query}</span></code> being the text
 macro that Alfred replaces with the value of <code class="docutils literal"><span class="pre">arg</span></code>). It is the value
-passed to subsequent workflow elements when you &#8220;action&#8221; (i.e. hit ↩ on)
+passed to subsequent workflow elements when you “action” (i.e. hit ↩ on)
 a result shown in Alfred.</p>
 </div>
 <p>By default, the workflow pulls data from the first row of the first worksheet
@@ -117,50 +114,47 @@ column B and the value from column C.</p>
 <code class="docutils literal"><span class="pre">SUBTITLE_COL</span></code> and <code class="docutils literal"><span class="pre">VALUE_COL</span></code> options in the workflow configuration
 sheet:</p>
 <img alt="Workflow configuration sheet" src="_images/config_sheet.png" />
-<p>If <code class="docutils literal"><span class="pre">SHEET</span></code> is unset, it defaults to the first worksheet.</p>
-<p>If <code class="docutils literal"><span class="pre">START_ROW</span></code> is unset, it defaults to the first row.</p>
-<p>If <code class="docutils literal"><span class="pre">TITLE_COL</span></code> is unset, it defaults to the first column (i.e. column A).</p>
+<p><code class="docutils literal"><span class="pre">SHEET</span></code> may be the index number of the worksheet or the title.
+If <code class="docutils literal"><span class="pre">SHEET</span></code> is unset, it defaults to the first worksheet.</p>
+<p>If <code class="docutils literal"><span class="pre">START_ROW</span></code> is unset, it defaults to the first row (i.e. <code class="docutils literal"><span class="pre">1</span></code>).</p>
+<p>If <code class="docutils literal"><span class="pre">TITLE_COL</span></code> is unset, it defaults to the first column (i.e. <code class="docutils literal"><span class="pre">1</span></code>, which
+is column A).</p>
 <p>If <code class="docutils literal"><span class="pre">SUBTITLE_COL</span></code> is unset, it defaults to the column after <code class="docutils literal"><span class="pre">TITLE_COL</span></code>.</p>
 <p>If <code class="docutils literal"><span class="pre">VALUE_COL</span></code> is unset, it defaults to the second column after <code class="docutils literal"><span class="pre">TITLE_COL</span></code>.</p>
+<p><code class="docutils literal"><span class="pre">DATE_FORMAT</span></code> is a <a class="reference external" href="http://strftime.org">strftime</a> format string that will be used for any
+columns that are formatted as dates in the Excel spreadsheet. You can override
+this format for specific columns. See <a class="reference internal" href="#formatting-values"><span class="std std-ref">Formatting values</span></a> below.</p>
 <div class="admonition important">
 <p class="first admonition-title">Important</p>
 <p>All rows and columns must be specified as numbers, not letters, so
 set <code class="docutils literal"><span class="pre">TITLE_COL</span></code> to <code class="docutils literal"><span class="pre">1</span></code> for column A, <code class="docutils literal"><span class="pre">2</span></code> for column B etc.</p>
 <p class="last">Only the title is required. If there are no data for subtitle or
-value in the spreadsheet, <strong>you must</strong> set <code class="docutils literal"><span class="pre">SUBTITLE_COL</span></code> and/or
-<code class="docutils literal"><span class="pre">VALUE_COL</span></code> to <code class="docutils literal"><span class="pre">0</span></code> <strong>or the workflow will crash!</strong></p>
+value in the spreadsheet, set <code class="docutils literal"><span class="pre">SUBTITLE_COL</span></code> and/or <code class="docutils literal"><span class="pre">VALUE_COL</span></code> to
+<code class="docutils literal"><span class="pre">0</span></code>.</p>
 </div>
 <div class="section" id="command-line-options">
 <h3>Command-line options<a class="headerlink" href="#command-line-options" title="Permalink to this headline">¶</a></h3>
 <p>Configuration options may also be specified as options to the <code class="docutils literal"><span class="pre">isyn</span></code>
-command within the Script Filter</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>usage: isyn [-h] [-p FILE] [-n N] [-r N] [-t N] [-s N] [-v N] [--version]
+command within the Script Filter:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">isyn</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">p</span> <span class="n">FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">n</span> <span class="n">N</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">r</span> <span class="n">N</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">t</span> <span class="n">N</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">s</span> <span class="n">N</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span> <span class="n">N</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">version</span><span class="p">]</span>
 
-I Sheet You Not. Search Excel data in Alfred 3. Pass this script the path to
-an Excel file via the -p option or the DOC_PATH environment variable. By
-default, the script reads the rows of the first worksheet in the workbook and
-generates Alfred JSON results. It reads the first three columns, treating the
-first as the result title, the second as its subtitle and the third as its
-value (arg).
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -p FILE, --docpath FILE
-                        Excel file to read data from. Envvar: DOC_PATH
-  -n N, --sheet N       Number or name of worksheet to read data from. Default
-                        is the first sheet in the workbook. Envvar: SHEET
-  -r N, --row N         Number of first row to read data from. Default is 1,
-                        i.e the first row. Use --row 2 to ignore a title row,
-                        for example. Envvar: START_ROW
-  -t N, --title N       Number of column to read titles from. Default is the
-                        first column. Envvar: TITLE_COL
-  -s N, --subtitle N    Number of column to read subtitles from. Default is
-                        the column after the title column. Set to 0 if there
-                        is no subtitle column. Envvar: SUBTITLE_COL
-  -v N, --value N       Number of column to read values from. Default is the
-                        second column after the title column. Set to 0 if
-                        there is no value column. Envvar: VALUE_COL
-  --version             Show workflow version number and exit.
+  <span class="o">-</span><span class="n">h</span><span class="p">,</span> <span class="o">--</span><span class="n">help</span>            <span class="n">show</span> <span class="n">this</span> <span class="n">help</span> <span class="n">message</span> <span class="ow">and</span> <span class="n">exit</span>
+  <span class="o">-</span><span class="n">p</span> <span class="n">FILE</span><span class="p">,</span> <span class="o">--</span><span class="n">docpath</span> <span class="n">FILE</span>
+                        <span class="n">Excel</span> <span class="n">file</span> <span class="n">to</span> <span class="n">read</span> <span class="n">data</span> <span class="n">from</span><span class="o">.</span> <span class="n">Envvar</span><span class="p">:</span> <span class="n">DOC_PATH</span>
+  <span class="o">-</span><span class="n">n</span> <span class="n">N</span><span class="p">,</span> <span class="o">--</span><span class="n">sheet</span> <span class="n">N</span>       <span class="n">Number</span> <span class="ow">or</span> <span class="n">name</span> <span class="n">of</span> <span class="n">worksheet</span> <span class="n">to</span> <span class="n">read</span> <span class="n">data</span> <span class="n">from</span><span class="o">.</span> <span class="n">Default</span>
+                        <span class="ow">is</span> <span class="n">the</span> <span class="n">first</span> <span class="n">sheet</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">workbook</span><span class="o">.</span><span class="n">Envvar</span><span class="p">:</span> <span class="n">SHEET</span>
+  <span class="o">-</span><span class="n">r</span> <span class="n">N</span><span class="p">,</span> <span class="o">--</span><span class="n">row</span> <span class="n">N</span>         <span class="n">Number</span> <span class="n">of</span> <span class="n">first</span> <span class="n">row</span> <span class="n">to</span> <span class="n">read</span> <span class="n">data</span> <span class="n">from</span><span class="o">.</span> <span class="n">Default</span> <span class="ow">is</span> <span class="mi">1</span><span class="p">,</span>
+                        <span class="n">i</span><span class="o">.</span><span class="n">e</span> <span class="n">the</span> <span class="n">first</span> <span class="n">row</span><span class="o">.</span> <span class="n">Use</span> <span class="o">--</span><span class="n">row</span> <span class="mi">2</span> <span class="n">to</span> <span class="n">ignore</span> <span class="n">a</span> <span class="n">title</span> <span class="n">row</span><span class="p">,</span>
+                        <span class="k">for</span> <span class="n">example</span><span class="o">.</span><span class="n">Envvar</span><span class="p">:</span> <span class="n">START_ROW</span>
+  <span class="o">-</span><span class="n">t</span> <span class="n">N</span><span class="p">,</span> <span class="o">--</span><span class="n">title</span> <span class="n">N</span>       <span class="n">Number</span> <span class="n">of</span> <span class="n">column</span> <span class="n">to</span> <span class="n">read</span> <span class="n">titles</span> <span class="n">from</span><span class="o">.</span> <span class="n">Default</span> <span class="ow">is</span> <span class="n">the</span>
+                        <span class="n">first</span> <span class="n">column</span><span class="o">.</span><span class="n">Envvar</span><span class="p">:</span> <span class="n">TITLE_COL</span>
+  <span class="o">-</span><span class="n">s</span> <span class="n">N</span><span class="p">,</span> <span class="o">--</span><span class="n">subtitle</span> <span class="n">N</span>    <span class="n">Number</span> <span class="n">of</span> <span class="n">column</span> <span class="n">to</span> <span class="n">read</span> <span class="n">subtitles</span> <span class="n">from</span><span class="o">.</span> <span class="n">Default</span> <span class="ow">is</span>
+                        <span class="n">the</span> <span class="n">column</span> <span class="n">after</span> <span class="n">the</span> <span class="n">title</span> <span class="n">column</span><span class="o">.</span> <span class="n">Set</span> <span class="n">to</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">there</span>
+                        <span class="ow">is</span> <span class="n">no</span> <span class="n">subtitle</span> <span class="n">column</span><span class="o">.</span> <span class="n">Envvar</span><span class="p">:</span> <span class="n">SUBTITLE_COL</span>
+  <span class="o">-</span><span class="n">v</span> <span class="n">N</span><span class="p">,</span> <span class="o">--</span><span class="n">value</span> <span class="n">N</span>       <span class="n">Number</span> <span class="n">of</span> <span class="n">column</span> <span class="n">to</span> <span class="n">read</span> <span class="n">values</span> <span class="n">from</span><span class="o">.</span> <span class="n">Default</span> <span class="ow">is</span> <span class="n">the</span>
+                        <span class="n">second</span> <span class="n">column</span> <span class="n">after</span> <span class="n">the</span> <span class="n">title</span> <span class="n">column</span><span class="o">.</span> <span class="n">Set</span> <span class="n">to</span> <span class="mi">0</span> <span class="k">if</span>
+                        <span class="n">there</span> <span class="ow">is</span> <span class="n">no</span> <span class="n">value</span> <span class="n">column</span><span class="o">.</span> <span class="n">Envvar</span><span class="p">:</span> <span class="n">VALUE_COL</span>
+  <span class="o">--</span><span class="n">version</span>             <span class="n">Show</span> <span class="n">workflow</span> <span class="n">version</span> <span class="n">number</span> <span class="ow">and</span> <span class="n">exit</span><span class="o">.</span>
 </pre></div>
 </div>
 </div>
@@ -177,31 +171,61 @@ in the Excel file, using columns A, B and C (1, 2, 3) as title, subtitle
 and value respectively (the default behaviour), and in addition set the
 workflow variables <code class="docutils literal"><span class="pre">url</span></code> to the data from column D (4) and <code class="docutils literal"><span class="pre">user</span></code> to
 column E (5):</p>
-<div class="highlight-console"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+<div class="highlight-bash"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
 4
 5
-6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="gp">#</span> Set workflow variable url from column <span class="m">4</span> <span class="o">(</span>D<span class="o">)</span>
-<span class="go">export VAR_url=4</span>
-<span class="gp">#</span> Set workflow variable user from column <span class="m">5</span> <span class="o">(</span>E<span class="o">)</span>
-<span class="go">export VAR_user=5</span>
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># Set workflow variable url from column 4 (D)</span>
+<span class="nb">export</span> <span class="nv">VAR_url</span><span class="o">=</span><span class="m">4</span>
+<span class="c1"># Set workflow variable user from column 5 (E)</span>
+<span class="nb">export</span> <span class="nv">VAR_user</span><span class="o">=</span><span class="m">5</span>
 
-<span class="go">./isyn</span>
+./isyn
 </pre></div>
 </td></tr></table></div>
+</div>
+<div class="section" id="formatting-values">
+<span id="id4"></span><h3>Formatting values<a class="headerlink" href="#formatting-values" title="Permalink to this headline">¶</a></h3>
+<p>I Sheet You Not attempts to format your data according to the type specified
+by its formatting in the Excel worksheet. It is able to recognise text, number
+and date types. By default, text and number types are formatted “as-is”, while
+date types are formatted according to the <code class="docutils literal"><span class="pre">DATE_FORMAT</span></code> specified in the
+workflow configuration sheet, which is a <a class="reference external" href="http://strftime.org">strftime</a> format string.</p>
+<p>(Note that Excel exports currency-formatted columns as plain numbers, so you
+must specify a format if you’d like to include the currency symbol in ISYN.)</p>
+<p>You can specify alternate formats on a per-column basis by setting environment
+variables of the form <code class="docutils literal"><span class="pre">FMT_N</span></code>, where <code class="docutils literal"><span class="pre">N</span></code> is the number of the column:</p>
+<div class="highlight-bash"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># Format column 3 (C) as YYYY-MM-DD date</span>
+<span class="nb">export</span> <span class="nv">FMT_3</span><span class="o">=</span><span class="s1">&#39;%Y-%m-%d&#39;</span>
+<span class="c1"># Add currency symbol to column 5 (E)</span>
+<span class="nb">export</span> <span class="nv">FMT_5</span><span class="o">=</span><span class="s1">&#39;$ 0.2f&#39;</span>
+</pre></div>
+</td></tr></table></div>
+<p>For text and number types, the formats are interpreted as
+<a class="reference external" href="springf">sprintf-style</a> format strings. For dates, the formats are
+interpreted as <a class="reference external" href="strftime">strftime-style</a> format strings.</p>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">When using <code class="docutils literal"><span class="pre">$</span></code> in a format string, you <strong>must</strong> surround it in
+single-quotes (as in the above example), otherwise <code class="docutils literal"><span class="pre">bash</span></code>/<code class="docutils literal"><span class="pre">zsh</span></code> will
+interpret it as a variable, which will fail.</p>
+</div>
 </div>
 </div>
 <div class="section" id="feedback-questions-bugs-feature-requests">
 <span id="feedback"></span><h2>Feedback, questions, bugs, feature requests<a class="headerlink" href="#feedback-questions-bugs-feature-requests" title="Permalink to this headline">¶</a></h2>
-<p>If you have feedback or questions regarding <em>I Sheet You Not</em>, please post
+<p>If you have feedback or questions regarding I Sheet You Not, please post
 them in the <a class="reference external" href="http://www.alfredforum.com/topic/9469-i-sheet-you-not-plug-excel-into-alfred/">Alfred forum thread</a>.</p>
 <p>If you have a bug report or feature request, please create a new
 <a class="reference external" href="https://github.com/deanishe/i-sheet-you-not/issues">GitHub issue</a>.</p>
 </div>
 <div class="section" id="licensing-and-thanks">
-<span id="id4"></span><h2>Licensing and thanks<a class="headerlink" href="#licensing-and-thanks" title="Permalink to this headline">¶</a></h2>
-<p><em>I Sheet You Not</em> is released under the MIT License. It is based on the
+<span id="id5"></span><h2>Licensing and thanks<a class="headerlink" href="#licensing-and-thanks" title="Permalink to this headline">¶</a></h2>
+<p>I Sheet You Not is released under the MIT License. It is based on the
 <a class="reference external" href="http://www.python-excel.org">xlrd library for Python</a>, released under a <a class="reference external" href="https://github.com/python-excel/xlrd/blob/master/docs/licenses.rst">BSD-style licence</a>.</p>
 <p>The workflow icon was created by carlosjj from <a class="reference external" href="http://www.iconarchive.com/show/google-jfk-icons-by-carlosjj/spreadsheets-icon.html">IconArchive.com</a>.</p>
 <div class="toctree-wrapper compound">
@@ -219,10 +243,11 @@ them in the <a class="reference external" href="http://www.alfredforum.com/topic
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id2">0.2.2</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id3">0.2.1</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id4">0.2.0</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id5">0.1.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id2">0.3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id3">0.2.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id4">0.2.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id5">0.2.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id6">0.1.2</a></li>
 </ul>
 </li>
 </ul>
@@ -233,13 +258,7 @@ them in the <a class="reference external" href="http://www.alfredforum.com/topic
 <p>This documentation was auto-generated by sphinx from the source code.</p>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="api.html">API reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api.html#i-sheet-you-not">I Sheet You Not</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#core">core</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#cli">cli</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#aw3">aw3</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API reference</a></li>
 </ul>
 </div>
 </div>
@@ -292,6 +311,7 @@ them in the <a class="reference external" href="http://www.alfredforum.com/topic
 <li><a class="reference internal" href="#configuration">Configuration</a><ul>
 <li><a class="reference internal" href="#command-line-options">Command-line options</a></li>
 <li><a class="reference internal" href="#extracting-data-to-workflow-variables">Extracting data to workflow variables</a></li>
+<li><a class="reference internal" href="#formatting-values">Formatting values</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#feedback-questions-bugs-feature-requests">Feedback, questions, bugs, feature requests</a></li>
@@ -336,7 +356,7 @@ them in the <a class="reference external" href="http://www.alfredforum.com/topic
       &copy;2016, Dean Jackson.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.3</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
       
     </div>

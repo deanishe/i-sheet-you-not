@@ -1,21 +1,18 @@
 
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>isheetyounot.core &#8212; I Sheet You Not 0.2.3 documentation</title>
-    
+    <title>isheetyounot.core &#8212; I Sheet You Not 0.3.0 documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.2.3',
+        VERSION:     '0.3.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -40,7 +37,7 @@
 <link rel="stylesheet" href="../../_static/custom.css">
 
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -50,7 +47,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">I Sheet You Not 0.2.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">I Sheet You Not 0.3.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -61,7 +58,8 @@
           <div class="body" role="main">
             
   <h1>Source code for isheetyounot.core</h1><div class="highlight"><pre>
-<span></span><span class="c1"># encoding: utf-8</span>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># encoding: utf-8</span>
 <span class="c1">#</span>
 <span class="c1"># Copyright (c) 2016 Dean Jackson &lt;deanishe@deanishe.net&gt;</span>
 <span class="c1">#</span>
@@ -70,25 +68,18 @@
 <span class="c1"># Created on 2016-05-21</span>
 <span class="c1">#</span>
 
+<span class="sd">&quot;&quot;&quot;I Sheet You Not. Search Excel data in Alfred 3.</span>
+
+<span class="sd">Pass this script the path to an Excel file via the -p option or the</span>
+<span class="sd">DOC_PATH environment variable.</span>
+
+<span class="sd">By default, the script reads the rows of the first worksheet in the</span>
+<span class="sd">workbook and generates Alfred JSON results.</span>
+
+<span class="sd">It reads the first three columns, treating the first as the result title,</span>
+<span class="sd">the second as its subtitle and the third as its value (arg).</span>
+
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">core</span>
-<span class="sd">^^^^</span>
-
-<span class="sd">Loading and caching of Excel files, and helper functions.</span>
-
-<span class="sd">&quot;&quot;&quot;</span>
-
-
-<span class="c1"># I Sheet You Not. Search Excel data in Alfred 3.</span>
-
-<span class="c1"># Pass this script the path to an Excel file via the -p option or the</span>
-<span class="c1"># DOC_PATH environment variable.</span>
-
-<span class="c1"># By default, the script reads the rows of the first worksheet in the</span>
-<span class="c1"># workbook and generates Alfred JSON results.</span>
-
-<span class="c1"># It reads the first three columns, treating the first as the result title,</span>
-<span class="c1"># the second as its subtitle and the third as its value (arg).</span>
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">unicode_literals</span><span class="p">,</span> <span class="n">absolute_import</span>
 
@@ -98,7 +89,19 @@
 
 <span class="kn">from</span> <span class="nn">.aw3</span> <span class="k">import</span> <span class="n">av</span><span class="p">,</span> <span class="n">human_time</span><span class="p">,</span> <span class="n">log</span><span class="p">,</span> <span class="n">make_item</span>
 
-<span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;0.2.3&#39;</span>
+<span class="kn">from</span> <span class="nn">xlrd</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="n">XL_CELL_EMPTY</span> <span class="k">as</span> <span class="n">TYPE_EMPTY</span><span class="p">,</span>
+    <span class="n">XL_CELL_TEXT</span> <span class="k">as</span> <span class="n">TYPE_TEXT</span><span class="p">,</span>
+    <span class="n">XL_CELL_NUMBER</span> <span class="k">as</span> <span class="n">TYPE_NUMBER</span><span class="p">,</span>
+    <span class="n">XL_CELL_DATE</span> <span class="k">as</span> <span class="n">TYPE_DATE</span><span class="p">,</span>
+    <span class="n">XL_CELL_BOOLEAN</span> <span class="k">as</span> <span class="n">TYPE_BOOLEAN</span><span class="p">,</span>
+    <span class="n">XL_CELL_ERROR</span> <span class="k">as</span> <span class="n">TYPE_ERROR</span><span class="p">,</span>
+    <span class="n">XL_CELL_BLANK</span> <span class="k">as</span> <span class="n">TYPE_BLANK</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">xlrd.xldate</span> <span class="k">import</span> <span class="n">xldate_as_datetime</span>
+
+<span class="c1"># Workflow version number</span>
+<span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;0.3.0&#39;</span>
 
 <span class="c1"># Fallback/default values</span>
 <span class="n">BUNDLE_ID</span> <span class="o">=</span> <span class="s1">&#39;net.deanishe.alfred-i-sheet-you-not&#39;</span>
@@ -107,6 +110,11 @@
 <span class="c1"># Link to GitHub issues. Output by rescue() on error.</span>
 <span class="n">HELP_URL</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/deanishe/i-sheet-you-not/issues&#39;</span>
 
+<span class="c1"># Excel&#39;s start date + 1 day (Jan 0 doesn&#39;t exist in Python)</span>
+<span class="c1"># START_DATE = date(1900, 1, 1)</span>
+<span class="n">DEFAULT_DATE_FORMAT</span> <span class="o">=</span> <span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span>
+<span class="n">DATE_FORMAT</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;DATE_FORMAT&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">DEFAULT_DATE_FORMAT</span>
+
 
 <div class="viewcode-block" id="ConfigError"><a class="viewcode-back" href="../../api.html#isheetyounot.core.ConfigError">[docs]</a><span class="k">class</span> <span class="nc">ConfigError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Raised if a configuration value is not given or invalid.</span>
@@ -114,7 +122,7 @@
 <span class="sd">    Typically, this will be a bad sheet number or name.</span>
 
 <span class="sd">    If the program can&#39;t read the Excel data for other reasons,</span>
-<span class="sd">    there&#39;ll be an exception from the underlying ``xlrd`` library.</span>
+<span class="sd">    there&#39;ll be an exception from the underlying `xlrd` library.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -130,8 +138,9 @@
 <span class="c1">#                      88</span>
 <span class="c1">#                      dP</span>
 
+
 <div class="viewcode-block" id="tilde"><a class="viewcode-back" href="../../api.html#isheetyounot.core.tilde">[docs]</a><span class="k">def</span> <span class="nf">tilde</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Replace user&#39;s home directory in ``path`` with ~.</span>
+    <span class="sd">&quot;&quot;&quot;Replace user&#39;s home directory in `path` with ~.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        path (unicode): A filepath.</span>
@@ -203,18 +212,18 @@
 
 
 <div class="viewcode-block" id="cached_data"><a class="viewcode-back" href="../../api.html#isheetyounot.core.cached_data">[docs]</a><span class="k">def</span> <span class="nf">cached_data</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">max_age</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Returned data cached for ``key`` or ``None``.</span>
+    <span class="sd">&quot;&quot;&quot;Returned data cached for `key` or `None`.</span>
 
-<span class="sd">    Returns ``None`` if no data are cached for ``key`` or the age</span>
-<span class="sd">    of the cached data exceeds `max_age` (if ``max_age`` is non-zero).</span>
+<span class="sd">    Returns `None` if no data are cached for `key` or the age</span>
+<span class="sd">    of the cached data exceeds `max_age` (if `max_age` is non-zero).</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        key (str): Cache key from :func:`cache_key`.</span>
+<span class="sd">        key (str): Cache key from `cache_key()`.</span>
 <span class="sd">        max_age (int, optional): Maximum permissible age of cached data</span>
 <span class="sd">            in seconds.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        str: The contents of the cache file, or ``None``.</span>
+<span class="sd">        str: The contents of the cache file, or `None`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">p</span> <span class="o">=</span> <span class="n">_cache_path</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 
@@ -233,10 +242,10 @@
 
 
 <div class="viewcode-block" id="cache_data"><a class="viewcode-back" href="../../api.html#isheetyounot.core.cache_data">[docs]</a><span class="k">def</span> <span class="nf">cache_data</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Store ``data`` in cache under name ``key``.</span>
+    <span class="sd">&quot;&quot;&quot;Store `data` in cache under name `key`.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        key (str): Cache key from :func:``cache_key``.</span>
+<span class="sd">        key (str): Cache key from `cache_key()`.</span>
 <span class="sd">        data (str): Data to write to file.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">p</span> <span class="o">=</span> <span class="n">_cache_path</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
@@ -252,7 +261,133 @@
 <span class="c1"># 88.  ...  .d88b.  88.  ... 88.  ... 88</span>
 <span class="c1"># `88888P&#39; dP&#39;  `dP `88888P&#39; `88888P&#39; dP</span>
 
-<div class="viewcode-block" id="read_data"><a class="viewcode-back" href="../../api.html#isheetyounot.core.read_data">[docs]</a><span class="k">def</span> <span class="nf">read_data</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">sheet</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="n">start_row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">variables</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="cell_type"><a class="viewcode-back" href="../../api.html#isheetyounot.core.cell_type">[docs]</a><span class="k">def</span> <span class="nf">cell_type</span><span class="p">(</span><span class="n">cell</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return type of cell.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        cell (xlrd.sheet.Cell): Excel cell</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: Type of cell as text</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">cell</span><span class="o">.</span><span class="n">ctype</span> <span class="o">==</span> <span class="n">TYPE_BLANK</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;blank&#39;</span>
+    <span class="k">if</span> <span class="n">cell</span><span class="o">.</span><span class="n">ctype</span> <span class="o">==</span> <span class="n">TYPE_BOOLEAN</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;boolean&#39;</span>
+    <span class="k">if</span> <span class="n">cell</span><span class="o">.</span><span class="n">ctype</span> <span class="o">==</span> <span class="n">TYPE_DATE</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;date&#39;</span>
+    <span class="k">if</span> <span class="n">cell</span><span class="o">.</span><span class="n">ctype</span> <span class="o">==</span> <span class="n">TYPE_EMPTY</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;empty&#39;</span>
+    <span class="k">if</span> <span class="n">cell</span><span class="o">.</span><span class="n">ctype</span> <span class="o">==</span> <span class="n">TYPE_ERROR</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;error&#39;</span>
+    <span class="k">if</span> <span class="n">cell</span><span class="o">.</span><span class="n">ctype</span> <span class="o">==</span> <span class="n">TYPE_NUMBER</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;number&#39;</span>
+    <span class="k">if</span> <span class="n">cell</span><span class="o">.</span><span class="n">ctype</span> <span class="o">==</span> <span class="n">TYPE_TEXT</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;text&#39;</span></div>
+
+
+<div class="viewcode-block" id="Formatter"><a class="viewcode-back" href="../../api.html#isheetyounot.core.Formatter">[docs]</a><span class="k">class</span> <span class="nc">Formatter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Format Excel values according to column-specific format strings.</span>
+
+<span class="sd">    Format strings should be sprintf- or strftime-style (for date columns)</span>
+<span class="sd">    patterns.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        datemode (int): Date mode of sheet this formatter is for</span>
+<span class="sd">        formats (dict): Column -&gt; format string mapping</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">datemode</span><span class="p">,</span> <span class="n">formats</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">datemode</span> <span class="o">=</span> <span class="n">datemode</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">formats</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">formats</span> <span class="o">=</span> <span class="n">formats</span> <span class="ow">or</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">col</span><span class="p">,</span> <span class="n">pat</span> <span class="ow">in</span> <span class="n">formats</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">pat</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Formatter.get"><a class="viewcode-back" href="../../api.html#isheetyounot.core.Formatter.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">col</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get format pattern (or None) for a specific column.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            col (int): Column index (1-indexed)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: Format pattern or None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">formats</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">col</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Formatter.set"><a class="viewcode-back" href="../../api.html#isheetyounot.core.Formatter.set">[docs]</a>    <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">pat</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set format pattern for column.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            col (int): Column index (1-indexed)</span>
+<span class="sd">            pat (str): Format pattern</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">pat</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">formats</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">pat</span></div>
+
+<div class="viewcode-block" id="Formatter.format"><a class="viewcode-back" href="../../api.html#isheetyounot.core.Formatter.format">[docs]</a>    <span class="k">def</span> <span class="nf">format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">cell</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Format a value with the pattern set for column.</span>
+
+<span class="sd">        If no format pattern is set for column, value is returned</span>
+<span class="sd">        unchanged.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            col (int): Column number</span>
+<span class="sd">            cell (xlrd.sheet.Cell): Excel cell</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: Formatted value</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
+        <span class="c1"># log(&#39;col=%r, pat=%r, cell=%r&#39;, col, pat, cell)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">pat</span> <span class="ow">or</span> <span class="n">cell</span><span class="o">.</span><span class="n">ctype</span> <span class="ow">in</span> <span class="p">(</span><span class="n">TYPE_BOOLEAN</span><span class="p">,</span> <span class="n">TYPE_ERROR</span><span class="p">,</span> <span class="n">TYPE_EMPTY</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_default</span><span class="p">(</span><span class="n">cell</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">cell</span><span class="o">.</span><span class="n">ctype</span> <span class="o">==</span> <span class="n">TYPE_DATE</span><span class="p">:</span>
+            <span class="n">dt</span> <span class="o">=</span> <span class="n">xldate_as_datetime</span><span class="p">(</span><span class="n">cell</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datemode</span><span class="p">)</span>
+            <span class="n">formatted</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">pat</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">formatted</span> <span class="o">=</span> <span class="n">pat</span> <span class="o">%</span> <span class="n">cell</span><span class="o">.</span><span class="n">value</span>
+
+        <span class="c1"># log(&#39;pat=%r, %r  --&gt;  %r&#39;, pat, cell.value, formatted)</span>
+        <span class="k">return</span> <span class="n">formatted</span></div>
+
+    <span class="k">def</span> <span class="nf">_format_default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cell</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return cell value with default formatting.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            cell (xlrd.sheet.Cell): Excel cell</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: Formatted cell value</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">cell</span><span class="o">.</span><span class="n">ctype</span> <span class="o">==</span> <span class="n">TYPE_BOOLEAN</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">cell</span><span class="o">.</span><span class="n">value</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s1">&#39;yes&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s1">&#39;no&#39;</span>
+
+        <span class="k">if</span> <span class="n">cell</span><span class="o">.</span><span class="n">ctype</span> <span class="o">==</span> <span class="n">TYPE_ERROR</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;&lt;error&gt;&#39;</span>
+
+        <span class="k">if</span> <span class="n">cell</span><span class="o">.</span><span class="n">ctype</span> <span class="o">==</span> <span class="n">TYPE_EMPTY</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;&#39;</span>
+
+        <span class="k">if</span> <span class="n">cell</span><span class="o">.</span><span class="n">ctype</span> <span class="o">==</span> <span class="n">TYPE_DATE</span><span class="p">:</span>
+            <span class="n">dt</span> <span class="o">=</span> <span class="n">xldate_as_datetime</span><span class="p">(</span><span class="n">cell</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datemode</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">dt</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">DATE_FORMAT</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">cell</span><span class="o">.</span><span class="n">value</span></div>
+
+
+<div class="viewcode-block" id="read_data"><a class="viewcode-back" href="../../api.html#isheetyounot.core.read_data">[docs]</a><span class="k">def</span> <span class="nf">read_data</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">sheet</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="n">start_row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">variables</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">formats</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Read the specified cells from an Excel file.</span>
 
 <span class="sd">    Args:</span>
@@ -263,6 +398,8 @@
 <span class="sd">        start_row (int, optional): The row on which to start reading data.</span>
 <span class="sd">        variables (dict, optional): name-&gt;col mapping of columns to read</span>
 <span class="sd">            into result variables with the corresponding names.</span>
+<span class="sd">        formats (dict, optional): index-&gt;format mapping of sprintf-style</span>
+<span class="sd">            format strings for columns.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        list: Sequence of Alfred 3 result dictionaries.</span>
@@ -289,7 +426,8 @@
     <span class="n">log</span><span class="p">(</span><span class="s1">&#39;Opened worksheet &quot;</span><span class="si">%s</span><span class="s1">&quot; of </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">tilde</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
 
     <span class="n">start_row</span> <span class="o">-=</span> <span class="mi">1</span>
-    <span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">]</span>
+    <span class="n">fmt</span> <span class="o">=</span> <span class="n">Formatter</span><span class="p">(</span><span class="n">wb</span><span class="o">.</span><span class="n">datemode</span><span class="p">,</span> <span class="n">formats</span><span class="p">)</span>
+    <span class="c1"># cols = [i - 1 for i in cols]</span>
 
     <span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">invalid</span> <span class="o">=</span> <span class="mi">0</span>
@@ -297,27 +435,38 @@
     <span class="n">i</span> <span class="o">=</span> <span class="n">start_row</span>
 
     <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">s</span><span class="o">.</span><span class="n">nrows</span><span class="p">:</span>
-        <span class="nb">vars</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">evars</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">sub</span> <span class="o">=</span> <span class="n">arg</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
-        <span class="n">tit</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">cell</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">cols</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">cell</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">cell</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">cols</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">tit</span> <span class="o">=</span> <span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cols</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cell</span><span class="p">)</span>
+        <span class="n">log</span><span class="p">(</span><span class="s1">&#39;[title] i=</span><span class="si">%d</span><span class="s1">, cell=</span><span class="si">%r</span><span class="s1">, value=</span><span class="si">%r</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">cell</span><span class="p">,</span> <span class="n">tit</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">cols</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
-            <span class="n">sub</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">cell</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">cols</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">value</span>
+            <span class="n">cell</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">cell</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">cols</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">sub</span> <span class="o">=</span> <span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cols</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">cell</span><span class="p">)</span>
+            <span class="n">log</span><span class="p">(</span><span class="s1">&#39;[subtitle] i=</span><span class="si">%d</span><span class="s1">, cell=</span><span class="si">%r</span><span class="s1">, value=</span><span class="si">%r</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">cell</span><span class="p">,</span> <span class="n">sub</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">cols</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
-            <span class="n">arg</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">cell</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">cols</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">value</span>
+            <span class="n">cell</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">cell</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">cols</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">arg</span> <span class="o">=</span> <span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cols</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">cell</span><span class="p">)</span>
+            <span class="n">log</span><span class="p">(</span><span class="s1">&#39;[value] i=</span><span class="si">%d</span><span class="s1">, cell=</span><span class="si">%r</span><span class="s1">, value=</span><span class="si">%r</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">cell</span><span class="p">,</span> <span class="n">arg</span><span class="p">)</span>
+
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">variables</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">v</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">cell</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
-            <span class="k">if</span> <span class="n">v</span><span class="p">:</span>
-                <span class="nb">vars</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">cell</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">cell</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">cell</span><span class="p">)</span>
+            <span class="n">evars</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+            <span class="n">log</span><span class="p">(</span><span class="s1">&#39;[var:</span><span class="si">%s</span><span class="s1">] i=</span><span class="si">%d</span><span class="s1">, cell=</span><span class="si">%r</span><span class="s1">, type=</span><span class="si">%s</span><span class="s1">, value=</span><span class="si">%r</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">cell</span><span class="p">,</span>
+                <span class="n">cell_type</span><span class="p">(</span><span class="n">cell</span><span class="p">),</span> <span class="n">value</span><span class="p">)</span>
 
         <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
 
-        <span class="c1"># log(&#39;tit=%r, sub=%r, arg=%r&#39;, tit, sub, arg)</span>
+        <span class="n">log</span><span class="p">(</span><span class="s1">&#39;formats=</span><span class="si">%r</span><span class="s1">, cols=</span><span class="si">%r</span><span class="s1">, tit=</span><span class="si">%r</span><span class="s1">, sub=</span><span class="si">%r</span><span class="s1">, arg=</span><span class="si">%r</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">formats</span><span class="p">,</span>
+            <span class="n">cols</span><span class="p">,</span> <span class="n">tit</span><span class="p">,</span> <span class="n">sub</span><span class="p">,</span> <span class="n">arg</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">tit</span><span class="p">:</span>  <span class="c1"># Invalid</span>
             <span class="n">invalid</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="k">continue</span>
 
-        <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">make_item</span><span class="p">(</span><span class="n">tit</span><span class="p">,</span> <span class="n">sub</span><span class="p">,</span> <span class="n">arg</span><span class="p">,</span> <span class="o">**</span><span class="nb">vars</span><span class="p">))</span>
+        <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">make_item</span><span class="p">(</span><span class="n">tit</span><span class="p">,</span> <span class="n">sub</span><span class="p">,</span> <span class="n">arg</span><span class="p">,</span> <span class="o">**</span><span class="n">evars</span><span class="p">))</span>
 
     <span class="n">log</span><span class="p">(</span><span class="s1">&#39;Read </span><span class="si">%d</span><span class="s1"> rows from worksheet &quot;</span><span class="si">%s</span><span class="s1">&quot;&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">),</span> <span class="n">s</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
 
@@ -386,7 +535,7 @@
       &copy;2016, Dean Jackson.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.3</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
       
     </div>

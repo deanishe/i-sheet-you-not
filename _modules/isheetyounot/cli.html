@@ -1,21 +1,18 @@
 
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>isheetyounot.cli &#8212; I Sheet You Not 0.2.3 documentation</title>
-    
+    <title>isheetyounot.cli &#8212; I Sheet You Not 0.3.0 documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.2.3',
+        VERSION:     '0.3.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -40,7 +37,7 @@
 <link rel="stylesheet" href="../../_static/custom.css">
 
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -50,7 +47,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">I Sheet You Not 0.2.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">I Sheet You Not 0.3.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -71,14 +68,16 @@
 <span class="c1"># Created on 2016-05-21</span>
 <span class="c1">#</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">cli</span>
-<span class="sd">^^^</span>
+<span class="sd">&quot;&quot;&quot;I Sheet You Not. Search Excel data in Alfred 3.</span>
 
-<span class="sd">Command-line interface for the Alfred workflow.</span>
+<span class="sd">Pass this script the path to an Excel file via the -p option or the</span>
+<span class="sd">DOC_PATH environment variable.</span>
 
-<span class="sd">Will probably die in flames if not run from Alfred or an Alfred-like</span>
-<span class="sd">environment.</span>
+<span class="sd">By default, the script reads the rows of the first worksheet in the</span>
+<span class="sd">workbook and generates Alfred JSON results.</span>
+
+<span class="sd">It reads the first three columns, treating the first as the result title,</span>
+<span class="sd">the second as its subtitle and the third as its value (arg).</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 
@@ -107,19 +106,6 @@
     <span class="n">random_bundle_id</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="n">__usage__</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;I Sheet You Not. Search Excel data in Alfred 3.</span>
-
-<span class="s2">Pass this script the path to an Excel file via the -p option or the</span>
-<span class="s2">DOC_PATH environment variable.</span>
-
-<span class="s2">By default, the script reads the rows of the first worksheet in the</span>
-<span class="s2">workbook and generates Alfred JSON results.</span>
-
-<span class="s2">It reads the first three columns, treating the first as the result title,</span>
-<span class="s2">the second as its subtitle and the third as its value (arg).</span>
-
-<span class="s2">&quot;&quot;&quot;</span>
-
 
 <div class="viewcode-block" id="parse_args"><a class="viewcode-back" href="../../api.html#isheetyounot.cli.parse_args">[docs]</a><span class="k">def</span> <span class="nf">parse_args</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Read program options from the environment and command line.</span>
@@ -128,7 +114,7 @@
 <span class="sd">        argparse.Namespace: Program configuration.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">p</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="n">__usage__</span><span class="p">)</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="vm">__doc__</span><span class="p">)</span>
     <span class="n">p</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-p&#39;</span><span class="p">,</span> <span class="s1">&#39;--docpath&#39;</span><span class="p">,</span>
                    <span class="n">metavar</span><span class="o">=</span><span class="s1">&#39;FILE&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
                    <span class="n">default</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;DOC_PATH&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="s1">&#39;./Demo.xlsx&#39;</span><span class="p">,</span>
@@ -177,18 +163,27 @@
     <span class="n">args</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
     <span class="n">args</span><span class="o">.</span><span class="n">docpath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">docpath</span><span class="p">)</span>
 
-    <span class="c1"># Read VAR_ABC= values from the environment</span>
-    <span class="nb">vars</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="c1"># Read VAR_ABC= and FMT_N= values from the environment</span>
+    <span class="n">evars</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">formats</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">k</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;VAR_&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">k</span> <span class="o">!=</span> <span class="s1">&#39;VAR_&#39;</span><span class="p">:</span>
-            <span class="k">continue</span>
-        <span class="n">v</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">v</span> <span class="ow">and</span> <span class="n">v</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
-            <span class="nb">vars</span><span class="p">[</span><span class="n">k</span><span class="p">[</span><span class="mi">4</span><span class="p">:]]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">log</span><span class="p">(</span><span class="s1">&#39;Invalid value for `</span><span class="si">%s</span><span class="s1">`: </span><span class="si">%r</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">k</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;VAR_&#39;</span><span class="p">):</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">v</span> <span class="ow">and</span> <span class="n">v</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+                <span class="n">evars</span><span class="p">[</span><span class="n">k</span><span class="p">[</span><span class="mi">4</span><span class="p">:]]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">log</span><span class="p">(</span><span class="s1">&#39;invalid value for &quot;</span><span class="si">%s</span><span class="s1">&quot;: </span><span class="si">%r</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
 
-    <span class="n">args</span><span class="o">.</span><span class="n">variables</span> <span class="o">=</span> <span class="nb">vars</span>
+        <span class="k">elif</span> <span class="n">k</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;FMT_&#39;</span><span class="p">):</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="n">k</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">v</span> <span class="ow">and</span> <span class="n">key</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+                <span class="n">formats</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">key</span><span class="p">)]</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">log</span><span class="p">(</span><span class="s1">&#39;invalid format for &quot;</span><span class="si">%s</span><span class="s1">&quot;: </span><span class="si">%r</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+    <span class="n">args</span><span class="o">.</span><span class="n">variables</span> <span class="o">=</span> <span class="n">evars</span>
+    <span class="n">args</span><span class="o">.</span><span class="n">formats</span> <span class="o">=</span> <span class="n">formats</span>
     <span class="c1"># args.alfred = alfred_vars()</span>
 
     <span class="k">return</span> <span class="n">args</span></div>
@@ -254,14 +249,15 @@
 
     <span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">v</span><span class="p">]</span>
 
-    <span class="n">log</span><span class="p">(</span><span class="s1">&#39;sheet=</span><span class="si">%r</span><span class="s1">, start_row=</span><span class="si">%d</span><span class="s1">, cols=</span><span class="si">%r</span><span class="s1">, vars=</span><span class="si">%r</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">o</span><span class="o">.</span><span class="n">sheet</span><span class="p">,</span> <span class="n">start_row</span><span class="p">,</span>
-        <span class="n">cols</span><span class="p">,</span> <span class="n">o</span><span class="o">.</span><span class="n">variables</span><span class="p">)</span>
+    <span class="n">log</span><span class="p">(</span><span class="s1">&#39;sheet=</span><span class="si">%r</span><span class="s1">, start_row=</span><span class="si">%d</span><span class="s1">, cols=</span><span class="si">%r</span><span class="s1">, vars=</span><span class="si">%r</span><span class="s1">, formats=</span><span class="si">%r</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">o</span><span class="o">.</span><span class="n">sheet</span><span class="p">,</span>
+        <span class="n">start_row</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="n">o</span><span class="o">.</span><span class="n">variables</span><span class="p">,</span> <span class="n">o</span><span class="o">.</span><span class="n">formats</span><span class="p">)</span>
 
     <span class="c1"># ---------------------------------------------------------</span>
     <span class="c1"># Generate and cache output</span>
 
     <span class="n">s</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-    <span class="n">items</span> <span class="o">=</span> <span class="n">read_data</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">docpath</span><span class="p">,</span> <span class="n">o</span><span class="o">.</span><span class="n">sheet</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="n">start_row</span><span class="p">,</span> <span class="n">o</span><span class="o">.</span><span class="n">variables</span><span class="p">)</span>
+    <span class="n">items</span> <span class="o">=</span> <span class="n">read_data</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">docpath</span><span class="p">,</span> <span class="n">o</span><span class="o">.</span><span class="n">sheet</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="n">start_row</span><span class="p">,</span>
+                      <span class="n">o</span><span class="o">.</span><span class="n">variables</span><span class="p">,</span> <span class="n">o</span><span class="o">.</span><span class="n">formats</span><span class="p">)</span>
     <span class="n">js</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">Feedback</span><span class="p">(</span><span class="n">items</span><span class="p">))</span>
     <span class="n">cache_data</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">js</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
@@ -269,7 +265,6 @@
     <span class="n">log</span><span class="p">(</span><span class="s1">&#39;Updated cache in </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">human_time</span><span class="p">(</span><span class="n">d</span><span class="p">))</span>
 
     <span class="k">return</span> <span class="mi">0</span></div>
-
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">.aw3</span> <span class="k">import</span> <span class="n">rescue</span>
@@ -338,7 +333,7 @@
       &copy;2016, Dean Jackson.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.3</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
       
     </div>

@@ -1,21 +1,18 @@
 
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>isheetyounot.aw3 &#8212; I Sheet You Not 0.2.3 documentation</title>
-    
+    <title>isheetyounot.aw3 &#8212; I Sheet You Not 0.3.0 documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.2.3',
+        VERSION:     '0.3.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -40,7 +37,7 @@
 <link rel="stylesheet" href="../../_static/custom.css">
 
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -50,7 +47,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">I Sheet You Not 0.2.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">I Sheet You Not 0.3.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -61,7 +58,8 @@
           <div class="body" role="main">
             
   <h1>Source code for isheetyounot.aw3</h1><div class="highlight"><pre>
-<span></span><span class="c1"># encoding: utf-8</span>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># encoding: utf-8</span>
 <span class="c1">#</span>
 <span class="c1"># Copyright (c) 2016 Dean Jackson &lt;deanishe@deanishe.net&gt;</span>
 <span class="c1">#</span>
@@ -70,12 +68,7 @@
 <span class="c1"># Created on 2016-05-21</span>
 <span class="c1">#</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">aw3</span>
-<span class="sd">^^^</span>
-
-<span class="sd">Lightweight Alfred 3 workflow library.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot;Lightweight Alfred 3 workflow library.&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">unicode_literals</span><span class="p">,</span> <span class="n">absolute_import</span>
 
@@ -157,22 +150,19 @@
     <span class="sd">&quot;&quot;&quot;Run command and return output.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        cmd (sequence): Sequence of arguments to pass to</span>
-<span class="sd">                        :class:`~subprocess.Popen`</span>
+<span class="sd">        cmd (sequence): Sequence or arguments to pass to `Popen`</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        tuple: ``(stdout, stderr)`` pair of ``str``</span>
+<span class="sd">        tuple: `(stdout, stderr)`</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        ~subprocess.CalledProcessError: Raised if command exits</span>
-<span class="sd">                                        with non-zero status</span>
+<span class="sd">        CalledProcessError: Raised if command exits with non-zero status</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">from</span> <span class="nn">subprocess</span> <span class="k">import</span> <span class="n">Popen</span><span class="p">,</span> <span class="n">CalledProcessError</span><span class="p">,</span> <span class="n">PIPE</span>
-    <span class="n">p</span> <span class="o">=</span> <span class="n">Popen</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">PIPE</span><span class="p">)</span>
+    <span class="kn">from</span> <span class="nn">subprocess</span> <span class="k">import</span> <span class="n">Popen</span><span class="p">,</span> <span class="n">CalledProcessError</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">Popen</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
     <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">returncode</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">log</span><span class="p">(</span><span class="s1">&#39;stdout=</span><span class="si">%r</span><span class="s1">\stderr=</span><span class="si">%r</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span><span class="p">)</span>
         <span class="k">raise</span> <span class="n">CalledProcessError</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">returncode</span><span class="p">,</span> <span class="n">cmd</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span><span class="p">)</span></div>
 
@@ -197,10 +187,10 @@
 <span class="sd">            key (str): Dictionary key/attribute name.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            obj: Dictionary value for ``key``.</span>
+<span class="sd">            obj: Dictionary value for `key`.</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            AttributeError: Raised if ``key`` isn&#39;t in dictionary.</span>
+<span class="sd">            AttributeError: Raised if `key` isn&#39;t in dictionary.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
@@ -210,18 +200,18 @@
         <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Add `value` to the dictionary under ``key``.</span>
+        <span class="sd">&quot;&quot;&quot;Add `value` to the dictionary under `key`.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            key (str): Dictionary key/attribute name.</span>
-<span class="sd">            value (obj): Value to store for ``key``.</span>
+<span class="sd">            value (obj): Value to store for `key`.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span></div>
 
 
 <div class="viewcode-block" id="alfred_vars"><a class="viewcode-back" href="../../api.html#isheetyounot.aw3.alfred_vars">[docs]</a><span class="k">def</span> <span class="nf">alfred_vars</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Dict of Alfred&#39;s envvars w/out ``alfred_`` prefix.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Dictionary of Alfred&#39;s environment variables w/out ``alfred_`` prefix.&quot;&quot;&quot;</span>
     <span class="n">d</span> <span class="o">=</span> <span class="n">AttrDict</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">k</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;alfred_&#39;</span><span class="p">):</span>
@@ -236,8 +226,7 @@
     <span class="sd">&quot;&quot;&quot;Alfred 3 JSON results.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        items (list): Sequence of :class:`dict` as generated by</span>
-<span class="sd">                      :func:`make_item`.</span>
+<span class="sd">        items (list): Sequence of `dicts` as generated by `make_item()`.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -437,7 +426,7 @@
       &copy;2016, Dean Jackson.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.3</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
       
     </div>

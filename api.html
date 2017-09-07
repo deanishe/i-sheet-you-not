@@ -1,21 +1,18 @@
 
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>API reference &#8212; I Sheet You Not 0.2.3 documentation</title>
-    
+    <title>API reference &#8212; I Sheet You Not 0.3.0 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.2.3',
+        VERSION:     '0.3.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -41,7 +38,7 @@
 <link rel="stylesheet" href="_static/custom.css">
 
   </head>
-  <body role="document">
+  <body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -54,7 +51,7 @@
         <li class="right" >
           <a href="changelog.html" title="Changelog"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">I Sheet You Not 0.2.3 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">I Sheet You Not 0.3.0 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -65,50 +62,116 @@
             
   <div class="section" id="api-reference">
 <span id="api"></span><h1>API reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h1>
-<dl class="docutils">
-<dt>This documentation is auto-generated from the source code.</dt>
-<dd><table class="first last docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">members:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-</dd>
-</dl>
-<span class="target" id="module-isheetyounot"></span><div class="section" id="i-sheet-you-not">
-<h2>I Sheet You Not<a class="headerlink" href="#i-sheet-you-not" title="Permalink to this headline">¶</a></h2>
-<p><strong>Search Excel data in Alfred 3</strong></p>
-<p>This package implements an Alfred workflow that generates <em>other</em>
-Alfred workflows that pull data from Excel files.</p>
-<p>The core program can both search for and in Excel files, and works
-by making a copy of itself with different settings (and stripped
-of the workflow-generating elements in Alfred&#8217;s UI).</p>
-</div>
-<span class="target" id="module-isheetyounot.core"></span><div class="section" id="core">
-<h2>core<a class="headerlink" href="#core" title="Permalink to this headline">¶</a></h2>
-<p>Loading and caching of Excel files, and helper functions.</p>
+<p>This documentation is auto-generated from the source code.</p>
+<span class="target" id="module-isheetyounot.core"></span><p>I Sheet You Not. Search Excel data in Alfred 3.</p>
+<p>Pass this script the path to an Excel file via the -p option or the
+DOC_PATH environment variable.</p>
+<p>By default, the script reads the rows of the first worksheet in the
+workbook and generates Alfred JSON results.</p>
+<p>It reads the first three columns, treating the first as the result title,
+the second as its subtitle and the third as its value (arg).</p>
 <dl class="exception">
 <dt id="isheetyounot.core.ConfigError">
 <em class="property">exception </em><code class="descclassname">isheetyounot.core.</code><code class="descname">ConfigError</code><a class="reference internal" href="_modules/isheetyounot/core.html#ConfigError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#isheetyounot.core.ConfigError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Raised if a configuration value is not given or invalid.</p>
 <p>Typically, this will be a bad sheet number or name.</p>
-<p>If the program can&#8217;t read the Excel data for other reasons,
-there&#8217;ll be an exception from the underlying <code class="docutils literal"><span class="pre">xlrd</span></code> library.</p>
+<p>If the program can’t read the Excel data for other reasons,
+there’ll be an exception from the underlying <cite>xlrd</cite> library.</p>
 </dd></dl>
 
-<dl class="function">
-<dt id="isheetyounot.core.cache_data">
-<code class="descclassname">isheetyounot.core.</code><code class="descname">cache_data</code><span class="sig-paren">(</span><em>key</em>, <em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/isheetyounot/core.html#cache_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#isheetyounot.core.cache_data" title="Permalink to this definition">¶</a></dt>
-<dd><p>Store <code class="docutils literal"><span class="pre">data</span></code> in cache under name <code class="docutils literal"><span class="pre">key</span></code>.</p>
+<dl class="class">
+<dt id="isheetyounot.core.Formatter">
+<em class="property">class </em><code class="descclassname">isheetyounot.core.</code><code class="descname">Formatter</code><span class="sig-paren">(</span><em>datemode</em>, <em>formats=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/isheetyounot/core.html#Formatter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#isheetyounot.core.Formatter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Format Excel values according to column-specific format strings.</p>
+<p>Format strings should be sprintf- or strftime-style (for date columns)
+patterns.</p>
+<dl class="attribute">
+<dt id="isheetyounot.core.Formatter.datemode">
+<code class="descname">datemode</code><a class="headerlink" href="#isheetyounot.core.Formatter.datemode" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em> – Date mode of sheet this formatter is for</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="isheetyounot.core.Formatter.formats">
+<code class="descname">formats</code><a class="headerlink" href="#isheetyounot.core.Formatter.formats" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>dict</em> – Column -&gt; format string mapping</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="isheetyounot.core.Formatter.format">
+<code class="descname">format</code><span class="sig-paren">(</span><em>col</em>, <em>cell</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/isheetyounot/core.html#Formatter.format"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#isheetyounot.core.Formatter.format" title="Permalink to this definition">¶</a></dt>
+<dd><p>Format a value with the pattern set for column.</p>
+<p>If no format pattern is set for column, value is returned
+unchanged.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>col</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) – Column number</li>
+<li><strong>cell</strong> (<em>xlrd.sheet.Cell</em>) – Excel cell</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Formatted value</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)">str</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="isheetyounot.core.Formatter.get">
+<code class="descname">get</code><span class="sig-paren">(</span><em>col</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/isheetyounot/core.html#Formatter.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#isheetyounot.core.Formatter.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get format pattern (or None) for a specific column.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>col</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) – Column index (1-indexed)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Format pattern or None</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="isheetyounot.core.Formatter.set">
+<code class="descname">set</code><span class="sig-paren">(</span><em>col</em>, <em>pat</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/isheetyounot/core.html#Formatter.set"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#isheetyounot.core.Formatter.set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set format pattern for column.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>key</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Cache key from :func:<code class="docutils literal"><span class="pre">cache_key</span></code>.</li>
-<li><strong>data</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Data to write to file.</li>
+<li><strong>col</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) – Column index (1-indexed)</li>
+<li><strong>pat</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – Format pattern</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="isheetyounot.core.cache_data">
+<code class="descclassname">isheetyounot.core.</code><code class="descname">cache_data</code><span class="sig-paren">(</span><em>key</em>, <em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/isheetyounot/core.html#cache_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#isheetyounot.core.cache_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Store <cite>data</cite> in cache under name <cite>key</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>key</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – Cache key from <cite>cache_key()</cite>.</li>
+<li><strong>data</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – Data to write to file.</li>
 </ul>
 </td>
 </tr>
@@ -124,7 +187,7 @@ there&#8217;ll be an exception from the underlying <code class="docutils literal
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>o</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/argparse.html#argparse.Namespace" title="(in Python v2.7)"><em>argparse.Namespace</em></a>) &#8211; Program&#8217;s configuration object.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>o</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/argparse.html#argparse.Namespace" title="(in Python v2.7)"><em>argparse.Namespace</em></a>) – Program’s configuration object.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">MD5 hex digest of options.</td>
 </tr>
@@ -137,21 +200,21 @@ there&#8217;ll be an exception from the underlying <code class="docutils literal
 <dl class="function">
 <dt id="isheetyounot.core.cached_data">
 <code class="descclassname">isheetyounot.core.</code><code class="descname">cached_data</code><span class="sig-paren">(</span><em>key</em>, <em>max_age=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/isheetyounot/core.html#cached_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#isheetyounot.core.cached_data" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returned data cached for <code class="docutils literal"><span class="pre">key</span></code> or <code class="docutils literal"><span class="pre">None</span></code>.</p>
-<p>Returns <code class="docutils literal"><span class="pre">None</span></code> if no data are cached for <code class="docutils literal"><span class="pre">key</span></code> or the age
-of the cached data exceeds <cite>max_age</cite> (if <code class="docutils literal"><span class="pre">max_age</span></code> is non-zero).</p>
+<dd><p>Returned data cached for <cite>key</cite> or <cite>None</cite>.</p>
+<p>Returns <cite>None</cite> if no data are cached for <cite>key</cite> or the age
+of the cached data exceeds <cite>max_age</cite> (if <cite>max_age</cite> is non-zero).</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>key</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Cache key from <a class="reference internal" href="#isheetyounot.core.cache_key" title="isheetyounot.core.cache_key"><code class="xref py py-func docutils literal"><span class="pre">cache_key()</span></code></a>.</li>
-<li><strong>max_age</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a><em>, </em><em>optional</em>) &#8211; Maximum permissible age of cached data
+<li><strong>key</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – Cache key from <cite>cache_key()</cite>.</li>
+<li><strong>max_age</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a><em>, </em><em>optional</em>) – Maximum permissible age of cached data
 in seconds.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The contents of the cache file, or <code class="docutils literal"><span class="pre">None</span></code>.</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The contents of the cache file, or <cite>None</cite>.</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)">str</a></p>
@@ -162,31 +225,51 @@ in seconds.</li>
 </dd></dl>
 
 <dl class="function">
+<dt id="isheetyounot.core.cell_type">
+<code class="descclassname">isheetyounot.core.</code><code class="descname">cell_type</code><span class="sig-paren">(</span><em>cell</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/isheetyounot/core.html#cell_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#isheetyounot.core.cell_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return type of cell.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cell</strong> (<em>xlrd.sheet.Cell</em>) – Excel cell</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Type of cell as text</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
 <dt id="isheetyounot.core.read_data">
-<code class="descclassname">isheetyounot.core.</code><code class="descname">read_data</code><span class="sig-paren">(</span><em>path</em>, <em>sheet</em>, <em>cols</em>, <em>start_row=1</em>, <em>variables=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/isheetyounot/core.html#read_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#isheetyounot.core.read_data" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">isheetyounot.core.</code><code class="descname">read_data</code><span class="sig-paren">(</span><em>path</em>, <em>sheet</em>, <em>cols</em>, <em>start_row=1</em>, <em>variables=None</em>, <em>formats=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/isheetyounot/core.html#read_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#isheetyounot.core.read_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read the specified cells from an Excel file.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>path</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#unicode" title="(in Python v2.7)"><em>unicode</em></a>) &#8211; Path of XLSX file to read data from.</li>
-<li><strong>sheet</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#unicode" title="(in Python v2.7)"><em>unicode</em></a>) &#8211; Number or name of sheet to read data from.</li>
-<li><strong>cols</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; The three columns to read title, subtitle and
+<li><strong>path</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#unicode" title="(in Python v2.7)"><em>unicode</em></a>) – Path of XLSX file to read data from.</li>
+<li><strong>sheet</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#unicode" title="(in Python v2.7)"><em>unicode</em></a>) – Number or name of sheet to read data from.</li>
+<li><strong>cols</strong> (<em>list</em>) – The three columns to read title, subtitle and
 value from respectively.</li>
-<li><strong>start_row</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a><em>, </em><em>optional</em>) &#8211; The row on which to start reading data.</li>
-<li><strong>variables</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a><em>, </em><em>optional</em>) &#8211; name-&gt;col mapping of columns to read
+<li><strong>start_row</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a><em>, </em><em>optional</em>) – The row on which to start reading data.</li>
+<li><strong>variables</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a><em>, </em><em>optional</em>) – name-&gt;col mapping of columns to read
 into result variables with the corresponding names.</li>
+<li><strong>formats</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a><em>, </em><em>optional</em>) – index-&gt;format mapping of sprintf-style
+format strings for columns.</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Sequence of Alfred 3 result dictionaries.</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)">list</a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">list</p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#isheetyounot.core.ConfigError" title="isheetyounot.core.ConfigError"><code class="xref py py-exc docutils literal"><span class="pre">ConfigError</span></code></a> &#8211; Raised if an argument is invalid, e.g. non-existent
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#isheetyounot.core.ConfigError" title="isheetyounot.core.ConfigError"><code class="xref py py-exc docutils literal"><span class="pre">ConfigError</span></code></a> – Raised if an argument is invalid, e.g. non-existent
 sheet name.</p>
 </td>
 </tr>
@@ -197,12 +280,12 @@ sheet name.</p>
 <dl class="function">
 <dt id="isheetyounot.core.tilde">
 <code class="descclassname">isheetyounot.core.</code><code class="descname">tilde</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/isheetyounot/core.html#tilde"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#isheetyounot.core.tilde" title="Permalink to this definition">¶</a></dt>
-<dd><p>Replace user&#8217;s home directory in <code class="docutils literal"><span class="pre">path</span></code> with ~.</p>
+<dd><p>Replace user’s home directory in <cite>path</cite> with ~.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#unicode" title="(in Python v2.7)"><em>unicode</em></a>) &#8211; A filepath.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#unicode" title="(in Python v2.7)"><em>unicode</em></a>) – A filepath.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Shortened filepath.</td>
 </tr>
@@ -212,12 +295,13 @@ sheet name.</p>
 </table>
 </dd></dl>
 
-</div>
-<span class="target" id="module-isheetyounot.cli"></span><div class="section" id="cli">
-<h2>cli<a class="headerlink" href="#cli" title="Permalink to this headline">¶</a></h2>
-<p>Command-line interface for the Alfred workflow.</p>
-<p>Will probably die in flames if not run from Alfred or an Alfred-like
-environment.</p>
+<span class="target" id="module-isheetyounot.cli"></span><p>I Sheet You Not. Search Excel data in Alfred 3.</p>
+<p>Pass this script the path to an Excel file via the -p option or the
+DOC_PATH environment variable.</p>
+<p>By default, the script reads the rows of the first worksheet in the
+workbook and generates Alfred JSON results.</p>
+<p>It reads the first three columns, treating the first as the result title,
+the second as its subtitle and the third as its value (arg).</p>
 <dl class="function">
 <dt id="isheetyounot.cli.main">
 <code class="descclassname">isheetyounot.cli.</code><code class="descname">main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/isheetyounot/cli.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#isheetyounot.cli.main" title="Permalink to this definition">¶</a></dt>
@@ -240,10 +324,7 @@ environment.</p>
 </table>
 </dd></dl>
 
-</div>
-<span class="target" id="module-isheetyounot.aw3"></span><div class="section" id="aw3">
-<h2>aw3<a class="headerlink" href="#aw3" title="Permalink to this headline">¶</a></h2>
-<p>Lightweight Alfred 3 workflow library.</p>
+<span class="target" id="module-isheetyounot.aw3"></span><p>Lightweight Alfred 3 workflow library.</p>
 <dl class="class">
 <dt id="isheetyounot.aw3.AttrDict">
 <em class="property">class </em><code class="descclassname">isheetyounot.aw3.</code><code class="descname">AttrDict</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/isheetyounot/aw3.html#AttrDict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#isheetyounot.aw3.AttrDict" title="Permalink to this definition">¶</a></dt>
@@ -257,8 +338,7 @@ environment.</p>
 <dl class="attribute">
 <dt id="isheetyounot.aw3.Feedback.items">
 <code class="descname">items</code><a class="headerlink" href="#isheetyounot.aw3.Feedback.items" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>list</em> &#8211; Sequence of <a class="reference external" href="https://docs.python.org/2.7/library/stdtypes.html#dict" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">dict</span></code></a> as generated by
-<a class="reference internal" href="#isheetyounot.aw3.make_item" title="isheetyounot.aw3.make_item"><code class="xref py py-func docutils literal"><span class="pre">make_item()</span></code></a>.</p>
+<dd><p><em>list</em> – Sequence of <cite>dicts</cite> as generated by <cite>make_item()</cite>.</p>
 </dd></dl>
 
 <dl class="method">
@@ -272,7 +352,7 @@ environment.</p>
 <dl class="function">
 <dt id="isheetyounot.aw3.alfred_vars">
 <code class="descclassname">isheetyounot.aw3.</code><code class="descname">alfred_vars</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/isheetyounot/aw3.html#alfred_vars"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#isheetyounot.aw3.alfred_vars" title="Permalink to this definition">¶</a></dt>
-<dd><p>Dict of Alfred&#8217;s envvars w/out <code class="docutils literal"><span class="pre">alfred_</span></code> prefix.</p>
+<dd><p>Dictionary of Alfred’s environment variables w/out <code class="docutils literal"><span class="pre">alfred_</span></code> prefix.</p>
 </dd></dl>
 
 <dl class="function">
@@ -284,7 +364,7 @@ environment.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>newid</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#unicode" title="(in Python v2.7)"><em>unicode</em></a>) &#8211; New bundle ID.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>newid</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#unicode" title="(in Python v2.7)"><em>unicode</em></a>) – New bundle ID.</td>
 </tr>
 </tbody>
 </table>
@@ -298,7 +378,7 @@ environment.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>seconds</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Number of seconds.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>seconds</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) – Number of seconds.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Human-readable duration.</td>
 </tr>
@@ -317,8 +397,8 @@ environment.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>s</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#unicode" title="(in Python v2.7)"><em>unicode</em></a>) &#8211; Message to print/format string.</li>
-<li><strong>*args</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><em>object</em></a>) &#8211; If given, used in format string <cite>s % args</cite>.</li>
+<li><strong>s</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#unicode" title="(in Python v2.7)"><em>unicode</em></a>) – Message to print/format string.</li>
+<li><strong>*args</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><em>object</em></a>) – If given, used in format string <cite>s % args</cite>.</li>
 </ul>
 </td>
 </tr>
@@ -335,11 +415,11 @@ environment.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>title</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#unicode" title="(in Python v2.7)"><em>unicode</em></a>) &#8211; Title of the result.</li>
-<li><strong>subtitle</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#unicode" title="(in Python v2.7)"><em>unicode</em></a><em>, </em><em>optional</em>) &#8211; Subtitle of the result.</li>
-<li><strong>arg</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#unicode" title="(in Python v2.7)"><em>unicode</em></a><em>, </em><em>optional</em>) &#8211; Arg (value) of the result.</li>
-<li><strong>icon</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#unicode" title="(in Python v2.7)"><em>unicode</em></a><em>, </em><em>optional</em>) &#8211; Path to icon for result.</li>
-<li><strong>**wfvars</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; Unicode values to set as Alfred workflow variables
+<li><strong>title</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#unicode" title="(in Python v2.7)"><em>unicode</em></a>) – Title of the result.</li>
+<li><strong>subtitle</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#unicode" title="(in Python v2.7)"><em>unicode</em></a><em>, </em><em>optional</em>) – Subtitle of the result.</li>
+<li><strong>arg</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#unicode" title="(in Python v2.7)"><em>unicode</em></a><em>, </em><em>optional</em>) – Arg (value) of the result.</li>
+<li><strong>icon</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#unicode" title="(in Python v2.7)"><em>unicode</em></a><em>, </em><em>optional</em>) – Path to icon for result.</li>
+<li><strong>**wfvars</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) – Unicode values to set as Alfred workflow variables
 with this result.</li>
 </ul>
 </td>
@@ -362,7 +442,7 @@ with this result.</li>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>prefix</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#unicode" title="(in Python v2.7)"><em>unicode</em></a><em>, </em><em>optional</em>) &#8211; Prefix for the new bundle ID.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>prefix</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#unicode" title="(in Python v2.7)"><em>unicode</em></a><em>, </em><em>optional</em>) – Prefix for the new bundle ID.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Random bundle ID of form <cite>prefix</cite> + <cite>UUID4</cite>.</td>
 </tr>
@@ -383,8 +463,8 @@ as a result.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>fn</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#callable" title="(in Python v2.7)"><em>callable</em></a>) &#8211; Function/method to call in try ... except block.</li>
-<li><strong>help_url</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#unicode" title="(in Python v2.7)"><em>unicode</em></a><em>, </em><em>optional</em>) &#8211; URL to show when an exception is caught.</li>
+<li><strong>fn</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#callable" title="(in Python v2.7)"><em>callable</em></a>) – Function/method to call in try … except block.</li>
+<li><strong>help_url</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#unicode" title="(in Python v2.7)"><em>unicode</em></a><em>, </em><em>optional</em>) – URL to show when an exception is caught.</li>
 </ul>
 </td>
 </tr>
@@ -400,21 +480,18 @@ as a result.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cmd</strong> (<em>sequence</em>) &#8211; Sequence of arguments to pass to
-<a class="reference external" href="https://docs.python.org/2.7/library/subprocess.html#subprocess.Popen" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">Popen</span></code></a></td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cmd</strong> (<em>sequence</em>) – Sequence or arguments to pass to <cite>Popen</cite></td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><code class="docutils literal"><span class="pre">(stdout,</span> <span class="pre">stderr)</span></code> pair of <code class="docutils literal"><span class="pre">str</span></code></td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><cite>(stdout, stderr)</cite></td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#tuple" title="(in Python v2.7)">tuple</a></td>
 </tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2.7/library/subprocess.html#subprocess.CalledProcessError" title="(in Python v2.7)"><code class="xref py py-exc docutils literal"><span class="pre">CalledProcessError</span></code></a> &#8211; Raised if command exits
-with non-zero status</td>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">CalledProcessError</span></code> – Raised if command exits with non-zero status</td>
 </tr>
 </tbody>
 </table>
 </dd></dl>
 
-</div>
 </div>
 
 
@@ -446,17 +523,6 @@ with non-zero status</td>
 
 
 
-
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">API reference</a><ul>
-<li><a class="reference internal" href="#i-sheet-you-not">I Sheet You Not</a></li>
-<li><a class="reference internal" href="#core">core</a></li>
-<li><a class="reference internal" href="#cli">cli</a></li>
-<li><a class="reference internal" href="#aw3">aw3</a></li>
-</ul>
-</li>
-</ul>
 <h3>Navigation</h3>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="licence.html">Licence</a></li>
@@ -465,13 +531,7 @@ with non-zero status</td>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
 </ul>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">API reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#i-sheet-you-not">I Sheet You Not</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#core">core</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#cli">cli</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#aw3">aw3</a></li>
-</ul>
-</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API reference</a></li>
 </ul>
 
 
@@ -497,7 +557,7 @@ with non-zero status</td>
       &copy;2016, Dean Jackson.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.3</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
       
     </div>
