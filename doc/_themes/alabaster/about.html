@@ -15,11 +15,13 @@
 <p class="blurb">{{ theme_description }}</p>
 {% endif %}
 
+{% if theme_github_user and theme_github_repo %}
 {% if theme_github_button|lower == 'true' %}
 <p>
-<iframe src="https://ghbtns.com/github-btn.html?user={{ theme_github_user }}&repo={{ theme_github_repo }}&type={{ theme_github_type }}&count={{ theme_github_count }}&size=large"
+<iframe src="https://ghbtns.com/github-btn.html?user={{ theme_github_user }}&repo={{ theme_github_repo }}&type={{ theme_github_type }}&count={{ theme_github_count }}&size=large&v=2"
   allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
 </p>
+{% endif %}
 {% endif %}
 
 {% if theme_travis_button|lower != 'false' %}
@@ -31,8 +33,8 @@
 <p>
 <a href="https://travis-ci.org/{{ path }}">
     <img
-        alt="https://secure.travis-ci.org/{{ path }}.png?branch=master"
-        src="https://secure.travis-ci.org/{{ path }}.png?branch=master"
+        alt="https://secure.travis-ci.org/{{ path }}.svg?branch={{ theme_badge_branch }}"
+        src="https://secure.travis-ci.org/{{ path }}.svg?branch={{ theme_badge_branch }}"
     />
 </a>
 </p>
@@ -47,8 +49,8 @@
 <p>
 <a href="https://codecov.io/github/{{ path }}">
     <img
-    alt="https://codecov.io/github/{{ path }}/coverage.svg?branch=master"
-    src="https://codecov.io/github/{{ path }}/coverage.svg?branch=master"
+    alt="https://codecov.io/github/{{ path }}/coverage.svg?branch={{ theme_badge_branch }}"
+    src="https://codecov.io/github/{{ path }}/coverage.svg?branch={{ theme_badge_branch }}"
     />
 </a>
 </p>
