@@ -6,13 +6,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>I Sheet You Not &#8212; I Sheet You Not 0.3.0 documentation</title>
+    <title>I Sheet You Not &#8212; I Sheet You Not 0.3.1 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.3.0',
+        VERSION:     '0.3.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -28,6 +28,8 @@
     <link rel="next" title="Licence" href="licence.html" />
 
    
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
@@ -39,21 +41,7 @@
 
   </head>
   <body>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="licence.html" title="Licence"
-             accesskey="N">next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">I Sheet You Not 0.3.0 documentation</a> &#187;</li> 
-      </ul>
-    </div>  
+  
 
     <div class="document">
       <div class="documentwrapper">
@@ -136,18 +124,30 @@ value in the spreadsheet, set <code class="docutils literal"><span class="pre">S
 <h3>Command-line options<a class="headerlink" href="#command-line-options" title="Permalink to this headline">¶</a></h3>
 <p>Configuration options may also be specified as options to the <code class="docutils literal"><span class="pre">isyn</span></code>
 command within the Script Filter:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">isyn</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">p</span> <span class="n">FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">n</span> <span class="n">N</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">r</span> <span class="n">N</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">t</span> <span class="n">N</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">s</span> <span class="n">N</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span> <span class="n">N</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">version</span><span class="p">]</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">isyn</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">p</span> <span class="n">FILE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">m</span> <span class="n">PATTERN</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">n</span> <span class="n">N</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">r</span> <span class="n">N</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">t</span> <span class="n">N</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">s</span> <span class="n">N</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span> <span class="n">N</span><span class="p">]</span>
+        <span class="p">[</span><span class="o">--</span><span class="n">version</span><span class="p">]</span>
 
+<span class="n">I</span> <span class="n">Sheet</span> <span class="n">You</span> <span class="n">Not</span><span class="o">.</span> <span class="n">Search</span> <span class="n">Excel</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">Alfred</span> <span class="mf">3.</span> <span class="n">Pass</span> <span class="n">this</span> <span class="n">script</span> <span class="n">the</span> <span class="n">path</span> <span class="n">to</span>
+<span class="n">an</span> <span class="n">Excel</span> <span class="n">file</span> <span class="n">via</span> <span class="n">the</span> <span class="o">-</span><span class="n">p</span> <span class="n">option</span> <span class="ow">or</span> <span class="n">the</span> <span class="n">DOC_PATH</span> <span class="n">environment</span> <span class="n">variable</span><span class="o">.</span> <span class="n">By</span>
+<span class="n">default</span><span class="p">,</span> <span class="n">the</span> <span class="n">script</span> <span class="n">reads</span> <span class="n">the</span> <span class="n">rows</span> <span class="n">of</span> <span class="n">the</span> <span class="n">first</span> <span class="n">worksheet</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">workbook</span> <span class="ow">and</span>
+<span class="n">generates</span> <span class="n">Alfred</span> <span class="n">JSON</span> <span class="n">results</span><span class="o">.</span> <span class="n">It</span> <span class="n">reads</span> <span class="n">the</span> <span class="n">first</span> <span class="n">three</span> <span class="n">columns</span><span class="p">,</span> <span class="n">treating</span> <span class="n">the</span>
+<span class="n">first</span> <span class="k">as</span> <span class="n">the</span> <span class="n">result</span> <span class="n">title</span><span class="p">,</span> <span class="n">the</span> <span class="n">second</span> <span class="k">as</span> <span class="n">its</span> <span class="n">subtitle</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">third</span> <span class="k">as</span> <span class="n">its</span>
+<span class="n">value</span> <span class="p">(</span><span class="n">arg</span><span class="p">)</span><span class="o">.</span>
+
+<span class="n">optional</span> <span class="n">arguments</span><span class="p">:</span>
   <span class="o">-</span><span class="n">h</span><span class="p">,</span> <span class="o">--</span><span class="n">help</span>            <span class="n">show</span> <span class="n">this</span> <span class="n">help</span> <span class="n">message</span> <span class="ow">and</span> <span class="n">exit</span>
   <span class="o">-</span><span class="n">p</span> <span class="n">FILE</span><span class="p">,</span> <span class="o">--</span><span class="n">docpath</span> <span class="n">FILE</span>
                         <span class="n">Excel</span> <span class="n">file</span> <span class="n">to</span> <span class="n">read</span> <span class="n">data</span> <span class="n">from</span><span class="o">.</span> <span class="n">Envvar</span><span class="p">:</span> <span class="n">DOC_PATH</span>
+  <span class="o">-</span><span class="n">m</span> <span class="n">PATTERN</span><span class="p">,</span> <span class="o">--</span><span class="n">match</span> <span class="n">PATTERN</span>
+                        <span class="n">sprintf</span><span class="o">-</span><span class="n">style</span> <span class="n">pattern</span> <span class="k">for</span> <span class="n">Alfred</span> <span class="n">to</span> <span class="n">match</span> <span class="n">against</span>
+                        <span class="p">(</span><span class="n">instead</span> <span class="n">of</span> <span class="n">item</span> <span class="n">title</span><span class="p">)</span><span class="o">.</span> <span class="n">Envvar</span><span class="p">:</span> <span class="n">MATCH</span>
   <span class="o">-</span><span class="n">n</span> <span class="n">N</span><span class="p">,</span> <span class="o">--</span><span class="n">sheet</span> <span class="n">N</span>       <span class="n">Number</span> <span class="ow">or</span> <span class="n">name</span> <span class="n">of</span> <span class="n">worksheet</span> <span class="n">to</span> <span class="n">read</span> <span class="n">data</span> <span class="n">from</span><span class="o">.</span> <span class="n">Default</span>
-                        <span class="ow">is</span> <span class="n">the</span> <span class="n">first</span> <span class="n">sheet</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">workbook</span><span class="o">.</span><span class="n">Envvar</span><span class="p">:</span> <span class="n">SHEET</span>
+                        <span class="ow">is</span> <span class="n">the</span> <span class="n">first</span> <span class="n">sheet</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">workbook</span><span class="o">.</span> <span class="n">Envvar</span><span class="p">:</span> <span class="n">SHEET</span>
   <span class="o">-</span><span class="n">r</span> <span class="n">N</span><span class="p">,</span> <span class="o">--</span><span class="n">row</span> <span class="n">N</span>         <span class="n">Number</span> <span class="n">of</span> <span class="n">first</span> <span class="n">row</span> <span class="n">to</span> <span class="n">read</span> <span class="n">data</span> <span class="n">from</span><span class="o">.</span> <span class="n">Default</span> <span class="ow">is</span> <span class="mi">1</span><span class="p">,</span>
                         <span class="n">i</span><span class="o">.</span><span class="n">e</span> <span class="n">the</span> <span class="n">first</span> <span class="n">row</span><span class="o">.</span> <span class="n">Use</span> <span class="o">--</span><span class="n">row</span> <span class="mi">2</span> <span class="n">to</span> <span class="n">ignore</span> <span class="n">a</span> <span class="n">title</span> <span class="n">row</span><span class="p">,</span>
-                        <span class="k">for</span> <span class="n">example</span><span class="o">.</span><span class="n">Envvar</span><span class="p">:</span> <span class="n">START_ROW</span>
+                        <span class="k">for</span> <span class="n">example</span><span class="o">.</span> <span class="n">Envvar</span><span class="p">:</span> <span class="n">START_ROW</span>
   <span class="o">-</span><span class="n">t</span> <span class="n">N</span><span class="p">,</span> <span class="o">--</span><span class="n">title</span> <span class="n">N</span>       <span class="n">Number</span> <span class="n">of</span> <span class="n">column</span> <span class="n">to</span> <span class="n">read</span> <span class="n">titles</span> <span class="n">from</span><span class="o">.</span> <span class="n">Default</span> <span class="ow">is</span> <span class="n">the</span>
-                        <span class="n">first</span> <span class="n">column</span><span class="o">.</span><span class="n">Envvar</span><span class="p">:</span> <span class="n">TITLE_COL</span>
+                        <span class="n">first</span> <span class="n">column</span><span class="o">.</span> <span class="n">Envvar</span><span class="p">:</span> <span class="n">TITLE_COL</span>
   <span class="o">-</span><span class="n">s</span> <span class="n">N</span><span class="p">,</span> <span class="o">--</span><span class="n">subtitle</span> <span class="n">N</span>    <span class="n">Number</span> <span class="n">of</span> <span class="n">column</span> <span class="n">to</span> <span class="n">read</span> <span class="n">subtitles</span> <span class="n">from</span><span class="o">.</span> <span class="n">Default</span> <span class="ow">is</span>
                         <span class="n">the</span> <span class="n">column</span> <span class="n">after</span> <span class="n">the</span> <span class="n">title</span> <span class="n">column</span><span class="o">.</span> <span class="n">Set</span> <span class="n">to</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">there</span>
                         <span class="ow">is</span> <span class="n">no</span> <span class="n">subtitle</span> <span class="n">column</span><span class="o">.</span> <span class="n">Envvar</span><span class="p">:</span> <span class="n">SUBTITLE_COL</span>
@@ -199,21 +199,52 @@ variables of the form <code class="docutils literal"><span class="pre">FMT_N</sp
 <div class="highlight-bash"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
-4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># Format column 3 (C) as YYYY-MM-DD date</span>
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># Format column 3 (C) as YYYY-MM-DD date</span>
 <span class="nb">export</span> <span class="nv">FMT_3</span><span class="o">=</span><span class="s1">&#39;%Y-%m-%d&#39;</span>
 <span class="c1"># Add currency symbol to column 5 (E)</span>
-<span class="nb">export</span> <span class="nv">FMT_5</span><span class="o">=</span><span class="s1">&#39;$ 0.2f&#39;</span>
+<span class="c1"># Use new-style format string to add commas</span>
+<span class="nb">export</span> <span class="nv">FMT_5</span><span class="o">=</span><span class="s1">&#39;$ {:,.2f}&#39;</span>
 </pre></div>
 </td></tr></table></div>
-<p>For text and number types, the formats are interpreted as
-<a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#string-formatting">sprintf</a>-style format strings. For dates, the formats are
-interpreted as <a class="reference external" href="http://strftime.org">strftime</a>-style format strings.</p>
+<p>For text and number types, the formats are interpreted as <a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#string-formatting">sprintf</a>-style
+format strings or Python’s <a class="reference external" href="https://docs.python.org/2.7/library/string.html#formatstrings">str.format</a>-style format strings. For dates, the
+formats are interpreted as <a class="reference external" href="http://strftime.org">strftime</a>-style format strings.</p>
 <div class="admonition important">
 <p class="first admonition-title">Important</p>
 <p class="last">When using <code class="docutils literal"><span class="pre">$</span></code> in a format string, you <strong>must</strong> surround it in
 single-quotes (as in the above example), otherwise <code class="docutils literal"><span class="pre">bash</span></code>/<code class="docutils literal"><span class="pre">zsh</span></code> will
 interpret it as a variable, which will fail.</p>
 </div>
+</div>
+<div class="section" id="matching">
+<span id="id5"></span><h3>Matching<a class="headerlink" href="#matching" title="Permalink to this headline">¶</a></h3>
+<p>Alfred 3.5 introduced the new <code class="docutils literal"><span class="pre">match</span></code> field on items. If specified, Alfred
+will filter your results against this field, not the item title.</p>
+<p>You can specify the match format using the <code class="docutils literal"><span class="pre">--match</span></code> flag to the <code class="docutils literal"><span class="pre">isyn</span></code>
+command or via the <code class="docutils literal"><span class="pre">MATCH</span></code> workflow variable. The <code class="docutils literal"><span class="pre">match</span></code> field uses
+<a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#string-formatting">sprintf</a>-style format strings and <em>named variables</em>. That is to say, you
+can only use variables you’ve extracted from your Excel sheet with <code class="docutils literal"><span class="pre">VAR_xyz</span></code>
+patterns:</p>
+<div class="highlight-bash"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># Extract a couple of variables</span>
+<span class="nb">export</span> <span class="nv">VAR_name</span><span class="o">=</span><span class="m">1</span>
+<span class="nb">export</span> <span class="nv">VAR_year</span><span class="o">=</span><span class="m">3</span>
+<span class="c1"># Set the match field to include both</span>
+<span class="nb">export</span> <span class="nv">MATCH</span><span class="o">=</span><span class="s1">&#39;%(name)s %(year)s&#39;</span>
+<span class="c1"># Use first column (A) for item title and second (B) for subtitle</span>
+<span class="nb">export</span> <span class="nv">TITLE_COL</span><span class="o">=</span><span class="m">1</span>
+<span class="nb">export</span> <span class="nv">SUBTITLE_COL</span><span class="o">=</span><span class="m">2</span>
+</pre></div>
+</td></tr></table></div>
+<p>The above configuration will allow you to filter items by year as well as
+title.</p>
 </div>
 </div>
 <div class="section" id="feedback-questions-bugs-feature-requests">
@@ -224,7 +255,7 @@ them in the <a class="reference external" href="http://www.alfredforum.com/topic
 <a class="reference external" href="https://github.com/deanishe/i-sheet-you-not/issues">GitHub issue</a>.</p>
 </div>
 <div class="section" id="licensing-and-thanks">
-<span id="id5"></span><h2>Licensing and thanks<a class="headerlink" href="#licensing-and-thanks" title="Permalink to this headline">¶</a></h2>
+<span id="id6"></span><h2>Licensing and thanks<a class="headerlink" href="#licensing-and-thanks" title="Permalink to this headline">¶</a></h2>
 <p>I Sheet You Not is released under the MIT License. It is based on the
 <a class="reference external" href="http://www.python-excel.org">xlrd library for Python</a>, released under a <a class="reference external" href="https://github.com/python-excel/xlrd/blob/master/docs/licenses.rst">BSD-style licence</a>.</p>
 <p>The workflow icon was created by carlosjj from <a class="reference external" href="http://www.iconarchive.com/show/google-jfk-icons-by-carlosjj/spreadsheets-icon.html">IconArchive.com</a>.</p>
@@ -243,11 +274,12 @@ them in the <a class="reference external" href="http://www.alfredforum.com/topic
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id2">0.3.0</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id3">0.2.2</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id4">0.2.1</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id5">0.2.0</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id6">0.1.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id2">0.3.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id3">0.3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id4">0.2.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id5">0.2.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id6">0.2.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id7">0.1.2</a></li>
 </ul>
 </li>
 </ul>
@@ -293,10 +325,12 @@ them in the <a class="reference external" href="http://www.alfredforum.com/topic
 
 
 
+
 <p>
-<iframe src="https://ghbtns.com/github-btn.html?user=deanishe&repo=i-sheet-you-not&type=watch&count=true&size=large"
+<iframe src="https://ghbtns.com/github-btn.html?user=deanishe&repo=i-sheet-you-not&type=watch&count=true&size=large&v=2"
   allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
 </p>
+
 
 
 
@@ -312,6 +346,7 @@ them in the <a class="reference external" href="http://www.alfredforum.com/topic
 <li><a class="reference internal" href="#command-line-options">Command-line options</a></li>
 <li><a class="reference internal" href="#extracting-data-to-workflow-variables">Extracting data to workflow variables</a></li>
 <li><a class="reference internal" href="#formatting-values">Formatting values</a></li>
+<li><a class="reference internal" href="#matching">Matching</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#feedback-questions-bugs-feature-requests">Feedback, questions, bugs, feature requests</a></li>
@@ -357,7 +392,7 @@ them in the <a class="reference external" href="http://www.alfredforum.com/topic
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
     </div>
 

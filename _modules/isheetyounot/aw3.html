@@ -6,13 +6,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>isheetyounot.aw3 &#8212; I Sheet You Not 0.3.0 documentation</title>
+    <title>isheetyounot.aw3 &#8212; I Sheet You Not 0.3.1 documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.3.0',
+        VERSION:     '0.3.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -27,6 +27,8 @@
     <link rel="search" title="Search" href="../../search.html" />
 
    
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
@@ -38,19 +40,7 @@
 
   </head>
   <body>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../../genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">I Sheet You Not 0.3.0 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
-      </ul>
-    </div>  
+  
 
     <div class="document">
       <div class="documentwrapper">
@@ -250,7 +240,7 @@
         <span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span></div></div>
 
 
-<div class="viewcode-block" id="make_item"><a class="viewcode-back" href="../../api.html#isheetyounot.aw3.make_item">[docs]</a><span class="k">def</span> <span class="nf">make_item</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">subtitle</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">arg</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">icon</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">wfvars</span><span class="p">):</span>
+<div class="viewcode-block" id="make_item"><a class="viewcode-back" href="../../api.html#isheetyounot.aw3.make_item">[docs]</a><span class="k">def</span> <span class="nf">make_item</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">subtitle</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">arg</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">icon</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">match</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">wfvars</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Create new Alfred 3 result.</span>
 
 <span class="sd">    Args:</span>
@@ -258,6 +248,7 @@
 <span class="sd">        subtitle (unicode, optional): Subtitle of the result.</span>
 <span class="sd">        arg (unicode, optional): Arg (value) of the result.</span>
 <span class="sd">        icon (unicode, optional): Path to icon for result.</span>
+<span class="sd">        match (str, optional): Match field.</span>
 <span class="sd">        **wfvars (dict): Unicode values to set as Alfred workflow variables</span>
 <span class="sd">            with this result.</span>
 
@@ -283,6 +274,9 @@
             <span class="s1">&#39;copy&#39;</span><span class="p">:</span> <span class="n">arg</span><span class="p">,</span>
             <span class="s1">&#39;largetype&#39;</span><span class="p">:</span> <span class="n">arg</span><span class="p">,</span>
         <span class="p">}</span>
+
+    <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+        <span class="n">it</span><span class="p">[</span><span class="s1">&#39;match&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">match</span>
 
     <span class="k">if</span> <span class="n">icon</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">it</span><span class="p">[</span><span class="s1">&#39;icon&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;path&#39;</span><span class="p">:</span> <span class="n">icon</span><span class="p">}</span>
@@ -384,10 +378,12 @@
 
 
 
+
 <p>
-<iframe src="https://ghbtns.com/github-btn.html?user=deanishe&repo=i-sheet-you-not&type=watch&count=true&size=large"
+<iframe src="https://ghbtns.com/github-btn.html?user=deanishe&repo=i-sheet-you-not&type=watch&count=true&size=large&v=2"
   allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
 </p>
+
 
 
 
@@ -427,7 +423,7 @@
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
     </div>
 
