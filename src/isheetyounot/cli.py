@@ -60,6 +60,12 @@ def parse_args():
                    default=os.getenv('DOC_PATH') or './Demo.xlsx',
                    help="Excel file to read data from. "
                    "Envvar: DOC_PATH")
+    p.add_argument('-m', '--match',
+                   metavar='PATTERN', type=str,
+                   default=os.getenv('MATCH') or '',
+                   help="sprintf-style pattern for Alfred to match "
+                   "against (instead of item title). "
+                   "Envvar: MATCH")
     p.add_argument('-n', '--sheet',
                    metavar='N', type=str,
                    default=os.getenv('SHEET') or '1',
@@ -197,7 +203,7 @@ def main():
 
     s = time.time()
     items = read_data(o.docpath, o.sheet, cols, start_row,
-                      o.variables, o.formats)
+                      o.variables, o.formats, o.match)
     js = str(Feedback(items))
     cache_data(key, js)
     print(js)

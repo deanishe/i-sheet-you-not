@@ -190,7 +190,7 @@ class Feedback(object):
         print(str(self))
 
 
-def make_item(title, subtitle='', arg=None, icon=None, **wfvars):
+def make_item(title, subtitle='', arg=None, icon=None, match=None, **wfvars):
     """Create new Alfred 3 result.
 
     Args:
@@ -198,6 +198,7 @@ def make_item(title, subtitle='', arg=None, icon=None, **wfvars):
         subtitle (unicode, optional): Subtitle of the result.
         arg (unicode, optional): Arg (value) of the result.
         icon (unicode, optional): Path to icon for result.
+        match (str, optional): Match field.
         **wfvars (dict): Unicode values to set as Alfred workflow variables
             with this result.
 
@@ -223,6 +224,9 @@ def make_item(title, subtitle='', arg=None, icon=None, **wfvars):
             'copy': arg,
             'largetype': arg,
         }
+
+    if match:
+        it['match'] = match
 
     if icon is not None:
         it['icon'] = {'path': icon}

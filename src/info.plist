@@ -236,68 +236,6 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>alfredfiltersresults</key>
-				<true/>
-				<key>alfredfiltersresultsmatchmode</key>
-				<integer>0</integer>
-				<key>argumenttrimmode</key>
-				<integer>0</integer>
-				<key>argumenttype</key>
-				<integer>1</integer>
-				<key>escaping</key>
-				<integer>102</integer>
-				<key>keyword</key>
-				<string>isyndemo names</string>
-				<key>queuedelaycustom</key>
-				<integer>3</integer>
-				<key>queuedelayimmediatelyinitially</key>
-				<true/>
-				<key>queuedelaymode</key>
-				<integer>1</integer>
-				<key>queuemode</key>
-				<integer>1</integer>
-				<key>runningsubtext</key>
-				<string>Searching your file…</string>
-				<key>script</key>
-				<string># Just run program
-./isyn
-</string>
-				<key>scriptargtype</key>
-				<integer>1</integer>
-				<key>scriptfile</key>
-				<string></string>
-				<key>subtext</key>
-				<string>Basic example using the default settings</string>
-				<key>title</key>
-				<string>[DEMO] I Sheet You Not: Random Names</string>
-				<key>type</key>
-				<integer>0</integer>
-				<key>withspace</key>
-				<true/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.input.scriptfilter</string>
-			<key>uid</key>
-			<string>B07CB6F1-53EE-4C79-8840-B295710C86A8</string>
-			<key>version</key>
-			<integer>2</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>largetypetext</key>
-				<string>{query}</string>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.output.largetype</string>
-			<key>uid</key>
-			<string>559771CB-6C93-48AE-B309-C2377C2A6F7E</string>
-			<key>version</key>
-			<integer>2</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
 				<key>anchorfields</key>
 				<true/>
 				<key>argumenttrimmode</key>
@@ -373,6 +311,68 @@
 			<string>3DABB6CA-310B-4696-B4B7-B72692AEA326</string>
 			<key>version</key>
 			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<true/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>isyndemo names</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>1</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Searching your file…</string>
+				<key>script</key>
+				<string># Just run program
+./isyn
+</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Basic example using the default settings</string>
+				<key>title</key>
+				<string>[DEMO] I Sheet You Not: Random Names</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>B07CB6F1-53EE-4C79-8840-B295710C86A8</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>largetypetext</key>
+				<string>{query}</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.largetype</string>
+			<key>uid</key>
+			<string>559771CB-6C93-48AE-B309-C2377C2A6F7E</string>
+			<key>version</key>
+			<integer>2</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -582,7 +582,11 @@ export VAR_tenure=11
 export VAR_url=12
 export VAR_empty=13
 
-./isyn --sheet 'Liverpool Transfers' --row 4 --title 2 --subtitle 11 --value 12</string>
+# Formatting
+# Use new-style formatting to add commas
+export FMT_5='Cost £ {:,.0f}'
+
+./isyn --sheet 'Liverpool Transfers' --row 4 --title 2 --subtitle 5 --value 12</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -882,7 +886,7 @@ export VAR_country=1
 				<key>alfredfiltersresults</key>
 				<true/>
 				<key>alfredfiltersresultsmatchmode</key>
-				<integer>0</integer>
+				<integer>2</integer>
 				<key>argumenttrimmode</key>
 				<integer>0</integer>
 				<key>argumenttype</key>
@@ -915,6 +919,7 @@ export VAR_magnitude=6
 # Format magnitude (2 decimal places)
 export FMT_6='%0.2f'
 export VAR_url=7
+export MATCH='%(name)s %(magnitude)s'
 
 ./isyn --sheet earthquakes --row 4 --title 3 --subtitle 4 --value 7</string>
 				<key>scriptargtype</key>
@@ -992,7 +997,7 @@ See http://www.deanishe.net/i-sheet-you-not/#configuration for details of what t
 			<key>colorindex</key>
 			<integer>5</integer>
 			<key>xpos</key>
-			<integer>720</integer>
+			<integer>820</integer>
 			<key>ypos</key>
 			<integer>370</integer>
 		</dict>
@@ -1038,7 +1043,7 @@ These are passed as variables to following workflow actions. "VAR_thing" becomes
 			<key>note</key>
 			<string>Show variables set by ISYN from data extracted from Excel sheet</string>
 			<key>xpos</key>
-			<integer>750</integer>
+			<integer>850</integer>
 			<key>ypos</key>
 			<integer>510</integer>
 		</dict>
@@ -1058,9 +1063,9 @@ These are passed as variables to following workflow actions. "VAR_thing" becomes
 			<key>colorindex</key>
 			<integer>5</integer>
 			<key>xpos</key>
-			<integer>200</integer>
+			<integer>210</integer>
 			<key>ypos</key>
-			<integer>30</integer>
+			<integer>40</integer>
 		</dict>
 		<key>6366A2B2-267B-41E7-A463-465164C5DC5D</key>
 		<dict>
@@ -1069,7 +1074,7 @@ These are passed as variables to following workflow actions. "VAR_thing" becomes
 			<key>note</key>
 			<string>Format region variable</string>
 			<key>xpos</key>
-			<integer>240</integer>
+			<integer>250</integer>
 			<key>ypos</key>
 			<integer>680</integer>
 		</dict>
@@ -1091,7 +1096,7 @@ These are passed as variables to following workflow actions. "VAR_thing" becomes
 			<key>note</key>
 			<string>Semi-pretty print various statistics about the selected country.</string>
 			<key>xpos</key>
-			<integer>560</integer>
+			<integer>620</integer>
 			<key>ypos</key>
 			<integer>650</integer>
 		</dict>
@@ -1102,7 +1107,7 @@ These are passed as variables to following workflow actions. "VAR_thing" becomes
 			<key>note</key>
 			<string>Pass "country" to Google Maps</string>
 			<key>xpos</key>
-			<integer>240</integer>
+			<integer>250</integer>
 			<key>ypos</key>
 			<integer>820</integer>
 		</dict>
@@ -1113,7 +1118,7 @@ These are passed as variables to following workflow actions. "VAR_thing" becomes
 			<key>note</key>
 			<string>Camel Case</string>
 			<key>xpos</key>
-			<integer>350</integer>
+			<integer>380</integer>
 			<key>ypos</key>
 			<integer>680</integer>
 		</dict>
@@ -1122,7 +1127,7 @@ These are passed as variables to following workflow actions. "VAR_thing" becomes
 			<key>colorindex</key>
 			<integer>5</integer>
 			<key>xpos</key>
-			<integer>370</integer>
+			<integer>410</integer>
 			<key>ypos</key>
 			<integer>370</integer>
 		</dict>
@@ -1142,7 +1147,7 @@ These are passed as variables to following workflow actions. "VAR_thing" becomes
 			<key>colorindex</key>
 			<integer>5</integer>
 			<key>xpos</key>
-			<integer>330</integer>
+			<integer>340</integer>
 			<key>ypos</key>
 			<integer>790</integer>
 		</dict>
@@ -1153,7 +1158,7 @@ These are passed as variables to following workflow actions. "VAR_thing" becomes
 			<key>note</key>
 			<string>Show variables set by ISYN from data extracted from Excel sheet</string>
 			<key>xpos</key>
-			<integer>240</integer>
+			<integer>250</integer>
 			<key>ypos</key>
 			<integer>1070</integer>
 		</dict>
@@ -1168,14 +1173,14 @@ The path to the file is set in the workflow's Configuration Sheet, and unless to
 			<key>xpos</key>
 			<integer>40</integer>
 			<key>ypos</key>
-			<integer>30</integer>
+			<integer>40</integer>
 		</dict>
 		<key>B44EC0D5-B000-41A7-8D7A-74608CD93D7C</key>
 		<dict>
 			<key>colorindex</key>
 			<integer>5</integer>
 			<key>xpos</key>
-			<integer>330</integer>
+			<integer>340</integer>
 			<key>ypos</key>
 			<integer>950</integer>
 		</dict>
@@ -1212,7 +1217,7 @@ It also specifies the sheet and columns to load data from.</string>
 
 It also loads quite a lot of data (~7500 cells).</string>
 			<key>xpos</key>
-			<integer>520</integer>
+			<integer>620</integer>
 			<key>ypos</key>
 			<integer>370</integer>
 		</dict>
@@ -1236,7 +1241,7 @@ It specifies no value, so you can't action results.</string>
 			<key>note</key>
 			<string>Set region to edited value</string>
 			<key>xpos</key>
-			<integer>460</integer>
+			<integer>510</integer>
 			<key>ypos</key>
 			<integer>680</integer>
 		</dict>
@@ -1249,6 +1254,8 @@ It specifies no value, so you can't action results.</string>
 		<string>1</string>
 		<key>DOC_PATH</key>
 		<string>./Demo.xlsx</string>
+		<key>MATCH</key>
+		<string></string>
 		<key>SHEET</key>
 		<string></string>
 		<key>START_ROW</key>
@@ -1265,7 +1272,7 @@ It specifies no value, so you can't action results.</string>
 		<string>DEV</string>
 	</array>
 	<key>version</key>
-	<string>0.3.0</string>
+	<string>0.3.1</string>
 	<key>webaddress</key>
 	<string>http://www.deanishe.net/i-sheet-you-not/</string>
 </dict>

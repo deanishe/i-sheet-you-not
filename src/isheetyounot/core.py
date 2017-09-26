@@ -41,7 +41,7 @@ from xlrd import (
 from xlrd.xldate import xldate_as_datetime
 
 # Workflow version number
-version = '0.3.0'
+version = '0.3.1'
 
 # Fallback/default values
 BUNDLE_ID = 'net.deanishe.alfred-i-sheet-you-not'
@@ -113,11 +113,11 @@ def cache_key(o):
     p = os.path.abspath(o.docpath)
     v = '-'.join([
         '{}={}'.format(k, v) for
-        k, v in sorted(o.variables.items())
+        k, v in sorted(o.variables.items() + o.formats.items())
     ])
 
     tpl = ('{p}-{o.sheet}-{o.start_row}-{o.title_col}-'
-           '{o.subtitle_col}-{o.value_col}-{v}')
+           '{o.subtitle_col}-{o.value_col}-{o.match}-{v}')
 
     n = tpl.format(p=p, o=o, v=v)
     return hashlib.md5(n.encode('utf-8')).hexdigest()
@@ -284,7 +284,7 @@ class Formatter(object):
 
         """
         pat = self.get(col)
-        # log('col=%r, pat=%r, cell=%r', col, pat, cell)
+        log('col=%r, pat=%r, cell=%r', col, pat, cell)
         if not pat or cell.ctype in (TYPE_BOOLEAN, TYPE_ERROR, TYPE_EMPTY):
             return self._format_default(cell)
 
@@ -293,7 +293,13 @@ class Formatter(object):
             formatted = dt.strftime(pat)
 
         else:
-            formatted = pat % cell.value
+            try:
+                formatted = pat % cell.value
+            except Exception:  # Try new-style formatting
+                try:
+                    formatted = pat.format(cell.value)
+                except Exception:
+                    formatted = cell.value
 
         # log('pat=%r, %r  -->  %r', pat, cell.value, formatted)
         return formatted
@@ -327,7 +333,8 @@ class Formatter(object):
         return cell.value
 
 
-def read_data(path, sheet, cols, start_row=1, variables=None, formats=None):
+def read_data(path, sheet, cols, start_row=1, variables=None,
+              formats=None, match=None):
     """Read the specified cells from an Excel file.
 
     Args:
@@ -340,6 +347,8 @@ def read_data(path, sheet, cols, start_row=1, variables=None, formats=None):
             into result variables with the corresponding names.
         formats (dict, optional): index->format mapping of sprintf-style
             format strings for columns.
+        match (str, optional): ``sprintf``-style format string for match
+            field.
 
     Returns:
         list: Sequence of Alfred 3 result dictionaries.
@@ -376,6 +385,7 @@ def read_data(path, sheet, cols, start_row=1, variables=None, formats=None):
 
     while i < s.nrows:
         evars = {}
+        match_data = None
         sub = arg = ''
         cell = s.cell(i, cols[0] - 1)
         tit = fmt.format(cols[0], cell)
@@ -397,16 +407,25 @@ def read_data(path, sheet, cols, start_row=1, variables=None, formats=None):
             log('[var:%s] i=%d, cell=%r, type=%s, value=%r', k, i, cell,
                 cell_type(cell), value)
 
+        if match:
+            try:
+                match_data = match % evars
+                log('[match] match=%s, evars=%r, match_data=%s',
+                    match, evars, match_data)
+            except Exception as err:
+                log('[match] error formatting "%s" with %r: %s',
+                    match, evars, err)
+
         i += 1
 
-        log('formats=%r, cols=%r, tit=%r, sub=%r, arg=%r', formats,
-            cols, tit, sub, arg)
+        log('formats=%r, cols=%r, tit=%r, sub=%r, arg=%r, match=%r', formats,
+            cols, tit, sub, arg, match_data)
 
         if not tit:  # Invalid
             invalid += 1
             continue
 
-        items.append(make_item(tit, sub, arg, **evars))
+        items.append(make_item(tit, sub, arg, match=match_data, **evars))
 
     log('Read %d rows from worksheet "%s"', len(items), s.name)
 

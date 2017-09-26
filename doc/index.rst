@@ -122,18 +122,30 @@ Command-line options
 Configuration options may also be specified as options to the ``isyn``
 command within the Script Filter::
 
-    usage: isyn [-h] [-p FILE] [-n N] [-r N] [-t N] [-s N] [-v N] [--version]
+    usage: isyn [-h] [-p FILE] [-m PATTERN] [-n N] [-r N] [-t N] [-s N] [-v N]
+            [--version]
 
+    I Sheet You Not. Search Excel data in Alfred 3. Pass this script the path to
+    an Excel file via the -p option or the DOC_PATH environment variable. By
+    default, the script reads the rows of the first worksheet in the workbook and
+    generates Alfred JSON results. It reads the first three columns, treating the
+    first as the result title, the second as its subtitle and the third as its
+    value (arg).
+
+    optional arguments:
       -h, --help            show this help message and exit
       -p FILE, --docpath FILE
                             Excel file to read data from. Envvar: DOC_PATH
+      -m PATTERN, --match PATTERN
+                            sprintf-style pattern for Alfred to match against
+                            (instead of item title). Envvar: MATCH
       -n N, --sheet N       Number or name of worksheet to read data from. Default
-                            is the first sheet in the workbook.Envvar: SHEET
+                            is the first sheet in the workbook. Envvar: SHEET
       -r N, --row N         Number of first row to read data from. Default is 1,
                             i.e the first row. Use --row 2 to ignore a title row,
-                            for example.Envvar: START_ROW
+                            for example. Envvar: START_ROW
       -t N, --title N       Number of column to read titles from. Default is the
-                            first column.Envvar: TITLE_COL
+                            first column. Envvar: TITLE_COL
       -s N, --subtitle N    Number of column to read subtitles from. Default is
                             the column after the title column. Set to 0 if there
                             is no subtitle column. Envvar: SUBTITLE_COL
@@ -141,6 +153,7 @@ command within the Script Filter::
                             second column after the title column. Set to 0 if
                             there is no value column. Envvar: VALUE_COL
       --version             Show workflow version number and exit.
+
 
 
 .. _setting-variables:
@@ -196,17 +209,48 @@ variables of the form ``FMT_N``, where ``N`` is the number of the column:
     # Format column 3 (C) as YYYY-MM-DD date
     export FMT_3='%Y-%m-%d'
     # Add currency symbol to column 5 (E)
-    export FMT_5='$ 0.2f'
+    # Use new-style format string to add commas
+    export FMT_5='$ {:,.2f}'
 
 For text and number types, the formats are interpreted as `sprintf`_-style
-format strings. For dates, the formats are interpreted as `strftime`_-style
-format strings.
+format strings or Python's `str.format`_-style format strings. For dates, the
+formats are interpreted as `strftime`_-style format strings.
 
 .. important::
 
     When using ``$`` in a format string, you **must** surround it in
     single-quotes (as in the above example), otherwise ``bash``/``zsh`` will
     interpret it as a variable, which will fail.
+
+
+.. _matching:
+
+Matching
+--------
+
+Alfred 3.5 introduced the new ``match`` field on items. If specified, Alfred
+will filter your results against this field, not the item title.
+
+You can specify the match format using the ``--match`` flag to the ``isyn``
+command or via the ``MATCH`` workflow variable. The ``match`` field uses
+`sprintf`_-style format strings and *named variables*. That is to say, you
+can only use variables you've extracted from your Excel sheet with ``VAR_xyz``
+patterns:
+
+.. code-block:: bash
+    :linenos:
+
+    # Extract a couple of variables
+    export VAR_name=1
+    export VAR_year=3
+    # Set the match field to include both
+    export MATCH='%(name)s %(year)s'
+    # Use first column (A) for item title and second (B) for subtitle
+    export TITLE_COL=1
+    export SUBTITLE_COL=2
+
+The above configuration will allow you to filter items by year as well as
+title.
 
 
 .. _feedback:
@@ -281,3 +325,4 @@ Indices and tables
 .. _workflow variables: https://www.alfredapp.com/help/workflows/advanced/variables/
 .. _strftime: http://strftime.org
 .. _sprintf: https://docs.python.org/2/library/stdtypes.html#string-formatting
+.. _str.format: https://docs.python.org/2.7/library/string.html#formatstrings
