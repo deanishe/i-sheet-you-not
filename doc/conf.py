@@ -138,10 +138,12 @@ html_theme_options = {
     'github_button': True,
     'github_user': 'deanishe',
     'github_repo': 'i-sheet-you-not',
+    'github_type': 'star',
     'gittip_user': 'deanishe',
     'logo_name': True,
     'logo_text_align': 'center',
     'description': "Turn Excel sheets into Alfred 3 workflows.",
+    'font_family': "Georgia, 'goudy old style', 'minion pro', 'bell mt', 'Hiragino Mincho Pro', serif",
 }
 
 # Theme options are theme-specific and customize the look and feel of a theme

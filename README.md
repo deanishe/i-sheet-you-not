@@ -1,3 +1,5 @@
+<img src="./src/icon.png" width="128" height="128">
+
 I Sheet You Not
 ===============
 

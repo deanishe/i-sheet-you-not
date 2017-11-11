@@ -1,15 +1,50 @@
+{% set theme_body_bg = theme_body_bg or theme_base_bg %}
+{% set theme_code_highlight_bg = theme_code_highlight_bg or theme_body_bg %}
 {% set theme_sidebar_header = theme_sidebar_header or theme_gray_1 %}
 {% set theme_sidebar_link = theme_sidebar_link or theme_gray_1 %}
 {% set theme_anchor_hover_fg = theme_anchor_hover_fg or theme_gray_1 %}
 
-{% set theme_note_bg = theme_note_bg or theme_gray_2 %}
 {% set theme_footnote_border = theme_footnote_border or theme_gray_2 %}
 {% set theme_pre_bg = theme_pre_bg or theme_gray_2 %}
+
+
+{# set up admonition styling #}
+{# - basic level #}
+{% set theme_admonition_xref_bg = theme_admonition_xref_bg or theme_xref_bg %}
+{% set theme_admonition_bg = theme_admonition_bg or theme_gray_2 %}
+{% set theme_note_bg = theme_note_bg or theme_gray_2 %}
+{% set theme_seealso_bg = theme_seealso_bg or theme_gray_2 %}
+
+{# - critical level #}
+{% set theme_danger_bg = theme_danger_bg or theme_pink_1 %}
+{% set theme_danger_border = theme_danger_border or theme_pink_2 %}
+{% set theme_danger_shadow = theme_danger_shadow or theme_pink_3 %}
+
+{% set theme_error_bg = theme_error_bg or theme_pink_1 %}
+{% set theme_error_border = theme_error_border or theme_pink_2 %}
+{% set theme_error_shadow = theme_error_shadow or theme_pink_3 %}
+
+{# - warning level #}
+{% set theme_caution_bg = theme_caution_bg or theme_pink_1 %}
+{% set theme_caution_border = theme_caution_border or theme_pink_2 %}
+
+{% set theme_attention_bg = theme_attention_bg or theme_pink_1 %}
+{% set theme_attention_border = theme_attention_border or theme_pink_2 %}
 
 {% set theme_warn_bg = theme_warn_bg or theme_pink_1 %}
 {% set theme_warn_border = theme_warn_border or theme_pink_2 %}
 
-{% set theme_seealso_bg = theme_seealso_bg or theme_gray_2 %}
+{# - normal level #}
+{% set theme_important_bg = theme_important_bg or theme_gray_2 %}
+{% set theme_tip_bg = theme_tip_bg or theme_gray_2 %}
+{% set theme_hint_bg = theme_hint_bg or theme_gray_2 %}
+
+{# /set up admonition styling #}
+
+{% set theme_shadow = theme_shadow or theme_gray_2 %}
+
+
+{% set theme_topic_bg = theme_topic_bg or theme_gray_2 %}
 
 {% set theme_narrow_sidebar_link = theme_narrow_sidebar_link or theme_gray_3 %}
 {% set theme_sidebar_hr = theme_sidebar_hr or theme_gray_3 %}
@@ -21,12 +56,13 @@
 
 body {
     font-family: {{ theme_font_family }};
-    font-size: 17px;
-    background-color: white;
-    color: #000;
+    font-size: {{ theme_font_size }};
+    background-color: {{ theme_base_bg }};
+    color: {{ theme_base_text }};
     margin: 0;
     padding: 0;
 }
+
 
 div.document {
     width: {{ theme_page_width }};
@@ -44,14 +80,16 @@ div.bodywrapper {
 
 div.sphinxsidebar {
     width: {{ theme_sidebar_width }};
+    font-size: 14px;
+    line-height: 1.5;
 }
 
 hr {
-    border: 1px solid #B1B4B6;
+    border: 1px solid {{ theme_hr_border }};
 }
 
 div.body {
-    background-color: #ffffff;
+    background-color: {{ theme_body_bg  }};
     color: {{ theme_body_text }};
     padding: 0 30px 0 30px;
 }
@@ -72,6 +110,11 @@ div.footer a {
     color: {{ theme_footer_text }};
 }
 
+p.caption {
+    font-family: {{ theme_caption_font_family }};
+    font-size: {{ theme_caption_font_size }};
+}
+
 {% if theme_show_related|lower == 'false' %}
 div.relations {
     display: none;
@@ -86,11 +129,6 @@ div.sphinxsidebar a {
 
 div.sphinxsidebar a:hover {
     border-bottom: 1px solid {{ theme_sidebar_link_underscore }};
-}
-
-div.sphinxsidebar {
-    font-size: 14px;
-    line-height: 1.5;
 }
 
 div.sphinxsidebarwrapper {
@@ -229,17 +267,13 @@ div.body p, div.body dd, div.body li {
 div.admonition {
     margin: 20px 0px;
     padding: 10px 30px;
-    background-color: {{ theme_warn_bg }};
-    border: 1px solid {{ theme_warn_border }};
+    background-color: {{ theme_admonition_bg }};
+    border: 1px solid {{ theme_admonition_border }};
 }
 
-div.admonition tt.xref, div.admonition a tt {
-    border-bottom: 1px solid #fafafa;
-}
-
-dd div.admonition {
-    margin-left: -60px;
-    padding-left: 60px;
+div.admonition tt.xref, div.admonition code.xref, div.admonition a tt {
+    background-color: {{ theme_admonition_xref_bg }};
+    border-bottom: 1px solid {{ theme_admonition_xref_border }};
 }
 
 div.admonition p.admonition-title {
@@ -256,16 +290,62 @@ div.admonition p.last {
 }
 
 div.highlight {
-    background-color: white;
+    background-color: {{ theme_code_highlight_bg }};
 }
 
 dt:target, .highlight {
-    background: #FAF3E8;
+    background: {{ theme_highlight_bg }};
+}
+
+div.warning {
+    background-color: {{ theme_warn_bg }};
+    border: 1px solid {{ theme_warn_border }};
+}
+
+div.danger {
+    background-color: {{ theme_danger_bg }};
+    border: 1px solid {{ theme_danger_border }};
+    -moz-box-shadow: 2px 2px 4px {{ theme_danger_shadow }};
+    -webkit-box-shadow: 2px 2px 4px {{ theme_danger_shadow }};
+    box-shadow: 2px 2px 4px {{ theme_danger_shadow }};
+}
+
+div.error {
+    background-color: {{ theme_error_bg }};
+    border: 1px solid {{ theme_error_border }};
+    -moz-box-shadow: 2px 2px 4px {{ theme_error_shadow }};
+    -webkit-box-shadow: 2px 2px 4px {{ theme_error_shadow }};
+    box-shadow: 2px 2px 4px {{ theme_error_shadow }};
+}
+
+div.caution {
+    background-color: {{ theme_caution_bg }};
+    border: 1px solid {{ theme_caution_border }};
+}
+
+div.attention {
+    background-color: {{ theme_attention_bg }};
+    border: 1px solid {{ theme_attention_border }};
+}
+
+div.important {
+    background-color: {{ theme_important_bg }};
+    border: 1px solid {{ theme_important_border }};
 }
 
 div.note {
     background-color: {{ theme_note_bg }};
     border: 1px solid {{ theme_note_border }};
+}
+
+div.tip {
+    background-color: {{ theme_tip_bg }};
+    border: 1px solid {{ theme_tip_border }};
+}
+
+div.hint {
+    background-color: {{ theme_hint_bg }};
+    border: 1px solid {{ theme_hint_border }};
 }
 
 div.seealso {
@@ -274,7 +354,7 @@ div.seealso {
 }
 
 div.topic {
-    background-color: #eee;
+    background-color: {{ theme_topic_bg }};
 }
 
 p.admonition-title {
@@ -309,20 +389,20 @@ tt.descname, code.descname {
 }
 
 img.screenshot {
-    -moz-box-shadow: 2px 2px 4px #eee;
-    -webkit-box-shadow: 2px 2px 4px #eee;
-    box-shadow: 2px 2px 4px #eee;
+    -moz-box-shadow: 2px 2px 4px {{ theme_shadow }};
+    -webkit-box-shadow: 2px 2px 4px {{ theme_shadow }};
+    box-shadow: 2px 2px 4px {{ theme_shadow }};
 }
 
 table.docutils {
-    border: 1px solid #888;
-    -moz-box-shadow: 2px 2px 4px #eee;
-    -webkit-box-shadow: 2px 2px 4px #eee;
-    box-shadow: 2px 2px 4px #eee;
+    border: 1px solid {{ theme_table_border }};
+    -moz-box-shadow: 2px 2px 4px {{ theme_shadow }};
+    -webkit-box-shadow: 2px 2px 4px {{ theme_shadow }};
+    box-shadow: 2px 2px 4px {{ theme_shadow }};
 }
 
 table.docutils td, table.docutils th {
-    border: 1px solid #888;
+    border: 1px solid {{ theme_table_border }};
     padding: 0.25em 0.7em;
 }
 
@@ -358,8 +438,18 @@ table.field-list p {
     margin-bottom: 0.8em;
 }
 
+/* Cloned from
+ * https://github.com/sphinx-doc/sphinx/commit/ef60dbfce09286b20b7385333d63a60321784e68
+ */
+.field-name {
+    -moz-hyphens: manual;
+    -ms-hyphens: manual;
+    -webkit-hyphens: manual;
+    hyphens: manual;
+}
+
 table.footnote td.label {
-    width: 0px;
+    width: .1px;
     padding: 0.3em 0 0.3em 0.5em;
 }
 
@@ -382,6 +472,7 @@ blockquote {
 }
 
 ul, ol {
+    /* Matches the 30px from the narrow-screen "li > ul" selector below */
     margin: 10px 0 10px 30px;
     padding: 0;
 }
@@ -393,30 +484,34 @@ pre {
     line-height: 1.3em;
 }
 
+div.viewcode-block:target {
+    background: {{ theme_viewcode_target_bg }};
+}
+
 dl pre, blockquote pre, li pre {
     margin-left: 0;
     padding-left: 30px;
 }
 
-dl dl pre {
-    margin-left: -90px;
-    padding-left: 90px;
-}
-
 tt, code {
-    background-color: #ecf0f3;
-    color: #222;
+    background-color: {{ theme_code_bg }};
+    color: {{ theme_code_text }};
     /* padding: 1px 2px; */
 }
 
 tt.xref, code.xref, a tt {
-    background-color: #FBFBFB;
-    border-bottom: 1px solid white;
+    background-color: {{ theme_xref_bg }};
+    border-bottom: 1px solid {{ theme_xref_border }};
 }
 
 a.reference {
     text-decoration: none;
     border-bottom: 1px dotted {{ theme_link }};
+}
+
+/* Don't put an underline on images */
+a.image-reference, a.image-reference:hover {
+    border-bottom: none;
 }
 
 a.reference:hover {
@@ -435,7 +530,7 @@ a.footnote-reference:hover {
 }
 
 a:hover tt, a:hover code {
-    background: #EEE;
+    background: {{ theme_code_hover }};
 }
 
 
@@ -467,6 +562,11 @@ a:hover tt, a:hover code {
     ul {
     	margin-left: 0;
     }
+
+	li > ul {
+        /* Matches the 30px from the "ul, ol" selector above */
+		margin-left: 30px;
+	}
 
     .document {
     	width: auto;
@@ -503,14 +603,18 @@ a:hover tt, a:hover code {
 
     div.documentwrapper {
         float: none;
-        background: white;
+        background: {{ theme_base_bg }};
     }
 
     div.sphinxsidebar {
         display: block;
         float: none;
         width: 102.5%;
+        {%- if theme_fixed_sidebar|lower == 'true' %}
+        margin: -20px -30px 20px -30px;
+        {%- else %}
         margin: 50px -30px -20px -30px;
+        {%- endif %}
         padding: 10px 20px;
         background: {{ theme_narrow_sidebar_bg }};
         color: {{ theme_narrow_sidebar_fg }};
@@ -518,7 +622,7 @@ a:hover tt, a:hover code {
 
     div.sphinxsidebar h3, div.sphinxsidebar h4, div.sphinxsidebar p,
     div.sphinxsidebar h3 a {
-        color: white;
+        color: {{ theme_base_bg }};
     }
 
     div.sphinxsidebar a {
@@ -567,6 +671,15 @@ a:hover tt, a:hover code {
         display: none;
     }
 }
+
+{%- if theme_fixed_sidebar|lower == 'true' %}
+@media screen and (min-width: 876px) {
+    div.sphinxsidebar {
+        position: fixed;
+        margin-left: 0;
+    }
+}
+{%- endif %}
 
 
 /* misc. */

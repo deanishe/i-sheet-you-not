@@ -5,6 +5,17 @@
 Changelog
 =========
 
+0.3.1
+=====
+
+- Add support for new-style formatting (i.e. ``format``)
+- Add support for Alfred 3.5's ``match`` field.
+
+0.3.0
+=====
+
+- Add ``sprintf``- and ``strftime``-style formatting
+
 0.2.2
 =====
 
