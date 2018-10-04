@@ -41,7 +41,7 @@ from xlrd import (
 from xlrd.xldate import xldate_as_datetime
 
 # Workflow version number
-version = '0.3.1'
+version = '0.3.2'
 
 # Fallback/default values
 BUNDLE_ID = 'net.deanishe.alfred-i-sheet-you-not'
@@ -108,6 +108,7 @@ def cache_key(o):
 
     Returns:
         str: MD5 hex digest of options.
+
     """
     # Cache key of full path and *all* variables to ensure uniqueness
     p = os.path.abspath(o.docpath)
@@ -131,6 +132,7 @@ def _cache_path(key):
 
     Returns:
         unicode: Filepath in cache directory with ".json" extension.
+
     """
     root = av.get('workflow_cache', CACHE_DIR)
     # log('cache_dir=%r', root)
