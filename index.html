@@ -1,18 +1,21 @@
 
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>I Sheet You Not &#8212; I Sheet You Not 0.3.1 documentation</title>
+    
+    <title>I Sheet You Not &#8212; I Sheet You Not 0.3.2 documentation</title>
+    
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.3.1',
+        VERSION:     '0.3.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -40,7 +43,7 @@
 <link rel="stylesheet" href="_static/custom.css">
 
   </head>
-  <body>
+  <body role="document">
   
 
     <div class="document">
@@ -90,9 +93,9 @@ delete the other, unneeded objects.</p>
 <p class="first admonition-title">Note</p>
 <p class="last">What I Sheet You Not calls the <code class="docutils literal"><span class="pre">VALUE</span></code> is what is typically referred to
 as <code class="docutils literal"><span class="pre">arg</span></code> or <code class="docutils literal"><span class="pre">{query}</span></code> in Alfred workflow terminology. (<code class="docutils literal"><span class="pre">arg</span></code> being
-its name in Alfred’s JSON and XML format, and <code class="docutils literal"><span class="pre">{query}</span></code> being the text
+its name in Alfred&#8217;s JSON and XML format, and <code class="docutils literal"><span class="pre">{query}</span></code> being the text
 macro that Alfred replaces with the value of <code class="docutils literal"><span class="pre">arg</span></code>). It is the value
-passed to subsequent workflow elements when you “action” (i.e. hit ↩ on)
+passed to subsequent workflow elements when you &#8220;action&#8221; (i.e. hit ↩ on)
 a result shown in Alfred.</p>
 </div>
 <p>By default, the workflow pulls data from the first row of the first worksheet
@@ -189,11 +192,11 @@ column E (5):</p>
 <span id="id4"></span><h3>Formatting values<a class="headerlink" href="#formatting-values" title="Permalink to this headline">¶</a></h3>
 <p>I Sheet You Not attempts to format your data according to the type specified
 by its formatting in the Excel worksheet. It is able to recognise text, number
-and date types. By default, text and number types are formatted “as-is”, while
+and date types. By default, text and number types are formatted &#8220;as-is&#8221;, while
 date types are formatted according to the <code class="docutils literal"><span class="pre">DATE_FORMAT</span></code> specified in the
 workflow configuration sheet, which is a <a class="reference external" href="http://strftime.org">strftime</a> format string.</p>
 <p>(Note that Excel exports currency-formatted columns as plain numbers, so you
-must specify a format if you’d like to include the currency symbol in ISYN.)</p>
+must specify a format if you&#8217;d like to include the currency symbol in ISYN.)</p>
 <p>You can specify alternate formats on a per-column basis by setting environment
 variables of the form <code class="docutils literal"><span class="pre">FMT_N</span></code>, where <code class="docutils literal"><span class="pre">N</span></code> is the number of the column:</p>
 <div class="highlight-bash"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
@@ -208,7 +211,7 @@ variables of the form <code class="docutils literal"><span class="pre">FMT_N</sp
 </pre></div>
 </td></tr></table></div>
 <p>For text and number types, the formats are interpreted as <a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#string-formatting">sprintf</a>-style
-format strings or Python’s <a class="reference external" href="https://docs.python.org/2.7/library/string.html#formatstrings">str.format</a>-style format strings. For dates, the
+format strings or Python&#8217;s <a class="reference external" href="https://docs.python.org/2.7/library/string.html#formatstrings">str.format</a>-style format strings. For dates, the
 formats are interpreted as <a class="reference external" href="http://strftime.org">strftime</a>-style format strings.</p>
 <div class="admonition important">
 <p class="first admonition-title">Important</p>
@@ -224,7 +227,7 @@ will filter your results against this field, not the item title.</p>
 <p>You can specify the match format using the <code class="docutils literal"><span class="pre">--match</span></code> flag to the <code class="docutils literal"><span class="pre">isyn</span></code>
 command or via the <code class="docutils literal"><span class="pre">MATCH</span></code> workflow variable. The <code class="docutils literal"><span class="pre">match</span></code> field uses
 <a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#string-formatting">sprintf</a>-style format strings and <em>named variables</em>. That is to say, you
-can only use variables you’ve extracted from your Excel sheet with <code class="docutils literal"><span class="pre">VAR_xyz</span></code>
+can only use variables you&#8217;ve extracted from your Excel sheet with <code class="docutils literal"><span class="pre">VAR_xyz</span></code>
 patterns:</p>
 <div class="highlight-bash"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
@@ -290,7 +293,11 @@ them in the <a class="reference external" href="http://www.alfredforum.com/topic
 <p>This documentation was auto-generated by sphinx from the source code.</p>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="api.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#i-sheet-you-not">I Sheet You Not</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#cli">cli</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -391,7 +398,7 @@ them in the <a class="reference external" href="http://www.alfredforum.com/topic
       &copy;2016, Dean Jackson.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.3</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
     </div>

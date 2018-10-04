@@ -1,18 +1,21 @@
 
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>isheetyounot.core &#8212; I Sheet You Not 0.3.1 documentation</title>
+    
+    <title>isheetyounot.core &#8212; I Sheet You Not 0.3.2 documentation</title>
+    
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.3.1',
+        VERSION:     '0.3.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -39,7 +42,7 @@
 <link rel="stylesheet" href="../../_static/custom.css">
 
   </head>
-  <body>
+  <body role="document">
   
 
     <div class="document">
@@ -91,7 +94,7 @@
 <span class="kn">from</span> <span class="nn">xlrd.xldate</span> <span class="k">import</span> <span class="n">xldate_as_datetime</span>
 
 <span class="c1"># Workflow version number</span>
-<span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;0.3.1&#39;</span>
+<span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;0.3.2&#39;</span>
 
 <span class="c1"># Fallback/default values</span>
 <span class="n">BUNDLE_ID</span> <span class="o">=</span> <span class="s1">&#39;net.deanishe.alfred-i-sheet-you-not&#39;</span>
@@ -158,6 +161,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        str: MD5 hex digest of options.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Cache key of full path and *all* variables to ensure uniqueness</span>
     <span class="n">p</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">docpath</span><span class="p">)</span>
@@ -181,6 +185,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        unicode: Filepath in cache directory with &quot;.json&quot; extension.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">root</span> <span class="o">=</span> <span class="n">av</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;workflow_cache&#39;</span><span class="p">,</span> <span class="n">CACHE_DIR</span><span class="p">)</span>
     <span class="c1"># log(&#39;cache_dir=%r&#39;, root)</span>
@@ -546,7 +551,7 @@
       &copy;2016, Dean Jackson.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.3</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
     </div>
