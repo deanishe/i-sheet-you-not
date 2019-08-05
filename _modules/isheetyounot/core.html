@@ -74,7 +74,7 @@
 
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">unicode_literals</span><span class="p">,</span> <span class="n">absolute_import</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">absolute_import</span>
 
 <span class="kn">import</span> <span class="nn">hashlib</span>
 <span class="kn">import</span> <span class="nn">os</span>
@@ -165,13 +165,13 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Cache key of full path and *all* variables to ensure uniqueness</span>
     <span class="n">p</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">docpath</span><span class="p">)</span>
-    <span class="n">v</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
-        <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="sa">u</span><span class="s1">&#39;-&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+        <span class="sa">u</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span>
         <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="o">+</span> <span class="n">o</span><span class="o">.</span><span class="n">formats</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
     <span class="p">])</span>
 
-    <span class="n">tpl</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;</span><span class="si">{p}</span><span class="s1">-</span><span class="si">{o.sheet}</span><span class="s1">-</span><span class="si">{o.start_row}</span><span class="s1">-</span><span class="si">{o.title_col}</span><span class="s1">-&#39;</span>
-           <span class="s1">&#39;</span><span class="si">{o.subtitle_col}</span><span class="s1">-</span><span class="si">{o.value_col}</span><span class="s1">-</span><span class="si">{o.match}</span><span class="s1">-</span><span class="si">{v}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">tpl</span> <span class="o">=</span> <span class="p">(</span><span class="sa">u</span><span class="s1">&#39;</span><span class="si">{p}</span><span class="s1">-</span><span class="si">{o.sheet}</span><span class="s1">-</span><span class="si">{o.start_row}</span><span class="s1">-</span><span class="si">{o.title_col}</span><span class="s1">-&#39;</span>
+           <span class="sa">u</span><span class="s1">&#39;</span><span class="si">{o.subtitle_col}</span><span class="s1">-</span><span class="si">{o.value_col}</span><span class="s1">-</span><span class="si">{o.match}</span><span class="s1">-</span><span class="si">{v}</span><span class="s1">&#39;</span><span class="p">)</span>
 
     <span class="n">n</span> <span class="o">=</span> <span class="n">tpl</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">o</span><span class="o">=</span><span class="n">o</span><span class="p">,</span> <span class="n">v</span><span class="o">=</span><span class="n">v</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span></div>
@@ -199,7 +199,7 @@
     <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
         <span class="k">pass</span>
 
-    <span class="n">p</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dp</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.json&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dp</span><span class="p">,</span> <span class="n">key</span> <span class="o">+</span> <span class="s1">&#39;.json&#39;</span><span class="p">)</span>
 
     <span class="n">log</span><span class="p">(</span><span class="s1">&#39;cache_path=</span><span class="si">%r</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">tilde</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
 
@@ -425,9 +425,9 @@
             <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">sheet</span><span class="p">:</span>
                 <span class="k">break</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">ConfigError</span><span class="p">(</span><span class="s2">&quot;Couldn&#39;t find sheet: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sheet</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="n">ConfigError</span><span class="p">(</span><span class="s2">&quot;couldn&#39;t find sheet: </span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">sheet</span><span class="p">)</span>
 
-    <span class="n">log</span><span class="p">(</span><span class="s1">&#39;Opened worksheet &quot;</span><span class="si">%s</span><span class="s1">&quot; of </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">tilde</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
+    <span class="n">log</span><span class="p">(</span><span class="s1">&#39;opened worksheet &quot;</span><span class="si">%s</span><span class="s1">&quot; of </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">tilde</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
 
     <span class="n">start_row</span> <span class="o">-=</span> <span class="mi">1</span>
     <span class="n">fmt</span> <span class="o">=</span> <span class="n">Formatter</span><span class="p">(</span><span class="n">wb</span><span class="o">.</span><span class="n">datemode</span><span class="p">,</span> <span class="n">formats</span><span class="p">)</span>
@@ -473,7 +473,7 @@
 
         <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
 
-        <span class="n">log</span><span class="p">(</span><span class="s1">&#39;formats=</span><span class="si">%r</span><span class="s1">, cols=</span><span class="si">%r</span><span class="s1">, tit=</span><span class="si">%r</span><span class="s1">, sub=</span><span class="si">%r</span><span class="s1">, arg=</span><span class="si">%r</span><span class="s1">, match=</span><span class="si">%r</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">formats</span><span class="p">,</span>
+        <span class="n">log</span><span class="p">(</span><span class="s1">&#39;formats=</span><span class="si">%r</span><span class="s1">, cols=</span><span class="si">%r</span><span class="s1">, title=</span><span class="si">%r</span><span class="s1">, sub=</span><span class="si">%r</span><span class="s1">, arg=</span><span class="si">%r</span><span class="s1">, match=</span><span class="si">%r</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">formats</span><span class="p">,</span>
             <span class="n">cols</span><span class="p">,</span> <span class="n">tit</span><span class="p">,</span> <span class="n">sub</span><span class="p">,</span> <span class="n">arg</span><span class="p">,</span> <span class="n">match_data</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">tit</span><span class="p">:</span>  <span class="c1"># Invalid</span>
@@ -482,7 +482,7 @@
 
         <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">make_item</span><span class="p">(</span><span class="n">tit</span><span class="p">,</span> <span class="n">sub</span><span class="p">,</span> <span class="n">arg</span><span class="p">,</span> <span class="n">match</span><span class="o">=</span><span class="n">match_data</span><span class="p">,</span> <span class="o">**</span><span class="n">evars</span><span class="p">))</span>
 
-    <span class="n">log</span><span class="p">(</span><span class="s1">&#39;Read </span><span class="si">%d</span><span class="s1"> rows from worksheet &quot;</span><span class="si">%s</span><span class="s1">&quot;&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">),</span> <span class="n">s</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">log</span><span class="p">(</span><span class="s1">&#39;read </span><span class="si">%d</span><span class="s1"> rows from worksheet &quot;</span><span class="si">%s</span><span class="s1">&quot;&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">),</span> <span class="n">s</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">items</span></div>
 </pre></div>
@@ -568,12 +568,12 @@
   (function() {
     var u="//deanishe.net/piwik/";
     _paq.push(['setTrackerUrl', u+'piwik.php']);
-    _paq.push(['setSiteId', 2]);
+    _paq.push(['setSiteId', 3]);
     var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
     g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
   })();
 </script>
-<noscript><p><img src="//deanishe.net/piwik/piwik.php?idsite=2" style="border:0;" alt="" /></p></noscript>
+<noscript><p><img src="//deanishe.net/piwik/piwik.php?idsite=3" style="border:0;" alt="" /></p></noscript>
 <!-- End Piwik Code -->
 
 
